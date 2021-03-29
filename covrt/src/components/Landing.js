@@ -50,7 +50,7 @@ function Splash(props) {
 function HomePage() {
     return (
         <div>
-            <img src={logoImage} />
+            <img src={logoImage} alt="Covid Aware logo"/>
             <p>Your go-to COVID-19 risk calculator for planning activities</p>
             <div>
                 <Link to="/get-started">
