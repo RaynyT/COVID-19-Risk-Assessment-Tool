@@ -404,20 +404,8 @@ function OwnMaskPage(props) {
                 <FormGroup check>
                     <Label check>
                         <Input type="radio" name="radio1" />{' '}
-                        Fabric mask with PM2.5 Filter
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
                         KN95 Mask
                     </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                    Medical-grade N95 mask
-                </Label>
                 </FormGroup>
                 <FormGroup check>
                     <Label check>
@@ -458,19 +446,7 @@ function OthersMaskPage(props) {
                 <FormGroup check>
                     <Label check>
                         <Input type="radio" name="radio1" />{' '}
-                        Fabric mask with PM2.5 Filter
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
                         KN95 Mask
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        Medical-grade N95 mask
                     </Label>
                 </FormGroup>
                 <FormGroup check>
