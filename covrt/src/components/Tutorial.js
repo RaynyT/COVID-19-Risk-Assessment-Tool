@@ -35,6 +35,9 @@ export default function Tutorial() {
             break;
         case 4:
             stepScreen = <StepFour  backClickCallback={handleBackClick}/>;
+            break;
+        default:
+            stepScreen = <StepOne nextClickCallback={handleNextClick}/>;
     }
 
     return (
@@ -51,7 +54,7 @@ function StepOne(props) {
         <div>
             <h1 className="blue">Demographic</h1>
             <h2>Enter your basic demographic information</h2>
-            <img src={stepOneImage} />
+            <img src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
             <div>
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
             </div>
@@ -69,7 +72,7 @@ function StepTwo(props) {
         <div>
             <h1 className="blue">Activity</h1>
             <h2>Enter information about one activity you plan to do</h2>
-            <img src={stepTwoImage} />
+            <img src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
             <div>
                 <Button onClick={props.backClickCallback}>Previous Step</Button>
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
@@ -88,7 +91,7 @@ function StepThree(props) {
         <div>
             <h1 className="blue">Get your risk result!</h1>
             <h2>A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available. </h2>
-            <img src={stepThreeImage} />
+            <img src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
             <div>
                 <Button onClick={props.backClickCallback}>Previous Step</Button>
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
@@ -107,7 +110,7 @@ function StepFour(props) {
         <div>
             <h1 className="blue">View Advice & Reduce Risk</h1>
             <h2>You are able lower your risk by implementing our suggestions and adjusting your activity. </h2>
-            <img src={stepFourImage} />
+            <img src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
             <div>
                 <Button onClick={props.backClickCallback}>Previous Step</Button>
             </div>
