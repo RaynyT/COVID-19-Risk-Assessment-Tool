@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, ButtonToggle, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, FormGroup, Label, Input } from 'reactstrap';
 
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -50,6 +50,9 @@ export default function Calculator() {
             break;
         case 9:
             pageScreen = <OthersMaskPage backClickCallback={handleBackClick}/>;
+            break;
+        default:
+            pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />
     }
 
     return (
@@ -193,7 +196,7 @@ function WorkStatusPage(props) {
             <h1>Your work status</h1>
             <h2>Your occupation impacts your potential exposure to COVID-19</h2>
             <h2>What is your occupation?</h2>
-            <img src={workFromHomeImage}/>
+            <img src={workFromHomeImage} alt="Person working on a laptop"/>
             <FormGroup tag="fieldset">
                 <FormGroup check>
                 <Label check>
@@ -304,7 +307,7 @@ function SocialDistancePage(props) {
             <h1>Physical Distancing</h1>
             <h2>Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2>What is the distance between you and others during the activity?</h2>
-            <img src={sixFeetImage}/>
+            <img src={sixFeetImage} alt="Cartoon of bed that is six feet long"/>
             <FormGroup tag="fieldset">
                 <FormGroup check>
                 <Label check>
@@ -348,7 +351,7 @@ function TalkingPage(props) {
             <h1>Speaking volume</h1>
             <h2>Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2>How loud will people be speaking during the activity?</h2>
-            <img src={speakingNormalImage} />
+            <img src={speakingNormalImage} alt="Two people talking outdoors"/>
             <FormGroup>
                 <FormGroup check>
                 <Label check>
