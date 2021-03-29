@@ -1,6 +1,5 @@
 import { Button } from 'reactstrap';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function Results(){
 
@@ -22,6 +21,9 @@ export default function Results(){
             break;
         case 1:
             tab = <ReduceRisk handleTabSwitch={switchToResultsTab} />;
+            break;
+        default:
+            tab = <RiskSummary handleTabSwitch={switchToResultsTab} />;
     }
 
     return (
