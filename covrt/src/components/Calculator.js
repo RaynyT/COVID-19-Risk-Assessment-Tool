@@ -37,6 +37,14 @@ export default function Calculator() {
     const updateWorkStatus = (event) => {
         setWorkStatus(event.target.value);
     }
+
+    const updateActivitySetting = (event) => {
+        setActivityBasicInfo({
+            setting: event.target.value,
+            attendees: activityBasicInfo.attendees,
+            duration: activityBasicInfo.duration
+        });
+    }
     
     const updateDistancing = (event) => {
         setDistancing(event.target.value);
@@ -50,8 +58,8 @@ export default function Calculator() {
         setOwnMask(event.target.value);
     }
 
-    const updateOthersMask = (event) => {
-        setOthersMask({type: event.target.value});
+    const updateOthersMaskType = (event) => {
+        setOthersMask({type: event.target.value, percent: othersMask.percent});
     }
 
     switch(pageNum) {
@@ -69,7 +77,8 @@ export default function Calculator() {
             pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
             break;
         case 5:
-            pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
+            selectionCallback={updateActivitySetting} selection={activityBasicInfo.setting}/>;
             break;
         case 6:
             pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
@@ -84,7 +93,8 @@ export default function Calculator() {
             selectionCallback={updateOwnMask} selection={ownMask} />;
             break;
         case 9:
-            pageScreen = <OthersMaskPage backClickCallback={handleBackClick}/>;
+            pageScreen = <OthersMaskPage backClickCallback={handleBackClick} 
+            selectionCallback={updateOthersMaskType} selection={othersMask.type}/>;
             break;
         default:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
@@ -277,7 +287,7 @@ function ActivityPage(props) {
 
     // Default to both unchecked
     let settingsTypes = [
-        {desc: "Indoor working", checked: false},
+        {desc: "Indoor", checked: false},
         {desc: "Outdoor", checked: false}
     ];
 
@@ -286,7 +296,8 @@ function ActivityPage(props) {
             <h1>Basic information</h1>
             <h2>Calculate the risk for your planned activity</h2>
         <FormGroup>
-            <RadioOptions options={settingsTypes} legend="Where will the activity be held?"/>
+            <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
+            selectionCallback={props.selectionCallback} selection={props.selection}/>
             <FormGroup tag="fieldset">
                 <legend>How many people will attend?</legend>
                 <Input type="number" name="people" id="people" min="0" className="w-auto" />
@@ -400,7 +411,7 @@ function OthersMaskPage(props) {
             <h1>What type of mask will others be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <FormGroup tag="fieldset">
-                <RadioOptions options={maskTypes} legend="Others masks" />
+                <RadioOptions options={maskTypes} legend="Others masks" selection={props.selection} selectionCallback={props.selectionCallback}/>
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
