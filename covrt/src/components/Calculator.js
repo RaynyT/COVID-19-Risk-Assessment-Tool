@@ -11,7 +11,18 @@ import '../App.css';
 
 export default function Calculator() {
 
+    // TODO: Probably turn categorical variables into numbers instead of strings
+    const[location, setLocation] = useState({ state: "WA", county: "Pierce"});
+    const[workStatus, setWorkStatus] = useState("not working");
+    const[activityBasicInfo, setActivityBasicInfo] = useState({setting: "indoor", attendees: 10, duration: 10});
+    const[distancing, setDistancing] = useState("less than six feet");
+    const[speakingVolume, setSpeakingVolume] = useState("silent");
+    const[ownMask, setOwnMask] = useState("none");
+    const[othersMask, setOthersMask] = useState({type: "none", percent: 100});
+
+
     const[pageNum, setPageNum] = useState(1);
+
 
     let pageScreen = <div></div>
     
@@ -28,7 +39,7 @@ export default function Calculator() {
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick}/>;
             break;
         case 2:
-            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} defaults={location}/>;
             break;
         case 3:
             pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;            
@@ -52,7 +63,7 @@ export default function Calculator() {
             pageScreen = <OthersMaskPage backClickCallback={handleBackClick}/>;
             break;
         default:
-            pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />
+            pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
     }
 
     return (
@@ -117,7 +128,7 @@ function LocationPage(props) {
             </h2>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> State:
-                    <Input type="select" name="state" className="w-auto">
+                    <Input type="select" name="state" className="w-auto" defaultValue={props.defaults.state}>
                         <option value="AL">AL</option>
                         <option value="AK">AK</option>
                         <option value="AZ">AZ</option>
@@ -174,7 +185,7 @@ function LocationPage(props) {
             </FormGroup>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> County:
-                    <Input type="select" name="county" className="w-auto">
+                    <Input type="select" name="county" className="w-auto" defaultValue={props.defaults.county}>
                         <option>King</option>
                         <option>Pierce</option>
                     </Input>
@@ -191,38 +202,21 @@ function LocationPage(props) {
 
 function WorkStatusPage(props) {
 
+    // Default to all unchecked
+    let workTypes = [
+        {desc: "Not working", checked: false},
+        {desc: "Working from home", checked: false},
+        {desc: "Healthcare worker", checked: false},
+        {desc: "Non-healthcare essential worker", checked: false}
+    ];
+
     return (
         <div>
             <h1>Your work status</h1>
             <h2>Your occupation impacts your potential exposure to COVID-19</h2>
             <h2>What is your occupation?</h2>
             <img src={workFromHomeImage} alt="Person working on a laptop"/>
-            <FormGroup tag="fieldset">
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Not working
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Working from home
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Healthcare worker
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Non-healthcare essential worker
-                </Label>
-                </FormGroup>
-            </FormGroup>
+            <RadioOptions options={workTypes} legend=""/>
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -257,26 +251,18 @@ function ActivityPage(props) {
     // TODO: Min/Max defaults can be caught by making this into a form and handling the <Form>'s onSubmit
     // To get the Form to submit, I will need to find a way to make the 'Next' button into an <Input type="submit">
 
+    // Default to both unchecked
+    let settingsTypes = [
+        {desc: "Indoor working", checked: false},
+        {desc: "Outdoor", checked: false}
+    ];
+
     return (
         <div>
             <h1>Basic information</h1>
             <h2>Calculate the risk for your planned activity</h2>
         <FormGroup>
-            <FormGroup tag="fieldset">
-                <legend>Where will the activity be held?</legend>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Indoors
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Outdoors
-                </Label>
-                </FormGroup>
-            </FormGroup>
+            <RadioOptions options={settingsTypes} legend="Where will the activity be held?"/>
             <FormGroup tag="fieldset">
                 <legend>How many people will attend?</legend>
                 <Input type="number" name="people" id="people" min="0" className="w-auto" />
@@ -301,6 +287,14 @@ function ActivityPage(props) {
 }
 
 function SocialDistancePage(props) {
+    
+    // Default to all unchecked
+    let distances = [
+        {desc: "Less than 6 feet", checked: false},
+        {desc: "6 feet", checked: false},
+        {desc: "9 feet", checked: false},
+        {desc: "More than 9 feet", checked: false}
+    ];
 
     return (
         <div>
@@ -308,33 +302,7 @@ function SocialDistancePage(props) {
             <h2>Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2>What is the distance between you and others during the activity?</h2>
             <img src={sixFeetImage} alt="Cartoon of bed that is six feet long"/>
-            <FormGroup tag="fieldset">
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Less than 6 feet
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    6 feet
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    9 feet
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    More than 9 feet
-                </Label>
-                </FormGroup>
-            </FormGroup>
-
+            <RadioOptions options={distances} legend="" />            
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -346,32 +314,20 @@ function SocialDistancePage(props) {
 
 function TalkingPage(props) {
 
+    // Default to all unchecked
+    let volumes = [
+        {desc: "Not speaking", checked: false},
+        {desc: "Speaking normally", checked: false},
+        {desc: "Speaking loudly or shouting", checked: false}
+    ];
+
     return (
         <div>
             <h1>Speaking volume</h1>
             <h2>Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2>How loud will people be speaking during the activity?</h2>
             <img src={speakingNormalImage} alt="Two people talking outdoors"/>
-            <FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Not speaking
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Speaking normally
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                <Label check>
-                    <Input type="radio" name="radio1" />{' '}
-                    Speaking loudly or shouting
-                </Label>
-                </FormGroup>
-            </FormGroup>
+            <RadioOptions options={volumes} legend="" />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -383,37 +339,19 @@ function TalkingPage(props) {
 
 function OwnMaskPage(props) {
 
+    // Default to all unchecked
+    let maskTypes = [
+        {desc: "Thick cotton mask", checked: false},
+        {desc: "Surgical mask", checked: false},
+        {desc: "KN95 mask", checked: false},
+        {desc: "No mask", checked: false}
+    ];
+
     return (
         <div>
             <h1>What type of mask will you be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <FormGroup tag="fieldset">
-                <legend>Your mask (worn properly):</legend>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                    Thick cotton mask
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                    Surgical mask
-                </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        KN95 Mask
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                    No mask
-                </Label>
-                </FormGroup>
-            </FormGroup>
+            <RadioOptions options={maskTypes} legend="Your mask" />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -425,36 +363,20 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
+    // Default to all unchecked
+    let maskTypes = [
+        {desc: "Thick cotton mask", checked: false},
+        {desc: "Surgical mask", checked: false},
+        {desc: "KN95 mask", checked: false},
+        {desc: "No mask", checked: false}
+    ];
+
     return (
         <div>
             <h1>What type of mask will others be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <FormGroup tag="fieldset">
-                <legend>Others masks (in general):</legend>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        Thick cotton mask
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        Surgical mask
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        KN95 Mask
-                    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        No mask
-                    </Label>
-                </FormGroup>
+                <RadioOptions options={maskTypes} legend="Others masks" />
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
@@ -473,3 +395,25 @@ function OthersMaskPage(props) {
 
 }
 
+// Renders radio button options for the calculator
+// Rendered in this fashion so that they can be checked dynamically based off of props
+function RadioOptions(props) {
+    let optionsElement = props.options.map((option) => {
+        return (
+            <FormGroup check key={option.desc}>
+                <Label check>
+                    <Input type="radio" name="radio1" defaultChecked={option.checked} />{' '}
+                    {option.desc}
+                </Label>
+            </FormGroup>
+        )
+    })
+
+    return (
+        <FormGroup tag="fieldset">
+            <legend>{props.legend}</legend>
+            {optionsElement}
+        </FormGroup>
+    )
+
+}
