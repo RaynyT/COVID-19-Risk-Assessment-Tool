@@ -11,7 +11,6 @@ import '../App.css';
 
 export default function Calculator() {
 
-    // TODO: Probably turn categorical variables into numbers instead of strings
     // Some default to certain selections, others like radio buttons default to none selected
     const[location, setLocation] = useState({ state: "WA", county: "Pierce"});
     const[workStatus, setWorkStatus] = useState("none-selected");
@@ -38,6 +37,22 @@ export default function Calculator() {
     const updateWorkStatus = (event) => {
         setWorkStatus(event.target.value);
     }
+    
+    const updateDistancing = (event) => {
+        setDistancing(event.target.value);
+    }
+
+    const updateSpeakingVolume = (event) => {
+        setSpeakingVolume(event.target.value);
+    }
+
+    const updateOwnMask = (event) => {
+        setOwnMask(event.target.value);
+    }
+
+    const updateOthersMask = (event) => {
+        setOthersMask({type: event.target.value});
+    }
 
     switch(pageNum) {
         case 1:
@@ -57,13 +72,16 @@ export default function Calculator() {
             pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
             break;
         case 6:
-            pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
+            selectionCallback={updateDistancing} selection={distancing}/>;
             break;
         case 7:
-            pageScreen = <TalkingPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <TalkingPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
+            selectionCallback={updateSpeakingVolume} selection={speakingVolume}/>;
             break;
         case 8:
-            pageScreen = <OwnMaskPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <OwnMaskPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
+            selectionCallback={updateOwnMask} selection={ownMask} />;
             break;
         case 9:
             pageScreen = <OthersMaskPage backClickCallback={handleBackClick}/>;
@@ -308,7 +326,7 @@ function SocialDistancePage(props) {
             <h2>Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2>What is the distance between you and others during the activity?</h2>
             <img src={sixFeetImage} alt="Cartoon of bed that is six feet long"/>
-            <RadioOptions options={distances} legend="" />            
+            <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>            
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -332,8 +350,8 @@ function TalkingPage(props) {
             <h1>Speaking volume</h1>
             <h2>Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2>How loud will people be speaking during the activity?</h2>
-            <img src={speakingNormalImage} alt="Two people talking outdoors"/>
-            <RadioOptions options={volumes} legend="" />
+            <img src={speakingNormalImage} alt="Two people talking outdoors" />
+            <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -357,7 +375,7 @@ function OwnMaskPage(props) {
         <div>
             <h1>What type of mask will you be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <RadioOptions options={maskTypes} legend="Your mask" />
+            <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback}/>
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -403,6 +421,8 @@ function OthersMaskPage(props) {
 
 // Renders radio button options for the calculator
 // Rendered in this fashion so that they can be checked dynamically based off of props
+// Props: options (array of all options for buttons), selection (value of option to select)
+// legend, and selectionCallback for updating state on selection
 function RadioOptions(props) {
     let optionsElement = props.options.map((option) => {
 
