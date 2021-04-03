@@ -12,13 +12,14 @@ import '../App.css';
 export default function Calculator() {
 
     // TODO: Probably turn categorical variables into numbers instead of strings
+    // Some default to certain selections, others like radio buttons default to none selected
     const[location, setLocation] = useState({ state: "WA", county: "Pierce"});
-    const[workStatus, setWorkStatus] = useState("not working");
-    const[activityBasicInfo, setActivityBasicInfo] = useState({setting: "indoor", attendees: 10, duration: 10});
-    const[distancing, setDistancing] = useState("less than six feet");
-    const[speakingVolume, setSpeakingVolume] = useState("silent");
-    const[ownMask, setOwnMask] = useState("none");
-    const[othersMask, setOthersMask] = useState({type: "none", percent: 100});
+    const[workStatus, setWorkStatus] = useState("none-selected");
+    const[activityBasicInfo, setActivityBasicInfo] = useState({setting: "none-selected", attendees: 10, duration: 10});
+    const[distancing, setDistancing] = useState("none-selected");
+    const[speakingVolume, setSpeakingVolume] = useState("none-selected");
+    const[ownMask, setOwnMask] = useState("none-selected");
+    const[othersMask, setOthersMask] = useState({type: "none-selected", percent: 100});
 
 
     const[pageNum, setPageNum] = useState(1);
@@ -34,6 +35,10 @@ export default function Calculator() {
         setPageNum(pageNum - 1);
     }
 
+    const updateWorkStatus = (event) => {
+        setWorkStatus(event.target.value);
+    }
+
     switch(pageNum) {
         case 1:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick}/>;
@@ -42,7 +47,8 @@ export default function Calculator() {
             pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} defaults={location}/>;
             break;
         case 3:
-            pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;            
+            pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
+            selectionCallback={updateWorkStatus} selection={workStatus}/>;            
             break;
         case 4:
             pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
@@ -216,7 +222,7 @@ function WorkStatusPage(props) {
             <h2>Your occupation impacts your potential exposure to COVID-19</h2>
             <h2>What is your occupation?</h2>
             <img src={workFromHomeImage} alt="Person working on a laptop"/>
-            <RadioOptions options={workTypes} legend=""/>
+            <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -399,10 +405,23 @@ function OthersMaskPage(props) {
 // Rendered in this fashion so that they can be checked dynamically based off of props
 function RadioOptions(props) {
     let optionsElement = props.options.map((option) => {
+
+        let optionChecked = false;
+
+        if(option.desc === props.selection) {
+            optionChecked = true;
+        }
+
         return (
             <FormGroup check key={option.desc}>
                 <Label check>
-                    <Input type="radio" name="radio1" defaultChecked={option.checked} />{' '}
+                    <Input 
+                        type="radio" 
+                        name="radio1" 
+                        defaultChecked={optionChecked} 
+                        onChange={props.selectionCallback} 
+                        value={option.desc}
+                        />{' '}
                     {option.desc}
                 </Label>
             </FormGroup>
