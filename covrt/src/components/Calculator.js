@@ -9,17 +9,7 @@ import speakingNormalImage from '../images/speaking-normal.svg';
 import '../App.css';
 
 
-export default function Calculator() {
-
-    // Some default to certain selections, others like radio buttons default to none selected
-    const[location, setLocation] = useState({ state: "WA", county: "Pierce"});
-    const[workStatus, setWorkStatus] = useState("none-selected");
-    const[activityBasicInfo, setActivityBasicInfo] = useState({setting: "none-selected", attendees: 10, duration: 10});
-    const[distancing, setDistancing] = useState("none-selected");
-    const[speakingVolume, setSpeakingVolume] = useState("none-selected");
-    const[ownMask, setOwnMask] = useState("none-selected");
-    const[othersMask, setOthersMask] = useState({type: "none-selected", percent: 100});
-
+export default function Calculator(props) {
 
     const[pageNum, setPageNum] = useState(1);
 
@@ -34,67 +24,41 @@ export default function Calculator() {
         setPageNum(pageNum - 1);
     }
 
-    const updateWorkStatus = (event) => {
-        setWorkStatus(event.target.value);
-    }
-
-    const updateActivitySetting = (event) => {
-        setActivityBasicInfo({
-            setting: event.target.value,
-            attendees: activityBasicInfo.attendees,
-            duration: activityBasicInfo.duration
-        });
-    }
-    
-    const updateDistancing = (event) => {
-        setDistancing(event.target.value);
-    }
-
-    const updateSpeakingVolume = (event) => {
-        setSpeakingVolume(event.target.value);
-    }
-
-    const updateOwnMask = (event) => {
-        setOwnMask(event.target.value);
-    }
-
-    const updateOthersMaskType = (event) => {
-        setOthersMask({type: event.target.value, percent: othersMask.percent});
-    }
+    console.log("What", props.updateWorkStatus, typeof props.updateWorkStatus)
 
     switch(pageNum) {
         case 1:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick}/>;
             break;
         case 2:
-            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} defaults={location}/>;
+            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} defaults={props.location}/>;
             break;
         case 3:
             pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={updateWorkStatus} selection={workStatus}/>;            
+            selectionCallback={props.updateWorkStatus} selection={props.workStatus}/>;            
             break;
         case 4:
             pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
             break;
         case 5:
             pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={updateActivitySetting} selection={activityBasicInfo.setting}/>;
+            selectionCallback={props.updateActivitySetting} selection={props.activityBasicInfo.setting}/>;
             break;
         case 6:
             pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={updateDistancing} selection={distancing}/>;
+            selectionCallback={props.updateDistancing} selection={props.distancing}/>;
             break;
         case 7:
             pageScreen = <TalkingPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={updateSpeakingVolume} selection={speakingVolume}/>;
+            selectionCallback={props.updateSpeakingVolume} selection={props.speakingVolume}/>;
             break;
         case 8:
             pageScreen = <OwnMaskPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={updateOwnMask} selection={ownMask} />;
+            selectionCallback={props.updateOwnMask} selection={props.ownMask} />;
             break;
         case 9:
             pageScreen = <OthersMaskPage backClickCallback={handleBackClick} 
-            selectionCallback={updateOthersMaskType} selection={othersMask.type}/>;
+            selectionCallback={props.updateOthersMaskType} selection={props.othersMask.type}/>;
             break;
         default:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
