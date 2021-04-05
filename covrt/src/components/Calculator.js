@@ -24,7 +24,6 @@ export default function Calculator(props) {
         setPageNum(pageNum - 1);
     }
 
-    console.log("What", props.updateWorkStatus, typeof props.updateWorkStatus)
 
     switch(pageNum) {
         case 1:

@@ -27,6 +27,7 @@ function App() {
   // for state variables is the reccomended method so that app state isn't exposed to child components
 
   const updateWorkStatus = (event) => {
+      console.log(event.target.name);
       setWorkStatus(event.target.value);
   }
 
@@ -80,7 +81,9 @@ function App() {
       <Route path="/calculator" render={(routerProps) => (
         <Calculator {...routerProps} {...stateAndCallbacks} />
       )}/>
-      <Route path="/results" component={Results} />
+      <Route path="/results" render={(routerProps) => (
+        <Results {...routerProps} {...stateAndCallbacks} />
+      )}/>
     </div>
   );
 }

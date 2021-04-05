@@ -1,7 +1,39 @@
 import { Button } from 'reactstrap';
 import { useState } from 'react';
 
-export default function Results(){
+export default function Results(props){
+
+
+    // Should find a way to make these not dependent on the names of the selections
+    // That way it will be easier to change if the wording of the questions change
+
+
+    // Test that fractions work properly or else round to .6666 or something
+
+    const numericValues = {
+        "Indoor": 1,
+        "Outdoor": .05,
+        "Less than 6 feet": 1,
+        "6 feet": .5,
+        "9 feet": .25,
+        "More than 9 feet": .125,
+        "Not speaking": .20,
+        "Speaking normally": 1,
+        "Speaking loudly or shouting": 5,
+        "Thick cotton mask": (2/3),
+        "Surgical mask": .5,
+        "K9N5 mask": (1/3),
+        "No mask": 1
+    }
+
+    const calculateRiskScore = () => {
+        return (
+            numericValues[props.activityBasicInfo.setting] *
+            numericValues[props.ownMask] * numericValues[props.othersMask.type] *
+            numericValues[props.distancing] * numericValues[props.speakingVolume]
+        );
+    }
+
 
     const[tabChoice, setTabChoice] = useState(0);
 
@@ -28,7 +60,7 @@ export default function Results(){
 
     return (
         <div>
-            {tab}
+            <h1>Risk score: {calculateRiskScore()}</h1>
         </div>
     );
 }
