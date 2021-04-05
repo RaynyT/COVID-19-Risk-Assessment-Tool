@@ -24,13 +24,17 @@ export default function Calculator(props) {
         setPageNum(pageNum - 1);
     }
 
+    const logSelection = (event) => {
+        console.log(event.target.value);
+    }
+
 
     switch(pageNum) {
         case 1:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick}/>;
             break;
         case 2:
-            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} defaults={props.location}/>;
+            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} stateSelectionCallback={props.updateStateSelection} countySelectionCallback={props.updateCountySelection} selection={props.location}/>;
             break;
         case 3:
             pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
@@ -41,7 +45,7 @@ export default function Calculator(props) {
             break;
         case 5:
             pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={props.updateActivitySetting} selection={props.activityBasicInfo.setting}/>;
+            readioSelectionCallback={props.updateActivitySetting} radioSelection={props.activityBasicInfo.setting}/>;
             break;
         case 6:
             pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
@@ -57,7 +61,7 @@ export default function Calculator(props) {
             break;
         case 9:
             pageScreen = <OthersMaskPage backClickCallback={handleBackClick} 
-            selectionCallback={props.updateOthersMaskType} selection={props.othersMask.type}/>;
+            radioSelectionCallback={props.updateOthersMaskType} radioSelection={props.othersMask.type}/>;
             break;
         default:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
@@ -125,7 +129,7 @@ function LocationPage(props) {
             </h2>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> State:
-                    <Input type="select" name="state" className="w-auto" defaultValue={props.defaults.state}>
+                    <Input type="select" name="state" className="w-auto" defaultValue={props.selection.state} onChange={props.stateSelectionCallback}>
                         <option value="AL">AL</option>
                         <option value="AK">AK</option>
                         <option value="AZ">AZ</option>
@@ -182,7 +186,8 @@ function LocationPage(props) {
             </FormGroup>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> County:
-                    <Input type="select" name="county" className="w-auto" defaultValue={props.defaults.county}>
+                    <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}
+                    onChange={props.countySelectionCallback}>
                         <option>King</option>
                         <option>Pierce</option>
                     </Input>
@@ -260,7 +265,7 @@ function ActivityPage(props) {
             <h2>Calculate the risk for your planned activity</h2>
         <FormGroup>
             <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
-            selectionCallback={props.selectionCallback} selection={props.selection}/>
+            selectionCallback={props.radioSelectionCallback} selection={props.radioSelection}/>
             <FormGroup tag="fieldset">
                 <legend>How many people will attend?</legend>
                 <Input type="number" name="people" id="people" min="0" className="w-auto" />
@@ -374,7 +379,7 @@ function OthersMaskPage(props) {
             <h1>What type of mask will others be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <FormGroup tag="fieldset">
-                <RadioOptions options={maskTypes} legend="Others masks" selection={props.selection} selectionCallback={props.selectionCallback}/>
+                <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback}/>
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
