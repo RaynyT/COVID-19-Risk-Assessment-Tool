@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -14,7 +14,7 @@ export default function Calculator(props) {
     const[pageNum, setPageNum] = useState(1);
 
 
-    let pageScreen = <div></div>
+    let pageScreen = <div></div>;
     
     const handleNextClick = () => {
         setPageNum(pageNum + 1);
@@ -24,8 +24,14 @@ export default function Calculator(props) {
         setPageNum(pageNum - 1);
     }
 
-    const logSelection = (event) => {
-        console.log(event.target.value);
+    const handleActivityPageSubmit = (event) => {
+        event.preventDefault();
+        props.updateActivityBasicInfo(
+            event.target.attendees.value,
+            event.target.hours.value,
+            event.target.minutes.value
+        );
+        handleNextClick();
     }
 
 
@@ -44,8 +50,16 @@ export default function Calculator(props) {
             pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
             break;
         case 5:
-            pageScreen = <ActivityPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            readioSelectionCallback={props.updateActivitySetting} radioSelection={props.activityBasicInfo.setting}/>;
+            pageScreen = <ActivityPage 
+                nextClickCallback={handleNextClick} 
+                backClickCallback={handleBackClick}
+                radioSelectionCallback={props.updateActivitySetting} 
+                radioSelection={props.activityBasicInfo.setting}
+                attendees={props.activityBasicInfo.attendees}
+                hours={props.activityBasicInfo.hours}
+                minutes={props.activityBasicInfo.minutes}
+                submitCallback={handleActivityPageSubmit}
+            />;
             break;
         case 6:
             pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
@@ -263,27 +277,29 @@ function ActivityPage(props) {
         <div>
             <h1>Basic information</h1>
             <h2>Calculate the risk for your planned activity</h2>
-        <FormGroup>
+        <Form onSubmit={props.submitCallback}>
             <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
             selectionCallback={props.radioSelectionCallback} selection={props.radioSelection}/>
             <FormGroup tag="fieldset">
                 <legend>How many people will attend?</legend>
-                <Input type="number" name="people" id="people" min="0" className="w-auto" />
+                <Input type="number" name="attendees" id="atendees" min="0" className="w-auto" 
+                defaultValue={props.attendees}/>
             </FormGroup>
             <FormGroup tag="fieldset" className="form-inline">
                     <legend>Estimated duration of event</legend>
                     <Label>Hours
-                        <Input type="number" name="hours" id="hours" min="0" max="24" className="w-auto" />
+                        <Input type="number" name="hours" id="hours" min="0" max="24" className="w-auto" defaultValue={props.hours} />
                     </Label>
                     <Label>Minutes
-                        <Input type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto" />
+                        <Input type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto" 
+                        defaultValue={props.minutes}/>
                     </Label>          
             </FormGroup>
-        </FormGroup>
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
-            </div>            
+                <Button type="submit">Next</Button>
+            </div>  
+        </Form>          
         </div>
     );
 

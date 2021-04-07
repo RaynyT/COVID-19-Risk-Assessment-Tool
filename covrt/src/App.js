@@ -16,7 +16,7 @@ function App() {
 	// Some default to certain selections, others like radio buttons default to none selected
 	const [location, setLocation] = useState({ state: "WA", county: "Pierce" });
 	const [workStatus, setWorkStatus] = useState("none-selected");
-	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: 10, duration: 10 });
+	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("none-selected");
 	const [speakingVolume, setSpeakingVolume] = useState("none-selected");
 	const [ownMask, setOwnMask] = useState("none-selected");
@@ -42,7 +42,17 @@ function App() {
 		setActivityBasicInfo({
 			setting: event.target.value,
 			attendees: activityBasicInfo.attendees,
-			duration: activityBasicInfo.duration
+			hours: activityBasicInfo.hours,
+			minutes: activityBasicInfo.minutes
+		});
+	}
+
+	const updateActivityBasicInfo = (attendees, hours, minutes) => {
+		setActivityBasicInfo({
+			setting: activityBasicInfo.setting,
+			attendees: attendees,
+			hours: hours,
+			minutes: minutes
 		});
 	}
 
@@ -70,6 +80,7 @@ function App() {
 		updateWorkStatus: updateWorkStatus,
 		activityBasicInfo: activityBasicInfo,
 		updateActivitySetting: updateActivitySetting,
+		updateActivityBasicInfo: updateActivityBasicInfo,
 		distancing: distancing,
 		updateDistancing: updateDistancing,
 		speakingVolume: speakingVolume,
