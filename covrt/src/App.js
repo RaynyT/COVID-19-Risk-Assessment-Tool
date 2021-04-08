@@ -72,6 +72,11 @@ function App() {
 		setOthersMask({ type: event.target.value, percent: othersMask.percent });
 	}
 
+	const updateOthersMaskPercent = (percent) => {
+		console.log("Called the app one")
+		setOthersMask({type: othersMask.type, percent: percent})
+	}
+
 	let stateAndCallbacks = {
 		location: location,
 		updateStateSelection: updateStateSelection,
@@ -88,7 +93,8 @@ function App() {
 		ownMask: ownMask,
 		updateOwnMask: updateOwnMask,
 		othersMask: othersMask,
-		updateOthersMaskType: updateOthersMaskType
+		updateOthersMaskType: updateOthersMaskType,
+		updateOthersMaskPercent: updateOthersMaskPercent
 	}
 
 	return (

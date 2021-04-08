@@ -59,8 +59,8 @@ function StepOne(props) {
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
             </div>
             <div>
-                <Link to="/calculator">
-                <Button outline color="primary">Skip Tutorial</Button>
+            <Link to="/calculator" className="btn btn-outline-primary">
+                    Skip tutorial
                 </Link>
             </div>
         </div>
@@ -78,8 +78,8 @@ function StepTwo(props) {
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
             </div>
             <div>
-                <Link to="/calculator">
-                    <Button outline color="primary">Skip Tutorial</Button>
+            <Link to="/calculator" className="btn btn-outline-primary">
+                    Skip tutorial
                 </Link>
             </div>
         </div>
@@ -97,8 +97,8 @@ function StepThree(props) {
                 <Button onClick={props.nextClickCallback}>Next Step</Button>
             </div>
             <div>
-                <Link to="/calculator">
-                <Button outline color="primary">Skip Tutorial</Button>
+                <Link to="/calculator" className="btn btn-outline-primary">
+                    Skip tutorial
                 </Link>
             </div>
         </div>
@@ -115,8 +115,8 @@ function StepFour(props) {
                 <Button onClick={props.backClickCallback}>Previous Step</Button>
             </div>
             <div>
-                <Link to="/calculator">
-                    <Button color="primary">Calculate my risk</Button>
+            <Link to="/calculator" className="btn btn-outline-primary">
+                    Skip tutorial
                 </Link>
             </div>
         </div>

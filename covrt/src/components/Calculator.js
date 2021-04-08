@@ -11,11 +11,11 @@ import '../App.css';
 
 export default function Calculator(props) {
 
-    const[pageNum, setPageNum] = useState(1);
+    const [pageNum, setPageNum] = useState(1);
 
 
     let pageScreen = <div></div>;
-    
+
     const handleNextClick = () => {
         setPageNum(pageNum + 1);
     }
@@ -34,26 +34,32 @@ export default function Calculator(props) {
         handleNextClick();
     }
 
+    const handleOthersMaskPageSubmit = (event) => {
+        console.log("Called the calculator one")
+        event.preventDefault();
+        props.updateOthersMaskPercent(event.target.percent.value);
+    }
 
-    switch(pageNum) {
+
+    switch (pageNum) {
         case 1:
-            pageScreen = <DisclaimerPage nextClickCallback={handleNextClick}/>;
+            pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
             break;
         case 2:
-            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} stateSelectionCallback={props.updateStateSelection} countySelectionCallback={props.updateCountySelection} selection={props.location}/>;
+            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} stateSelectionCallback={props.updateStateSelection} countySelectionCallback={props.updateCountySelection} selection={props.location} />;
             break;
         case 3:
             pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={props.updateWorkStatus} selection={props.workStatus}/>;            
+                selectionCallback={props.updateWorkStatus} selection={props.workStatus} />;
             break;
         case 4:
-            pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} />;
             break;
         case 5:
-            pageScreen = <ActivityPage 
-                nextClickCallback={handleNextClick} 
+            pageScreen = <ActivityPage
+                nextClickCallback={handleNextClick}
                 backClickCallback={handleBackClick}
-                radioSelectionCallback={props.updateActivitySetting} 
+                radioSelectionCallback={props.updateActivitySetting}
                 radioSelection={props.activityBasicInfo.setting}
                 attendees={props.activityBasicInfo.attendees}
                 hours={props.activityBasicInfo.hours}
@@ -63,19 +69,20 @@ export default function Calculator(props) {
             break;
         case 6:
             pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={props.updateDistancing} selection={props.distancing}/>;
+                selectionCallback={props.updateDistancing} selection={props.distancing} />;
             break;
         case 7:
             pageScreen = <TalkingPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={props.updateSpeakingVolume} selection={props.speakingVolume}/>;
+                selectionCallback={props.updateSpeakingVolume} selection={props.speakingVolume} />;
             break;
         case 8:
             pageScreen = <OwnMaskPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-            selectionCallback={props.updateOwnMask} selection={props.ownMask} />;
+                selectionCallback={props.updateOwnMask} selection={props.ownMask} />;
             break;
         case 9:
-            pageScreen = <OthersMaskPage backClickCallback={handleBackClick} 
-            radioSelectionCallback={props.updateOthersMaskType} radioSelection={props.othersMask.type}/>;
+            pageScreen = <OthersMaskPage backClickCallback={handleBackClick}
+                radioSelectionCallback={props.updateOthersMaskType} radioSelection={props.othersMask.type}
+                formSubmitCallback={handleOthersMaskPageSubmit} percent={props.othersMask.percent} />;
             break;
         default:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
@@ -90,7 +97,7 @@ export default function Calculator(props) {
 
 function DisclaimerPage(props) {
 
-    const[buttonDisabled, setButtonDisabled] = useState(true);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const handleCheckbox = () => {
         setButtonDisabled(!buttonDisabled);
@@ -104,7 +111,7 @@ function DisclaimerPage(props) {
                     CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the Terms of Use.
                 </p>
                 <p>
-                    Be aware that the information provided by this tool 
+                    Be aware that the information provided by this tool
                     <span className="red"> IS NOT a replacement for medical advice and cannot be used to diagnose or treat medical conditions. </span>
                     If you would like more information regarding this, please visit our FAQ.
                 </p>
@@ -117,7 +124,7 @@ function DisclaimerPage(props) {
             </div>
             <FormGroup check>
                 <Label check>
-                    <Input type="checkbox" onChange={handleCheckbox}/>{' '}
+                    <Input type="checkbox" onChange={handleCheckbox} />{' '}
                     I have read and agreed all the rules and regulations in the agreement
                 </Label>
             </FormGroup>
@@ -139,7 +146,7 @@ function LocationPage(props) {
         <div>
             <h1>Your location</h1>
             <h2>
-                Fill in the <span className="blue">state and county </span> where you have spent the most time during the <span className="blue">past two weeks</span> 
+                Fill in the <span className="blue">state and county </span> where you have spent the most time during the <span className="blue">past two weeks</span>
             </h2>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> State:
@@ -201,7 +208,7 @@ function LocationPage(props) {
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> County:
                     <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}
-                    onChange={props.countySelectionCallback}>
+                        onChange={props.countySelectionCallback}>
                         <option>King</option>
                         <option>Pierce</option>
                     </Input>
@@ -220,10 +227,10 @@ function WorkStatusPage(props) {
 
     // Default to all unchecked
     let workTypes = [
-        {desc: "Not working", checked: false},
-        {desc: "Working from home", checked: false},
-        {desc: "Healthcare worker", checked: false},
-        {desc: "Non-healthcare essential worker", checked: false}
+        { desc: "Not working", checked: false },
+        { desc: "Working from home", checked: false },
+        { desc: "Healthcare worker", checked: false },
+        { desc: "Non-healthcare essential worker", checked: false }
     ];
 
     return (
@@ -231,8 +238,8 @@ function WorkStatusPage(props) {
             <h1>Your work status</h1>
             <h2>Your occupation impacts your potential exposure to COVID-19</h2>
             <h2>What is your occupation?</h2>
-            <img src={workFromHomeImage} alt="Person working on a laptop"/>
-            <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>
+            <img src={workFromHomeImage} alt="Person working on a laptop" />
+            <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -269,50 +276,50 @@ function ActivityPage(props) {
 
     // Default to both unchecked
     let settingsTypes = [
-        {desc: "Indoor", checked: false},
-        {desc: "Outdoor", checked: false}
+        { desc: "Indoor", checked: false },
+        { desc: "Outdoor", checked: false }
     ];
 
     return (
         <div>
             <h1>Basic information</h1>
             <h2>Calculate the risk for your planned activity</h2>
-        <Form onSubmit={props.submitCallback}>
-            <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
-            selectionCallback={props.radioSelectionCallback} selection={props.radioSelection}/>
-            <FormGroup tag="fieldset">
-                <legend>How many people will attend?</legend>
-                <Input type="number" name="attendees" id="atendees" min="0" className="w-auto" 
-                defaultValue={props.attendees}/>
-            </FormGroup>
-            <FormGroup tag="fieldset" className="form-inline">
+            <Form onSubmit={props.submitCallback}>
+                <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
+                    selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
+                <FormGroup tag="fieldset">
+                    <legend>How many people will attend?</legend>
+                    <Input type="number" name="attendees" id="atendees" min="0" className="w-auto"
+                        defaultValue={props.attendees} />
+                </FormGroup>
+                <FormGroup tag="fieldset" className="form-inline">
                     <legend>Estimated duration of event</legend>
                     <Label>Hours
                         <Input type="number" name="hours" id="hours" min="0" max="24" className="w-auto" defaultValue={props.hours} />
                     </Label>
                     <Label>Minutes
-                        <Input type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto" 
-                        defaultValue={props.minutes}/>
-                    </Label>          
-            </FormGroup>
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button type="submit">Next</Button>
-            </div>  
-        </Form>          
+                        <Input type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto"
+                            defaultValue={props.minutes} />
+                    </Label>
+                </FormGroup>
+                <div>
+                    <Button onClick={props.backClickCallback}>Back</Button>
+                    <Button type="submit">Next</Button>
+                </div>
+            </Form>
         </div>
     );
 
 }
 
 function SocialDistancePage(props) {
-    
+
     // Default to all unchecked
     let distances = [
-        {desc: "Less than 6 feet", checked: false},
-        {desc: "6 feet", checked: false},
-        {desc: "9 feet", checked: false},
-        {desc: "More than 9 feet", checked: false}
+        { desc: "Less than 6 feet", checked: false },
+        { desc: "6 feet", checked: false },
+        { desc: "9 feet", checked: false },
+        { desc: "More than 9 feet", checked: false }
     ];
 
     return (
@@ -320,8 +327,8 @@ function SocialDistancePage(props) {
             <h1>Physical Distancing</h1>
             <h2>Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2>What is the distance between you and others during the activity?</h2>
-            <img src={sixFeetImage} alt="Cartoon of bed that is six feet long"/>
-            <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>            
+            <img src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
+            <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -335,9 +342,9 @@ function TalkingPage(props) {
 
     // Default to all unchecked
     let volumes = [
-        {desc: "Not speaking", checked: false},
-        {desc: "Speaking normally", checked: false},
-        {desc: "Speaking loudly or shouting", checked: false}
+        { desc: "Not speaking", checked: false },
+        { desc: "Speaking normally", checked: false },
+        { desc: "Speaking loudly or shouting", checked: false }
     ];
 
     return (
@@ -346,7 +353,7 @@ function TalkingPage(props) {
             <h2>Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2>How loud will people be speaking during the activity?</h2>
             <img src={speakingNormalImage} alt="Two people talking outdoors" />
-            <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback}/>
+            <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -360,17 +367,17 @@ function OwnMaskPage(props) {
 
     // Default to all unchecked
     let maskTypes = [
-        {desc: "Thick cotton mask", checked: false},
-        {desc: "Surgical mask", checked: false},
-        {desc: "KN95 mask", checked: false},
-        {desc: "No mask", checked: false}
+        { desc: "Thick cotton mask", checked: false },
+        { desc: "Surgical mask", checked: false },
+        { desc: "KN95 mask", checked: false },
+        { desc: "No mask", checked: false }
     ];
 
     return (
         <div>
             <h1>What type of mask will you be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback}/>
+            <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div>
                 <Button onClick={props.backClickCallback}>Back</Button>
                 <Button onClick={props.nextClickCallback}>Next</Button>
@@ -384,31 +391,32 @@ function OthersMaskPage(props) {
 
     // Default to all unchecked
     let maskTypes = [
-        {desc: "Thick cotton mask", checked: false},
-        {desc: "Surgical mask", checked: false},
-        {desc: "KN95 mask", checked: false},
-        {desc: "No mask", checked: false}
+        { desc: "Thick cotton mask", checked: false },
+        { desc: "Surgical mask", checked: false },
+        { desc: "KN95 mask", checked: false },
+        { desc: "No mask", checked: false }
     ];
 
     return (
         <div>
             <h1>What type of mask will others be wearing?</h1>
             <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <FormGroup tag="fieldset">
-                <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback}/>
+            <Form onSubmit={props.formSubmitCallback}>
+                <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback} />
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
-                        <Input type="number" name="percent" id="percent" min="0" max="100" className="w-auto" />
+                        <Input type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
+                            defaultValue={props.percent} />
                     </Label>
                 </FormGroup>
-            </FormGroup>
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Link to="/results">
-                    <Button>Get my risk Score</Button>
-                </Link>
-            </div>
+                <div>
+                    <Button onClick={props.backClickCallback}>Back</Button>
+                    <Link to="/calculator" className="btn btn-primary">
+                        Get my risk score
+                    </Link>
+                </div>
+            </Form>
         </div>
     );
 
@@ -423,20 +431,20 @@ function RadioOptions(props) {
 
         let optionChecked = false;
 
-        if(option.desc === props.selection) {
+        if (option.desc === props.selection) {
             optionChecked = true;
         }
 
         return (
             <FormGroup check key={option.desc}>
                 <Label check>
-                    <Input 
-                        type="radio" 
-                        name="radio1" 
-                        defaultChecked={optionChecked} 
-                        onChange={props.selectionCallback} 
+                    <Input
+                        type="radio"
+                        name="radio1"
+                        defaultChecked={optionChecked}
+                        onChange={props.selectionCallback}
                         value={option.desc}
-                        />{' '}
+                    />{' '}
                     {option.desc}
                 </Label>
             </FormGroup>
