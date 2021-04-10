@@ -8,7 +8,7 @@ export default function Results(props){
     // That way it will be easier to change if the wording of the questions change
 
 
-    // Test that fractions work properly or else round to .6666 or something
+    // TODO: Find a way to make fractions work in a JSON object
 
     const numericValues = {
         "Indoor": 1,
@@ -20,9 +20,9 @@ export default function Results(props){
         "Not speaking": .20,
         "Speaking normally": 1,
         "Speaking loudly or shouting": 5,
-        "Thick cotton mask": (2/3),
+        "Thick cotton mask": .6666666666,
         "Surgical mask": .5,
-        "K9N5 mask": (1/3),
+        "K9N5 mask": .3333333333,
         "No mask": 1
     }
 
