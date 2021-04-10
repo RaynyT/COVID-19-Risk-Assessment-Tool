@@ -412,7 +412,7 @@ function OthersMaskPage(props) {
                 </FormGroup>
                 <div>
                     <Button onClick={props.backClickCallback}>Back</Button>
-                    <Link to="/calculator" className="btn btn-primary">
+                    <Link to="/results" className="btn btn-primary">
                         Get my risk score
                     </Link>
                 </div>
