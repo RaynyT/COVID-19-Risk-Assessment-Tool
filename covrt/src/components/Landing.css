@@ -1,10 +1,20 @@
-img {
+.runner-img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: .5em;
     margin-bottom: .5rem;
     height: auto;
+    width: 100%;
+}
+
+.logo-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5em;
+    margin-bottom: 2rem;
+    height: 5rem;
     width: 100%;
 }
 
@@ -24,6 +34,10 @@ img {
     font-size: 3rem;
 }
 
+.subheading-text {
+    color: #ACB0BC;
+    text-align: center;
+}
 
 .vertical-center {
     min-height: 100%;
@@ -31,6 +45,15 @@ img {
   
     display: flex;
     align-items: center;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
+}
+
+.learn-more-link {
+    margin-top: 1rem;
 }
 
 

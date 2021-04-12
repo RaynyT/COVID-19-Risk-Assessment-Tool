@@ -3,10 +3,9 @@ import moment from 'moment';
 import { useState } from 'react';
 import './Landing.css';
 import finishLine from '../images/finish-line.svg'
-import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import logoImage from '../images/covidAwareLogo.svg';
+import logoImage from '../images/covidAwareLogoNew.svg';
 
 export default function Landing() {
 
@@ -41,7 +40,7 @@ function Splash(props) {
                 <h1 className="blue landing-text">It has been</h1>
                 <h1 className="blue landing-text large-text-shadow">{daysSince} days</h1>
                 <h1 className="blue landing-text">since the USA's first COVID-19 case...</h1>
-                <img src={finishLine} alt="Runner crossing finsih line"/>
+                <img src={finishLine} alt="Runner crossing finsih line" className="runner-img"/>
                 <h1 className="blue landing-text large-text-shadow">Why catch it now?</h1>
             </div>
         </div>
@@ -51,18 +50,23 @@ function Splash(props) {
 
 function HomePage() {
     return (
-        <div>
-            <img src={logoImage} alt="Covid Aware logo"/>
-            <p>Your go-to COVID-19 risk calculator for planning activities</p>
+        <div className="container vertical-center">
             <div>
-                <Link to="/get-started">
-                    <Button color="primary">Get Started</Button>
-                </Link>
-            </div>
-            <div>
-                <Link to="/about">
-                    Learn more
-                </Link>
+                <img src={logoImage} alt="Covid Aware logo" className="logo-img"/>
+                <h1 className="landing-text">COVID Aware</h1>
+                <p className="subheading-text">Your go-to COVID-19 risk calculator for planning activities</p>
+                <div>
+                    <div className="horizontal-center">
+                        <Link to="/get-started" className="btn btn-primary get-started-btn">
+                            Get Started
+                        </Link>
+                    </div>
+                    <div className="horizontal-center learn-more-link">
+                        <Link to="/about">
+                            Learn more
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
