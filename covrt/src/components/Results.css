@@ -1,0 +1,47 @@
+.risk-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.risk-level-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.risk-level-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    height: auto;
+    max-height: 6rem;
+    width: 100%;
+    max-width: 12rem;
+}
+
+.list-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.selection-list {
+    list-style-type:none;
+    padding: 0;
+}
+
+.selection-list-item {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size: .8rem;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
+}
