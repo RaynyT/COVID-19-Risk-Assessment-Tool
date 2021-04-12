@@ -1,5 +1,4 @@
-import { Button } from 'reactstrap';
-import { useState } from 'react';
+import riskMeterImage from '../images/risk-meter.svg'
 
 export default function Results(props){
 
@@ -29,14 +28,31 @@ export default function Results(props){
         return (
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
             (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
-            numericValues[props.ownMask] * numericValues[props.othersMask.type] *
+            numericValues[props.ownMask] * numericValues[props.othersMask.type] * props.othersMask.percent *
             numericValues[props.distancing] * numericValues[props.speakingVolume]
         );
     }
 
     return (
         <div>
-            <h1>Risk score: {calculateRiskScore()}</h1>
+            <div>
+                <h1>Risk Summary</h1>
+                <h2>Risk score: {calculateRiskScore()}</h2>
+                <img alt="Risk meter" src={riskMeterImage} />
+            </div>
+            <div>
+                <h2>Activity</h2>
+                <ul>
+                    <li>Activity Environment: {props.activityBasicInfo.setting}</li>
+                    <li>Duration: {props.activityBasicInfo.hours}h {props.activityBasicInfo.minutes}m</li>
+                    <li>Number of People: {props.activityBasicInfo.attendees}</li>
+                    <li>Physical Distancing: {props.distancing}</li>
+                    <li>Speaking Volume: {props.activityBasicInfo.setting}</li>
+                    <li>Your Mask: {props.ownMask}</li>
+                    <li>Others' Mask: {props.othersMask.type}</li>
+                    <li>Number of Others Wearing Masks: {Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees)}</li>
+                </ul>
+            </div>
         </div>
     );
 }
