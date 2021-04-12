@@ -138,7 +138,7 @@ function DisclaimerPage(props) {
                 </Button>
             </div>
             <div>
-                <Link to="/about" className="horizontal-center">
+                <Link to="/about" className="horizontal-center learn-more-link">
                     Learn about the calculations
                 </Link>
             </div>
@@ -244,7 +244,7 @@ function WorkStatusPage(props) {
             <h1 className="calc-step-title">Your work status</h1>
             <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
             <h2 className="calc-step-question">What is your occupation?</h2>
-            <img src={workFromHomeImage} alt="Person working on a laptop" />
+            <img className="calc-img" src={workFromHomeImage} alt="Person working on a laptop" />
             <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
@@ -335,7 +335,7 @@ function SocialDistancePage(props) {
             <h1 className="calc-step-title">Physical Distancing</h1>
             <h2 className="calc-step-desc">Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2 className="calc-step-question">What is the distance between you and others during the activity?</h2>
-            <img src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
+            <img className="calc-img" src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
             <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
@@ -360,7 +360,7 @@ function TalkingPage(props) {
             <h1 className="calc-step-title">Speaking volume</h1>
             <h2 className="calc-step-desc">Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2 className="calc-step-question">How loud will people be speaking during the activity?</h2>
-            <img src={speakingNormalImage} alt="Two people talking outdoors" />
+            <img className="calc-img" src={speakingNormalImage} alt="Two people talking outdoors" />
             <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>

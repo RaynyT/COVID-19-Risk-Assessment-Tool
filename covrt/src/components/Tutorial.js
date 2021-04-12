@@ -55,7 +55,7 @@ function StepOne(props) {
         <div>
             <h1 className="step-title">Demographic</h1>
             <h2 className="sub-heading-text">Enter your basic demographic information</h2>
-            <img src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
+            <img className="tutorial-img" src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
             <div className="prev-next-btns">
                 <Link to="/" className="btn btn-secondary">
                     Previous
@@ -76,7 +76,7 @@ function StepTwo(props) {
         <div>
             <h1 className="step-title">Activity</h1>
             <h2 className="sub-heading-text">Enter information about one activity you plan to do</h2>
-            <img src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
+            <img className="tutorial-img" src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
                 <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
@@ -95,7 +95,7 @@ function StepThree(props) {
         <div>
             <h1 className="step-title">Get your risk result!</h1>
             <h2 className="sub-heading-text">A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available. </h2>
-            <img src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
+            <img className="tutorial-img" src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
                 <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
@@ -114,7 +114,7 @@ function StepFour(props) {
         <div>
             <h1 className="step-title">View Advice & Reduce Risk</h1>
             <h2 className="sub-heading-text">You are able lower your risk by implementing our suggestions and adjusting your activity. </h2>
-            <img src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
+            <img className="tutorial-img" src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
             </div>
