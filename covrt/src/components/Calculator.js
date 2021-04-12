@@ -110,12 +110,12 @@ function DisclaimerPage(props) {
                 <h1 className="disclaimer-title">Agreement & Regulations</h1>
                 <div className="disclaimer-body-container">
                     <p className="disclaimer-body">
-                        CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the <Link>Terms of Use.</Link>
+                        CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the <Link to="/about">Terms of Use.</Link>
                     </p>
                     <p className="disclaimer-body">
                         Be aware that the information provided by this tool
                         <span className="red"> IS NOT a replacement for medical advice and cannot be used to diagnose or treat medical conditions. </span>
-                        If you would like more information regarding this, please visit our <Link>FAQ</Link>
+                        If you would like more information regarding this, please visit our <Link to="/about">FAQ</Link>
                     </p>
                     <p className="disclaimer-body">
                         The COVID-19 related data utilized in this app is updated weekly:
