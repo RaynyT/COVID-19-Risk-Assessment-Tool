@@ -3,10 +3,9 @@ import { useState } from 'react';
 
 export default function Results(props){
 
-
+    // TODO
     // Should find a way to make these not dependent on the names of the selections
     // That way it will be easier to change if the wording of the questions change
-
 
     // TODO: Find a way to make fractions work in a JSON object
 
@@ -35,52 +34,9 @@ export default function Results(props){
         );
     }
 
-
-    const[tabChoice, setTabChoice] = useState(0);
-
-    let tab = <div></div>;
-
-    const switchToReduceTab = () => {
-        setTabChoice(1);
-    }
-
-    const switchToResultsTab = () => {
-        setTabChoice(0);
-    }
-
-    switch(tabChoice) {
-        case 0:
-            tab = <RiskSummary handleTabSwitch={switchToReduceTab} />;
-            break;
-        case 1:
-            tab = <ReduceRisk handleTabSwitch={switchToResultsTab} />;
-            break;
-        default:
-            tab = <RiskSummary handleTabSwitch={switchToResultsTab} />;
-    }
-
     return (
         <div>
             <h1>Risk score: {calculateRiskScore()}</h1>
-        </div>
-    );
-}
-
-function RiskSummary(props){
-    return (
-        <div>
-            <Button color="primary" disabled>Risk Summary</Button>
-            <Button color="primary" onClick={props.handleTabSwitch}>Reduce my risk</Button>
-        </div>
-    );
-}
-
-
-function ReduceRisk(props){
-    return (
-        <div>
-            <Button color="primary" onClick={props.handleTabSwitch}>Risk Summary</Button>
-            <Button color="primary" disabled>Reduce my risk</Button>
         </div>
     );
 }
