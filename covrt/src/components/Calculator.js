@@ -129,7 +129,7 @@ function DisclaimerPage(props) {
                 <FormGroup check>
                     <Label check>
                         <Input type="checkbox" onChange={handleCheckbox} />{' '}
-                        I have read and agreed all the rules and regulations in the agreement
+                        I have read the agreement and understand that this risk calculator is an estimate and is not a substitution for medical advice.
                     </Label>
                 </FormGroup>
             </div>
