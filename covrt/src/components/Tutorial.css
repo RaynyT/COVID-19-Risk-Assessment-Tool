@@ -1,0 +1,66 @@
+.heading-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    color: #3A405A;
+    text-align: center;
+    font-size: 2rem;
+    margin-left: .2rem;
+    margin-right: .2rem;
+    margin-top: 5rem;
+    margin-bottom: .5rem;
+}
+
+.sub-heading-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color: #3A405A;
+    text-align: center;
+    font-size: 1rem;
+    margin-left: .2rem;
+    margin-right: .2rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.step-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    color: #4A7CE2;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-left: .2rem;
+    margin-right: .2rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    height: auto;
+    width: 100%;
+}
+
+.prev-next-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.prev-btn {
+    margin-right:auto;
+    margin-left: .0;
+}
+
+.next-btn {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
+}
