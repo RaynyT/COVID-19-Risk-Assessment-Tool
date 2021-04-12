@@ -36,7 +36,6 @@ export default function Calculator(props) {
     }
 
     const handleOthersMaskPageSubmit = (event) => {
-        console.log("Called the calculator one")
         event.preventDefault();
         props.updateOthersMaskPercent(event.target.percent.value);
     }
@@ -223,7 +222,7 @@ function LocationPage(props) {
             </FormGroup>
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <Button type="submit" onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -249,7 +248,7 @@ function WorkStatusPage(props) {
             <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
                 <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <Button type="submit" onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -298,22 +297,22 @@ function ActivityPage(props) {
                     selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
                 <FormGroup tag="fieldset">
                     <legend>How many people will attend?</legend>
-                    <Input type="number" name="attendees" id="atendees" min="0" className="w-auto"
+                    <Input required type="number" name="attendees" id="atendees" min="0" className="w-auto"
                         defaultValue={props.attendees} />
                 </FormGroup>
                 <FormGroup tag="fieldset" className="form-inline">
                     <legend>Estimated duration of event</legend>
                     <Label>Hours
-                        <Input type="number" name="hours" id="hours" min="0" max="24" className="w-auto" defaultValue={props.hours} />
+                        <Input required type="number" name="hours" id="hours" min="0" max="24" className="w-auto" defaultValue={props.hours} />
                     </Label>
                     <Label>Minutes
-                        <Input type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto"
+                        <Input required type="number" name="minutes" id="minutes" min="0" max="59" className="w-auto"
                             defaultValue={props.minutes} />
                     </Label>
                 </FormGroup>
                 <div className="prev-next-btns">
                     <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                    <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                    <Button type="submit" className="next-btn">Next</Button>
                 </div>
             </Form>
         </div>
@@ -415,7 +414,7 @@ function OthersMaskPage(props) {
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
-                        <Input type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
+                        <Input required type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
                             defaultValue={props.percent} />
                     </Label>
                 </FormGroup>
@@ -445,7 +444,7 @@ function RadioOptions(props) {
         }
 
         return (
-            <FormGroup check key={option.desc}>
+            <FormGroup check key={option.desc} required>
                 <Label check>
                     <Input
                         type="radio"
