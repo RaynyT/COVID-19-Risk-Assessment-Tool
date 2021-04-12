@@ -150,9 +150,9 @@ function DisclaimerPage(props) {
 function LocationPage(props) {
 
     return (
-        <div>
-            <h1>Your location</h1>
-            <h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">Your location</h1>
+            <h2 className="calc-step-desc">
                 Fill in the <span className="blue">state and county </span> where you have spent the most time during the <span className="blue">past two weeks</span>
             </h2>
             <FormGroup tag="fieldset" className="form-inline">
@@ -221,9 +221,9 @@ function LocationPage(props) {
                     </Input>
                 </Label>
             </FormGroup>
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -241,15 +241,15 @@ function WorkStatusPage(props) {
     ];
 
     return (
-        <div>
-            <h1>Your work status</h1>
-            <h2>Your occupation impacts your potential exposure to COVID-19</h2>
-            <h2>What is your occupation?</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">Your work status</h1>
+            <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
+            <h2 className="calc-step-question">What is your occupation?</h2>
             <img src={workFromHomeImage} alt="Person working on a laptop" />
             <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -259,9 +259,9 @@ function WorkStatusPage(props) {
 function PresetPage(props) {
 
     return (
-        <div>
-            <h1>What activity are you planning to do?</h1>
-            <h2>Select an activity <span className="blue">or </span> build your own</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">What activity are you planning to do?</h1>
+            <h2 className="calc-step-desc">Select an activity <span className="blue">or </span> build your own</h2>
 
             <Button color="info">Test</Button>
 
@@ -269,9 +269,9 @@ function PresetPage(props) {
             <div>
                 <Button color="primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -290,9 +290,9 @@ function ActivityPage(props) {
     ];
 
     return (
-        <div>
-            <h1>Basic information</h1>
-            <h2>Calculate the risk for your planned activity</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">Basic information</h1>
+            <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
             <Form onSubmit={props.submitCallback}>
                 <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
                     selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
@@ -311,9 +311,9 @@ function ActivityPage(props) {
                             defaultValue={props.minutes} />
                     </Label>
                 </FormGroup>
-                <div>
-                    <Button onClick={props.backClickCallback}>Back</Button>
-                    <Button type="submit">Next</Button>
+                <div className="prev-next-btns">
+                    <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                    <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
                 </div>
             </Form>
         </div>
@@ -332,15 +332,15 @@ function SocialDistancePage(props) {
     ];
 
     return (
-        <div>
-            <h1>Physical Distancing</h1>
-            <h2>Maintain a safe distance between yourself and other people who are not from your household</h2>
-            <h2>What is the distance between you and others during the activity?</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">Physical Distancing</h1>
+            <h2 className="calc-step-desc">Maintain a safe distance between yourself and other people who are not from your household</h2>
+            <h2 className="calc-step-question">What is the distance between you and others during the activity?</h2>
             <img src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
             <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -357,15 +357,15 @@ function TalkingPage(props) {
     ];
 
     return (
-        <div>
-            <h1>Speaking volume</h1>
-            <h2>Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
-            <h2>How loud will people be speaking during the activity?</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">Speaking volume</h1>
+            <h2 className="calc-step-desc">Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
+            <h2 className="calc-step-question">How loud will people be speaking during the activity?</h2>
             <img src={speakingNormalImage} alt="Two people talking outdoors" />
             <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -383,13 +383,13 @@ function OwnMaskPage(props) {
     ];
 
     return (
-        <div>
-            <h1>What type of mask will you be wearing?</h1>
-            <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">What type of mask will you wear?</h1>
+            <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div>
-                <Button onClick={props.backClickCallback}>Back</Button>
-                <Button onClick={props.nextClickCallback}>Next</Button>
+            <div className="prev-next-btns">
+                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
             </div>
         </div>
     );
@@ -407,9 +407,9 @@ function OthersMaskPage(props) {
     ];
 
     return (
-        <div>
-            <h1>What type of mask will others be wearing?</h1>
-            <h2>Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
+        <div className="calc-step-container">
+            <h1 className="calc-step-title">What type of mask will others wear?</h1>
+            <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <Form onSubmit={props.formSubmitCallback}>
                 <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback} />
                 <FormGroup>
@@ -419,9 +419,9 @@ function OthersMaskPage(props) {
                             defaultValue={props.percent} />
                     </Label>
                 </FormGroup>
-                <div>
-                    <Button onClick={props.backClickCallback}>Back</Button>
-                    <Link to="/results" className="btn btn-primary">
+                <div className="prev-next-btns">
+                    <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                    <Link to="/results" className="btn btn-success next-btn">
                         Get my risk score
                     </Link>
                 </div>

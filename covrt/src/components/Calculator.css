@@ -37,3 +37,57 @@
     display: flex;
     justify-content: center;
 }
+
+.calc-step-container {
+    margin-top: 2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.calc-step-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 1.75rem;
+}
+
+.calc-step-desc {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: .85rem;
+    color: #ACADA8;
+}
+
+.calc-step-question {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 3rem;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    height: auto;
+    max-height: 10rem;
+    width: 100%;
+    max-width: 20rem;
+}
+
+.prev-btn {
+    margin-right:auto;
+    margin-left: .0;
+}
+
+.next-btn {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.prev-next-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
