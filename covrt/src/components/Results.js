@@ -31,7 +31,7 @@ export default function Results(props){
         return (
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
             (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
-            numericValues[props.ownMask] * numericValues[props.othersMask.type] * props.othersMask.percent *
+            numericValues[props.ownMask] * (numericValues[props.othersMask.type] * props.othersMask.percent) *
             numericValues[props.distancing] * numericValues[props.speakingVolume]
         );
     }
