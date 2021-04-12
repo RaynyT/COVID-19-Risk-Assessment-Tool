@@ -116,8 +116,8 @@ function StepFour(props) {
                 <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
             </div>
             <div className="horizontal-center">
-                <Link to="/calculator" className="btn btn-outline-primary">
-                    Skip tutorial
+                <Link to="/calculator" className="btn btn-primary">
+                    Get started!
                 </Link>
             </div>
         </div>

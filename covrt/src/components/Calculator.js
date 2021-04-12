@@ -7,6 +7,7 @@ import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
 
 import '../App.css';
+import './Calculator.css';
 
 
 export default function Calculator(props) {
@@ -105,34 +106,40 @@ function DisclaimerPage(props) {
 
     return (
         <div>
-            <div>
-                <h1>Agreement & Regulations</h1>
-                <p>
-                    CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the Terms of Use.
-                </p>
-                <p>
-                    Be aware that the information provided by this tool
-                    <span className="red"> IS NOT a replacement for medical advice and cannot be used to diagnose or treat medical conditions. </span>
-                    If you would like more information regarding this, please visit our FAQ.
-                </p>
-                <p>
-                    The COVID-19 related data utilized in this app is updated weekly:
-                </p>
-                <p>
-                    Last updated: <span className="blue">Mar 11, 2021</span>
-                </p>
+            <div className="disclaimer-container">
+                <h1 className="disclaimer-title">Agreement & Regulations</h1>
+                <div className="disclaimer-body-container">
+                    <p className="disclaimer-body">
+                        CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the <Link>Terms of Use.</Link>
+                    </p>
+                    <p className="disclaimer-body">
+                        Be aware that the information provided by this tool
+                        <span className="red"> IS NOT a replacement for medical advice and cannot be used to diagnose or treat medical conditions. </span>
+                        If you would like more information regarding this, please visit our <Link>FAQ</Link>
+                    </p>
+                    <p className="disclaimer-body">
+                        The COVID-19 related data utilized in this app is updated weekly:
+                    </p>
+                    <p className="disclaimer-body last-update-date">
+                        Last updated: <span className="blue">Mar 11, 2021</span>
+                    </p>
+                </div>
             </div>
-            <FormGroup check>
-                <Label check>
-                    <Input type="checkbox" onChange={handleCheckbox} />{' '}
-                    I have read and agreed all the rules and regulations in the agreement
-                </Label>
-            </FormGroup>
-            <Button color="primary" disabled={buttonDisabled} onClick={props.nextClickCallback}>
-                Calculate my risk!
-            </Button>
+            <div className="checkbox-container horizontal-center">
+                <FormGroup check>
+                    <Label check>
+                        <Input type="checkbox" onChange={handleCheckbox} />{' '}
+                        I have read and agreed all the rules and regulations in the agreement
+                    </Label>
+                </FormGroup>
+            </div>
+            <div  className="calc-risk-btn-container horizontal-center">
+                <Button color="primary" className="horizontal-center" disabled={buttonDisabled} onClick={props.nextClickCallback}>
+                    Calculate my risk!
+                </Button>
+            </div>
             <div>
-                <Link to="/about">
+                <Link to="/about" className="horizontal-center">
                     Learn about the calculations
                 </Link>
             </div>

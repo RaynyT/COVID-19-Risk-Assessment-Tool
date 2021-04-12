@@ -1,0 +1,39 @@
+.disclaimer-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.disclaimer-body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: .75rem;
+}
+
+.disclaimer-body-container {
+    padding: .5rem;
+}
+
+.disclaimer-container {
+    background-color: #EAECF4;
+    margin: 2rem;
+    padding: 1rem;
+    height: auto;
+}
+
+.last-update-date {
+    text-align: center;
+}
+
+.checkbox-container {
+    margin: 2rem;
+}
+
+.calc-risk-btn-container {
+    margin-bottom: .75rem;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
+}
