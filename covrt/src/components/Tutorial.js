@@ -57,6 +57,9 @@ function StepOne(props) {
             <h2 className="sub-heading-text">Enter your basic demographic information</h2>
             <img src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
             <div className="prev-next-btns">
+                <Link to="/" className="btn btn-secondary">
+                    Previous
+                </Link>
                 <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
             </div>
             <div className="horizontal-center">
