@@ -256,6 +256,8 @@ function PresetPage(props) {
             <h1>What activity are you planning to do?</h1>
             <h2>Select an activity <span className="blue">or </span> build your own</h2>
 
+            <Button color="info">Test</Button>
+
             <h2>Didn’t see an activity you want?</h2>
             <div>
                 <Button color="primary" onClick={props.nextClickCallback}>Build my own activity!</Button>

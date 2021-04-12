@@ -1,8 +1,37 @@
-.blue {
-    color: #4A7EC2;
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5em;
+    margin-bottom: .5rem;
+    height: auto;
+    width: 100%;
 }
 
-img {
-    height: auto;
-    width: 25em;
+.landing-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 2rem;
+    margin-left: .2rem;
+    margin-right: .2rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 }
+
+.large-text-shadow {
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 3rem;
+}
+
+
+.vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+  
+    display: flex;
+    align-items: center;
+}
+
+
+
