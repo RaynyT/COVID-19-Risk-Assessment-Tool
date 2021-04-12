@@ -126,7 +126,7 @@ function DisclaimerPage(props) {
             </div>
             <div className="checkbox-container horizontal-center">
                 <FormGroup check>
-                    <Label check>
+                    <Label check className="checkbox-text">
                         <Input type="checkbox" onChange={handleCheckbox} />{' '}
                         I have read the agreement and understand that this risk calculator is an estimate and is not a substitution for medical advice.
                     </Label>

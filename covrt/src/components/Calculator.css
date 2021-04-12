@@ -29,6 +29,12 @@
     margin: 2rem;
 }
 
+.checkbox-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size: .75rem;
+}
+
 .calc-risk-btn-container {
     margin-bottom: .75rem;
 }
