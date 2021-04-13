@@ -23,11 +23,12 @@ export default function Results(props){
         "Speaking loudly or shouting": 5,
         "Thick cotton mask": .6666666666,
         "Surgical mask": .5,
-        "K9N5 mask": .3333333333,
+        "KN95 mask": .3333333333,
         "No mask": 1
     }
 
     const calculateRiskScore = () => {
+
         return (
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
             (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
@@ -51,7 +52,7 @@ export default function Results(props){
                         <li className="selection-list-item">Duration: <span className="blue">{props.activityBasicInfo.hours}h {props.activityBasicInfo.minutes}m</span></li>
                         <li className="selection-list-item">Number of People: <span className="blue">{props.activityBasicInfo.attendees}</span></li>
                         <li className="selection-list-item">Physical Distancing: <span className="blue">{props.distancing}</span></li>
-                        <li className="selection-list-item">Speaking Volume: <span className="blue">{props.activityBasicInfo.setting}</span></li>
+                        <li className="selection-list-item">Speaking Volume: <span className="blue">{props.speakingVolume}</span></li>
                         <li className="selection-list-item">Your Mask: <span className="blue">{props.ownMask}</span></li>
                         <li className="selection-list-item">Others' Mask: <span className="blue">{props.othersMask.type}</span></li>
                         <li className="selection-list-item">Number of Others Wearing Masks: <span className="blue">{Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees)}</span></li>
