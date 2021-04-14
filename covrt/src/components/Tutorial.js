@@ -65,8 +65,8 @@ function StepOne(props) {
             <h2 className="sub-heading-text">Enter your basic demographic information</h2>
             <img className="tutorial-img" src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
             <div className="prev-next-btns">
-                <Link to="/" className="btn">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                <Link to="/" className="btn" aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2"/>
                 </Link>
                 <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
                     <ChevronRightIcon size={48} fill="#4A7CE2"/>
