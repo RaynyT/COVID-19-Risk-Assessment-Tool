@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from 'reactstrap';
+import { ProgressBar } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 
@@ -16,6 +16,7 @@ export default function Tutorial() {
     const[step, setStep] = useState(1);
 
     let stepScreen = <div></div>;
+    let progress = 25;
     
     const handleNextClick = () => {
         setStep(step + 1);
@@ -28,24 +29,30 @@ export default function Tutorial() {
     switch(step) {
         case 1:
             stepScreen = <StepOne nextClickCallback={handleNextClick}/>;
+            progress = 25;
             break;
         case 2:
             stepScreen = <StepTwo nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            progress = 50;
             break;
         case 3:
             stepScreen = <StepThree nextClickCallback={handleNextClick}  backClickCallback={handleBackClick}/>;
+            progress = 75;
             break;
         case 4:
             stepScreen = <StepFour  backClickCallback={handleBackClick}/>;
+            progress = 100;
             break;
         default:
             stepScreen = <StepOne nextClickCallback={handleNextClick}/>;
+            progress = 25;
     }
 
     return (
         <div className="container">
             <h1 className="heading-text">Get Started</h1>
             <h2 className="sub-heading-text">4 simple steps to get your risk results!</h2>
+                <ProgressBar now={progress} label={progress + "%"} srOnly />
             {stepScreen}
         </div>
     );
