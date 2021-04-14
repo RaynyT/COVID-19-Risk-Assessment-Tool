@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 
 import '../App.css'
 import './Tutorial.css'
@@ -57,10 +58,12 @@ function StepOne(props) {
             <h2 className="sub-heading-text">Enter your basic demographic information</h2>
             <img className="tutorial-img" src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
             <div className="prev-next-btns">
-                <Link to="/" className="btn btn-secondary">
-                    Previous
+                <Link to="/" className="btn">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
                 </Link>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
+                <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2"/>
+                </button>
             </div>
             <div className="horizontal-center">
                 <Link to="/calculator" className="btn btn-outline-primary">
@@ -78,8 +81,11 @@ function StepTwo(props) {
             <h2 className="sub-heading-text">Enter information about one activity you plan to do</h2>
             <img className="tutorial-img" src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
+                <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2"/>
+                </button>                <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2"/>
+                </button>            
             </div>
             <div className="horizontal-center">
                 <Link to="/calculator" className="btn btn-outline-primary">
@@ -97,8 +103,12 @@ function StepThree(props) {
             <h2 className="sub-heading-text">A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available. </h2>
             <img className="tutorial-img" src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next Step</Button>
+                <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>                
+                <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
             <div className="horizontal-center">
                 <Link to="/calculator" className="btn btn-outline-primary">
@@ -116,7 +126,9 @@ function StepFour(props) {
             <h2 className="sub-heading-text">You are able lower your risk by implementing our suggestions and adjusting your activity. </h2>
             <img className="tutorial-img" src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Previous Step</Button>
+                <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>             
             </div>
             <div className="horizontal-center">
                 <Link to="/calculator" className="btn btn-primary">
