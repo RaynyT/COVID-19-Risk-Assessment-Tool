@@ -85,7 +85,7 @@ function StepTwo(props) {
     return (
         <div>
             <h1 className="step-title">Activity</h1>
-            <h2 className="sub-heading-text">Enter information about one activity you plan to do</h2>
+            <h2 className="sub-heading-text">Enter information about one activity you are planning</h2>
             <img className="tutorial-img" src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
             <div className="prev-next-btns">
                 <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
@@ -107,7 +107,7 @@ function StepThree(props) {
     return (
         <div>
             <h1 className="step-title">Get your risk result!</h1>
-            <h2 className="sub-heading-text">A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available. </h2>
+            <h2 className="sub-heading-text">A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available</h2>
             <img className="tutorial-img" src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
             <div className="prev-next-btns">
                 <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
@@ -130,7 +130,7 @@ function StepFour(props) {
     return (
         <div>
             <h1 className="step-title">View Advice & Reduce Risk</h1>
-            <h2 className="sub-heading-text">You are able lower your risk by implementing our suggestions and adjusting your activity. </h2>
+            <h2 className="sub-heading-text">You are able lower your risk by implementing our suggestions and adjusting your activity </h2>
             <img className="tutorial-img" src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
             <div className="prev-next-btns">
                 <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
