@@ -26,6 +26,11 @@ export default function Calculator(props) {
         setPageNum(pageNum - 1);
     }
 
+    const handleRadioButtonsSubmit = (event) => {
+        event.preventDefault();
+        handleNextClick();
+    }
+
     const handleActivityPageSubmit = (event) => {
         event.preventDefault();
         props.updateActivityBasicInfo(
@@ -36,11 +41,11 @@ export default function Calculator(props) {
         handleNextClick();
     }
 
+    // Submit mask page and navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskPercent(event.target.percent.value);
-        props.history.push('/results'); // <--- The page you want to redirect your user to.
-
+        props.history.push('/results');
     }
 
     switch (pageNum) {
@@ -48,18 +53,30 @@ export default function Calculator(props) {
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
             break;
         case 2:
-            pageScreen = <LocationPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} stateSelectionCallback={props.updateStateSelection} countySelectionCallback={props.updateCountySelection} selection={props.location} />;
+            pageScreen = <LocationPage 
+                nextClickCallback={handleNextClick} 
+                backClickCallback={handleBackClick} 
+                stateSelectionCallback={props.updateStateSelection} 
+                countySelectionCallback={props.updateCountySelection} 
+                selection={props.location} 
+            />;
             break;
         case 3:
-            pageScreen = <WorkStatusPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-                selectionCallback={props.updateWorkStatus} selection={props.workStatus} />;
+            pageScreen = <WorkStatusPage 
+                submitCallback={handleRadioButtonsSubmit} 
+                backClickCallback={handleBackClick}
+                selectionCallback={props.updateWorkStatus} 
+                selection={props.workStatus} 
+            />;
             break;
         case 4:
-            pageScreen = <PresetPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick} />;
+            pageScreen = <PresetPage 
+                nextClickCallback={handleNextClick} 
+                backClickCallback={handleBackClick} 
+            />;
             break;
         case 5:
             pageScreen = <ActivityPage
-                nextClickCallback={handleNextClick}
                 backClickCallback={handleBackClick}
                 radioSelectionCallback={props.updateActivitySetting}
                 radioSelection={props.activityBasicInfo.setting}
@@ -70,21 +87,37 @@ export default function Calculator(props) {
             />;
             break;
         case 6:
-            pageScreen = <SocialDistancePage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-                selectionCallback={props.updateDistancing} selection={props.distancing} />;
+            pageScreen = <SocialDistancePage 
+                submitCallback={handleRadioButtonsSubmit} 
+                backClickCallback={handleBackClick}
+                selectionCallback={props.updateDistancing} 
+                selection={props.distancing} 
+            />;
             break;
         case 7:
-            pageScreen = <TalkingPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-                selectionCallback={props.updateSpeakingVolume} selection={props.speakingVolume} />;
+            pageScreen = <TalkingPage 
+                submitCallback={handleRadioButtonsSubmit} 
+                backClickCallback={handleBackClick}
+                selectionCallback={props.updateSpeakingVolume} 
+                selection={props.speakingVolume} 
+            />;
             break;
         case 8:
-            pageScreen = <OwnMaskPage nextClickCallback={handleNextClick} backClickCallback={handleBackClick}
-                selectionCallback={props.updateOwnMask} selection={props.ownMask} />;
+            pageScreen = <OwnMaskPage 
+                submitCallback={handleRadioButtonsSubmit} 
+                backClickCallback={handleBackClick}
+                selectionCallback={props.updateOwnMask} 
+                selection={props.ownMask} 
+            />;
             break;
         case 9:
-            pageScreen = <OthersMaskPage backClickCallback={handleBackClick}
-                radioSelectionCallback={props.updateOthersMaskType} radioSelection={props.othersMask.type}
-                formSubmitCallback={handleOthersMaskPageSubmit} percent={props.othersMask.percent} />;
+            pageScreen = <OthersMaskPage 
+                backClickCallback={handleBackClick}
+                radioSelectionCallback={props.updateOthersMaskType} 
+                radioSelection={props.othersMask.type}
+                formSubmitCallback={handleOthersMaskPageSubmit} 
+                percent={props.othersMask.percent} 
+            />;
             break;
         default:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
@@ -258,15 +291,17 @@ function WorkStatusPage(props) {
             <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
             <h2 className="calc-step-question">What is your occupation?</h2>
             <img className="calc-img" src={workFromHomeImage} alt="Person working on a laptop" />
-            <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>                
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
-            </div>
+            <Form onSubmit={props.submitCallback}>
+                <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>                
+                    <button type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
+            </Form>
         </div>
     );
 
@@ -358,15 +393,17 @@ function SocialDistancePage(props) {
             <h2 className="calc-step-desc">Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2 className="calc-step-question">What is the distance between you and others during the activity?</h2>
             <img className="calc-img" src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
-            <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
-            </div>
+            <Form onSubmit={props.submitCallback}>
+                <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
+            </Form>
         </div>
     );
 
@@ -387,15 +424,17 @@ function TalkingPage(props) {
             <h2 className="calc-step-desc">Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2 className="calc-step-question">How loud will people be speaking during the activity?</h2>
             <img className="calc-img" src={speakingNormalImage} alt="Two people talking outdoors" />
-            <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
-            </div>
+            <Form onSubmit={props.submitCallback}>
+                <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
+            </Form>
         </div>
     );
 
@@ -415,15 +454,17 @@ function OwnMaskPage(props) {
         <div className="calc-step-container">
             <h1 className="calc-step-title">What type of mask will you wear?</h1>
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
+            <Form onSubmit={props.submitCallback}>
             <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
-            </div>
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
+            </Form>
         </div>
     );
 
@@ -461,7 +502,7 @@ function OthersMaskPage(props) {
                         Get my risk score
                     </Link>
                     */}
-                    <button type="submit" className="btn btn-success next-btn">
+                    <button type="submit" className="btn btn-primary next-btn">
                         Get my risk score
                     </button>
                 </div>
