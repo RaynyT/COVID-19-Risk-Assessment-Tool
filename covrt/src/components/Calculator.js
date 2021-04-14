@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+
 
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -228,8 +230,12 @@ function LocationPage(props) {
                 </Label>
             </FormGroup>
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button type="submit" onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -254,8 +260,12 @@ function WorkStatusPage(props) {
             <img className="calc-img" src={workFromHomeImage} alt="Person working on a laptop" />
             <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button type="submit" onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>                
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -276,8 +286,12 @@ function PresetPage(props) {
                 <Button color="primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -285,9 +299,6 @@ function PresetPage(props) {
 }
 
 function ActivityPage(props) {
-
-    // TODO: Min/Max defaults can be caught by making this into a form and handling the <Form>'s onSubmit
-    // To get the Form to submit, I will need to find a way to make the 'Next' button into an <Input type="submit">
 
     // Default to both unchecked
     let settingsTypes = [
@@ -318,8 +329,12 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
                 <div className="prev-next-btns">
-                    <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                    <Button type="submit" className="next-btn">Next</Button>
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
                 </div>
             </Form>
         </div>
@@ -345,8 +360,12 @@ function SocialDistancePage(props) {
             <img className="calc-img" src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
             <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -370,8 +389,12 @@ function TalkingPage(props) {
             <img className="calc-img" src={speakingNormalImage} alt="Two people talking outdoors" />
             <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -394,8 +417,12 @@ function OwnMaskPage(props) {
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
             <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
             <div className="prev-next-btns">
-                <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
-                <Button onClick={props.nextClickCallback} className="next-btn">Next</Button>
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
             </div>
         </div>
     );
@@ -426,7 +453,9 @@ function OthersMaskPage(props) {
                     </Label>
                 </FormGroup>
                 <div className="prev-next-btns">
-                    <Button onClick={props.backClickCallback} className="prev-btn">Back</Button>
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
                     <Link to="/results" className="btn btn-success next-btn">
                         Get my risk score
                     </Link>

@@ -88,7 +88,7 @@
 
 .prev-btn {
     margin-right:auto;
-    margin-left: .0;
+    margin-left: 0;
 }
 
 .next-btn {
@@ -101,3 +101,14 @@
     justify-content: space-around;
     margin-bottom: 1rem;
 }
+
+.btn-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    color: #4A7CE2;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
