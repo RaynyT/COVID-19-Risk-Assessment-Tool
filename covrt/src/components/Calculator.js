@@ -98,8 +98,15 @@ export default function Calculator(props) {
 function DisclaimerPage(props) {
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [buttonColor, setButtonColor] = useState("secondary");
 
     const handleCheckbox = () => {
+        if(buttonDisabled){ 
+            // If button is currently disabled, set new color to blue (enabled)
+            setButtonColor("primary");
+        } else {
+            setButtonColor("secondary");
+        }
         setButtonDisabled(!buttonDisabled);
     }
 
@@ -133,7 +140,7 @@ function DisclaimerPage(props) {
                 </FormGroup>
             </div>
             <div  className="calc-risk-btn-container horizontal-center">
-                <Button color="primary" className="horizontal-center" disabled={buttonDisabled} onClick={props.nextClickCallback}>
+                <Button color={buttonColor} className="horizontal-center" disabled={buttonDisabled} onClick={props.nextClickCallback}>
                     Calculate my risk!
                 </Button>
             </div>
