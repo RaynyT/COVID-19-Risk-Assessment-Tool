@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 
-
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
@@ -40,8 +39,9 @@ export default function Calculator(props) {
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskPercent(event.target.percent.value);
-    }
+        props.history.push('/results'); // <--- The page you want to redirect your user to.
 
+    }
 
     switch (pageNum) {
         case 1:
@@ -319,7 +319,7 @@ function ActivityPage(props) {
                         defaultValue={props.attendees} />
                 </FormGroup>
                 <FormGroup tag="fieldset" className="form-inline">
-                    <legend>Estimated duration of event</legend>
+                    <legend>Estimated duration:</legend>
                     <Label>Hours
                         <Input required type="number" name="hours" id="hours" min="0" max="24" className="w-auto" defaultValue={props.hours} />
                     </Label>
@@ -456,9 +456,14 @@ function OthersMaskPage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <Link to="/results" className="btn btn-success next-btn">
+                    {/*
+                    <Link to="/results" type="submit" className="btn btn-success next-btn">
                         Get my risk score
                     </Link>
+                    */}
+                    <button type="submit" className="btn btn-success next-btn">
+                        Get my risk score
+                    </button>
                 </div>
             </Form>
         </div>
@@ -483,6 +488,7 @@ function RadioOptions(props) {
             <FormGroup check key={option.desc} required>
                 <Label check>
                     <Input
+                        required
                         type="radio"
                         name="radio1"
                         defaultChecked={optionChecked}
