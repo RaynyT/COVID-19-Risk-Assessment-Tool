@@ -21,10 +21,10 @@ export default function Results(props){
         "Not speaking": .20,
         "Speaking normally": 1,
         "Speaking loudly or shouting": 5,
-        "Thick cotton mask": .6666666666,
-        "Surgical mask": .5,
-        "KN95 mask": .3333333333,
-        "No mask": 1
+        "Cotton Mask": .6666666666,
+        "Surgical Mask": .5,
+        "KN95 Mask": .3333333333,
+        "No Mask": 1
     }
 
     const calculateRiskScore = () => {
