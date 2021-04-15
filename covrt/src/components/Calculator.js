@@ -360,9 +360,9 @@ function PresetPage(props) {
                 </div>
             </div>
 
-            <h2>Didn’t see an activity you want?</h2>
-            <div>
-                <Button color="primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
+            <h2 className="preset-page-subtext">Didn’t see an activity you want?</h2>
+            <div className="horizontal-center build-own-btn">
+                <Button color="outline-primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
             <div className="prev-next-btns">
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
