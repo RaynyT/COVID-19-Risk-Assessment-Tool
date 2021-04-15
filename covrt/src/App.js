@@ -19,7 +19,7 @@ function App() {
 	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("none-selected");
 	const [speakingVolume, setSpeakingVolume] = useState("none-selected");
-	const [ownMask, setOwnMask] = useState("none-selected");
+	const [ownMask, setOwnMask] = useState("Cotton Mask");
 	const [othersMask, setOthersMask] = useState({ type: "none-selected", percent: 100 });
 
 
