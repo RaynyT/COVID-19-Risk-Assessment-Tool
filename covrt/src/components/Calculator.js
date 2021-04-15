@@ -325,6 +325,10 @@ function WorkStatusPage(props) {
 
 function PresetPage(props) {
 
+    const fillSurvey = () => {
+        console.log("TODO")
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">What activity are you planning to do?</h1>
@@ -333,35 +337,35 @@ function PresetPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-4">
-                        <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"}/>
+                        <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"} clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4">
-                        <ImageButton image={goingToWorkImage} desc={"Going to Work"}/>
+                        <ImageButton image={goingToWorkImage} desc={"Going to Work"} clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4">
-                        <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"}/>
+                        <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"} clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4">
-                        <ImageButton image={takingTheBusImage} desc={"Taking the Bus"}/>
+                        <ImageButton image={takingTheBusImage} desc={"Taking the Bus"} clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4">
-                        <ImageButton image={indoorDiningImage} desc={"Indoor Dining"}/>
+                        <ImageButton image={indoorDiningImage} desc={"Indoor Dining"} clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4">
-                        <ImageButton image={joggingImage} desc={"Jogging"}/>
+                        <ImageButton image={joggingImage} desc={"Jogging"} clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4">
-                        <ImageButton image={partyImage} desc={"Going to a Party"}/>
+                        <ImageButton image={partyImage} desc={"Going to a Party"} clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4">
-                        <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"}/>
+                        <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"} clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4">
-                        <ImageButton image={hikingImage} desc={"Hiking"}/>
+                        <ImageButton image={hikingImage} desc={"Hiking"} clickCallback={fillSurvey}/>
                     </div>
                 </div>
             </div>
@@ -543,6 +547,7 @@ function OwnMaskPage(props) {
                 <RadioOptions options={maskTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
             */}
+            
             <div className="prev-next-btns">
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                     <ChevronLeftIcon size={48} fill="#4A7CE2" />
