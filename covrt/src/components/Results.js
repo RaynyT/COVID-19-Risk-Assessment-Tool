@@ -38,7 +38,7 @@ export default function Results(props){
     }
 
     return (
-        <div>
+        <div className="container">
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 <h2 className="risk-level-text">Risk score: {calculateRiskScore()}</h2>
@@ -65,7 +65,9 @@ export default function Results(props){
                     </ul>
                 </div>
             </div>
-            <Button>How is my risk calculated?</Button>
+            <div className="horizontal-center">
+                <Button>How is my risk calculated?</Button>
+            </div>
         </div>
     );
 }
