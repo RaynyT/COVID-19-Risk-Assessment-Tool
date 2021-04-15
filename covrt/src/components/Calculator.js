@@ -120,7 +120,7 @@ export default function Calculator(props) {
             break;
         case 8:
             pageScreen = <OwnMaskPage 
-                submitCallback={handleRadioButtonsSubmit} 
+                nextClickCallback={handleNextClick} 
                 backClickCallback={handleBackClick}
                 selectionCallback={props.updateOwnMask} 
                 selection={props.ownMask} 
@@ -378,7 +378,7 @@ function PresetPage(props) {
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                     <ChevronLeftIcon size={48} fill="#4A7CE2" />
                 </button>
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                     <ChevronRightIcon size={48} fill="#4A7CE2" />
                 </button>
             </div>
@@ -541,18 +541,12 @@ function OwnMaskPage(props) {
                     </div>
                 </div>
             </div>
-
-            {/*
-            <Form id="own-mask-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={maskTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            </Form>
-            */}
             
             <div className="prev-next-btns">
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                     <ChevronLeftIcon size={48} fill="#4A7CE2" />
                 </button>
-                <button form="own-mask-form" type="submit" className="btn next-btn" aria-label="Next step">
+                <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                     <ChevronRightIcon size={48} fill="#4A7CE2" />
                 </button>
             </div>
