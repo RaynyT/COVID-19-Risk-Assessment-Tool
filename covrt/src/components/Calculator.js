@@ -18,6 +18,12 @@ import partyImage from '../images/party.svg';
 import outdoorGatheringImage from '../images/outdoor-gathering.svg'
 import hikingImage from '../images/hiking.svg'
 
+// Mask images
+import noMaskImage from '../images/no-mask.svg'
+import cottonMaskImage from '../images/cotton-mask.svg'
+import surgicalMaskImage from '../images/surgical-mask.svg'
+import kn95MaskImage from '../images/kn95-mask.svg'
+
 import '../App.css';
 import './Calculator.css';
 
@@ -324,43 +330,43 @@ function PresetPage(props) {
             <h1 className="calc-step-title">What activity are you planning to do?</h1>
             <h2 className="calc-step-desc">Select an activity <span className="blue">or </span> build your own</h2>
 
-            <div class="container">
-                <div class="row img-btn-row">
-                    <div class="col-4">
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-4">
                         <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"}/>
                     </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={goingToWorkImage} desc={"Going to Work"}/>
                      </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"}/>
                     </div>
                 </div>
-                <div class="row img-btn-row">
-                    <div class="col-4">
+                <div className="row img-btn-row">
+                    <div className="col-4">
                         <ImageButton image={takingTheBusImage} desc={"Taking the Bus"}/>
                     </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={indoorDiningImage} desc={"Indoor Dining"}/>
                      </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={joggingImage} desc={"Jogging"}/>
                     </div>
                 </div>
-                <div class="row img-btn-row">
-                    <div class="col-4">
+                <div className="row img-btn-row">
+                    <div className="col-4">
                         <ImageButton image={partyImage} desc={"Going to a Party"}/>
                     </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"}/>
                      </div>
-                    <div class="col-4">
+                    <div className="col-4">
                         <ImageButton image={hikingImage} desc={"Hiking"}/>
                     </div>
                 </div>
             </div>
 
-            <h2 className="preset-page-subtext">Didn’t see an activity you want?</h2>
+            <h2 className="calc-subtext">Didn’t see an activity you want?</h2>
             <div className="horizontal-center build-own-btn">
                 <Button color="outline-primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
@@ -486,21 +492,57 @@ function TalkingPage(props) {
 
 function OwnMaskPage(props) {
 
-    // Default to all unchecked
-    let maskTypes = [
-        { desc: "Thick cotton mask", checked: false },
-        { desc: "Surgical mask", checked: false },
-        { desc: "KN95 mask", checked: false },
-        { desc: "No mask", checked: false }
-    ];
+    let noMaskSelected = false;
+    let cottonMaskSelected = false;
+    let surgicalMaskSelected = false;
+    let kn95MaskSelected = false;
+
+    switch(props.selection) {
+        case "No Mask":
+            noMaskSelected = true;
+            break;
+        case "Cotton Mask":
+            cottonMaskSelected = true;
+            break;
+        case "Surgical Mask":
+            surgicalMaskSelected = true;
+            break;
+        case "KN95 Mask":
+            kn95MaskSelected= true;
+            break;
+        default:
+            console.log("defaulted")
+    }
 
     return (
         <div className="calc-step-container">
-            <h1 className="calc-step-title">What type of mask will you wear?</h1>
+            <h1 className="calc-step-title">Your mask</h1>
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
+            <h2 className="calc-subtext">What type of mask will you wear?</h2>
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={noMaskImage} desc="No Mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                    </div>
+                </div>
+            </div>
+
+            {/*
             <Form id="own-mask-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
+                <RadioOptions options={maskTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
+            */}
             <div className="prev-next-btns">
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                     <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -509,6 +551,7 @@ function OwnMaskPage(props) {
                     <ChevronRightIcon size={48} fill="#4A7CE2" />
                 </button>
             </div>
+
         </div>
     );
 
@@ -593,13 +636,29 @@ function RadioOptions(props) {
 
 function ImageButton(props) {
 
+    let btnClass = "img-btn";
+    let textClass = "img-btn-text";
+
+    if(props.large) {
+        btnClass += " img-btn-large";
+        textClass = "img-btn-text-large";
+    }
+
+    if(props.selected) {
+        btnClass += " img-btn-selected";
+    }
+
+    const handleClick = () => {
+        props.clickCallback(props.desc);
+    } 
+
     return(
-        <button className="img-btn">
+        <button className={btnClass} aria-pressed="false" onClick={handleClick}>
             <div className="img-btn-content">
                 <div className="img-btn-image-container">
                     <img className="img-btn-image" src={props.image} alt={props.desc} />
                 </div>
-                <div className="img-btn-text">
+                <div className={textClass}>
                     {props.desc}
                 </div>
             </div>

@@ -113,7 +113,7 @@
     align-items: center;
 }
 
-.preset-page-subtext {
+.calc-subtext {
     font-family: 'Open Sans', sans-serif;
     font-weight: bolder;
     font-size: 1rem;
@@ -147,6 +147,16 @@
     height: 5.5em;
 }
 
+.img-btn-large {
+    width: 7.5em;
+    height: 7.5em;
+    padding-top: 1em;
+}
+
+.img-btn-selected {
+    border-color: #4A7CE2;
+}
+
 .img-btn-content {
     font-family: 'Open Sans', sans-serif;
     font-weight: bolder;
@@ -176,4 +186,9 @@
 
 .img-btn-text {
     font-size: x-small;
+}
+
+.img-btn-text-large {
+    font-size: .8rem;
+    font-weight: bold;
 }
