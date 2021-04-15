@@ -113,3 +113,24 @@
     align-items: center;
 }
 
+.img-btn {
+    background-color: #FFFFFF;
+    border-color: #D0CDE1;
+    border-style: solid;
+    border-width: medium;
+    border-radius: 20%;
+}
+
+.img-btn-content {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    text-align: center;
+    color: #3A405A;
+    width: 8em;
+    height: 8em;
+}
+
+.img-btn-image {
+    height: auto;
+    width: 5em;
+}

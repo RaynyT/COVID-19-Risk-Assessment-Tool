@@ -7,8 +7,12 @@ import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
 
+// Activity preset images
+import groceryShoppingImage from '../images/grocery-shopping.svg'
+
 import '../App.css';
 import './Calculator.css';
+import { render } from '@testing-library/react';
 
 
 export default function Calculator(props) {
@@ -314,7 +318,7 @@ function PresetPage(props) {
             <h1 className="calc-step-title">What activity are you planning to do?</h1>
             <h2 className="calc-step-desc">Select an activity <span className="blue">or </span> build your own</h2>
 
-            <Button color="info">Test</Button>
+            <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"}></ImageButton>
 
             <h2>Didn’t see an activity you want?</h2>
             <div>
@@ -545,5 +549,20 @@ function RadioOptions(props) {
             {optionsElement}
         </FormGroup>
     )
+}
 
+function ImageButton(props) {
+
+    return(
+        <button className="img-btn">
+            <div className="img-btn-content">
+                <div>
+                    <img className="img-btn-image" src={props.image} alt={props.desc} />
+                </div>
+                <div>
+                    {props.desc}
+                </div>
+            </div>
+        </button>
+    );
 }
