@@ -497,14 +497,11 @@ function OthersMaskPage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    {/*
-                    <Link to="/results" type="submit" className="btn btn-success next-btn">
-                        Get my risk score
-                    </Link>
-                    */}
+                    <span>
                     <button type="submit" className="btn btn-primary next-btn">
                         Get my risk score
                     </button>
+                    </span>
                 </div>
             </Form>
         </div>
