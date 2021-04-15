@@ -291,17 +291,17 @@ function WorkStatusPage(props) {
             <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
             <h2 className="calc-step-question">What is your occupation?</h2>
             <img className="calc-img" src={workFromHomeImage} alt="Person working on a laptop" />
-            <Form onSubmit={props.submitCallback}>
+            <Form id="work-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>                
-                    <button type="submit" className="btn next-btn" aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
-                </div>
             </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>                
+                <button form="work-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
+            </div>
         </div>
     );
 
@@ -345,7 +345,7 @@ function ActivityPage(props) {
         <div className="calc-step-container">
             <h1 className="calc-step-title">Basic information</h1>
             <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
-            <Form onSubmit={props.submitCallback}>
+            <Form id="activity-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
                     selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
                 <FormGroup tag="fieldset">
@@ -363,15 +363,15 @@ function ActivityPage(props) {
                             defaultValue={props.minutes} />
                     </Label>
                 </FormGroup>
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>
-                    <button type="submit" className="btn next-btn" aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
-                </div>
             </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button form="activity-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
+            </div>
         </div>
     );
 
@@ -393,17 +393,17 @@ function SocialDistancePage(props) {
             <h2 className="calc-step-desc">Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2 className="calc-step-question">What is the distance between you and others during the activity?</h2>
             <img className="calc-img" src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
-            <Form onSubmit={props.submitCallback}>
+            <Form id="distancing-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>
-                    <button type="submit" className="btn next-btn" aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
-                </div>
             </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button form="distancing-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
+            </div>
         </div>
     );
 
@@ -424,17 +424,17 @@ function TalkingPage(props) {
             <h2 className="calc-step-desc">Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2 className="calc-step-question">How loud will people be speaking during the activity?</h2>
             <img className="calc-img" src={speakingNormalImage} alt="Two people talking outdoors" />
-            <Form onSubmit={props.submitCallback}>
+            <Form id="talking-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>
-                    <button type="submit" className="btn next-btn" aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
-                </div>
             </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button form="talking-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
+            </div>
         </div>
     );
 
@@ -454,17 +454,17 @@ function OwnMaskPage(props) {
         <div className="calc-step-container">
             <h1 className="calc-step-title">What type of mask will you wear?</h1>
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <Form onSubmit={props.submitCallback}>
-            <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>
-                    <button type="submit" className="btn next-btn" aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
-                </div>
+            <Form id="own-mask-form" onSubmit={props.submitCallback}>
+                <RadioOptions options={maskTypes} legend="Your mask" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <button form="own-mask-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </button>
+            </div>
         </div>
     );
 
@@ -484,7 +484,7 @@ function OthersMaskPage(props) {
         <div className="calc-step-container">
             <h1 className="calc-step-title">What type of mask will others wear?</h1>
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <Form onSubmit={props.formSubmitCallback}>
+            <Form id="others-mask-form" onSubmit={props.formSubmitCallback}>
                 <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback} />
                 <FormGroup>
                     <Label>
@@ -493,17 +493,17 @@ function OthersMaskPage(props) {
                             defaultValue={props.percent} />
                     </Label>
                 </FormGroup>
-                <div className="prev-next-btns">
-                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>
-                    <span>
-                    <button type="submit" className="btn btn-primary next-btn">
+            </Form>
+            <div className="prev-next-btns">
+                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <span>
+                    <button form="others-mask-form" type="submit" className="btn btn-primary next-btn">
                         Get my risk score
                     </button>
-                    </span>
-                </div>
-            </Form>
+                </span>
+            </div>
         </div>
     );
 
