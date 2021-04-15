@@ -64,8 +64,8 @@ function App() {
 		setSpeakingVolume(event.target.value);
 	}
 
-	const updateOwnMask = (event) => {
-		setOwnMask(event.target.value);
+	const updateOwnMask = (maskType) => {
+		setOwnMask(maskType);
 	}
 
 	const updateOthersMaskType = (event) => {
@@ -73,7 +73,6 @@ function App() {
 	}
 
 	const updateOthersMaskPercent = (percent) => {
-		console.log("Called the app one")
 		setOthersMask({type: othersMask.type, percent: percent})
 	}
 
