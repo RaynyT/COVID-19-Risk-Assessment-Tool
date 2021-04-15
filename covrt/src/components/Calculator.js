@@ -10,6 +10,13 @@ import speakingNormalImage from '../images/speaking-normal.svg';
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
 import goingToWorkImage from '../images/going-to-work.svg';
+import visitingFriendImage from '../images/visiting-a-friend.svg';
+import takingTheBusImage from '../images/taking-the-bus.svg';
+import indoorDiningImage from '../images/going-to-dinner.svg';
+import joggingImage from '../images/jogging.svg';
+import partyImage from '../images/party.svg';
+import outdoorGatheringImage from '../images/outdoor-gathering.svg'
+import hikingImage from '../images/hiking.svg'
 
 import '../App.css';
 import './Calculator.css';
@@ -317,9 +324,41 @@ function PresetPage(props) {
             <h1 className="calc-step-title">What activity are you planning to do?</h1>
             <h2 className="calc-step-desc">Select an activity <span className="blue">or </span> build your own</h2>
 
-            <ImageButton image={workFromHomeImage} desc={"Grocery Shopping"}/>
-            <ImageButton image={goingToWorkImage} desc={"Going to Work"}/>
-
+            <div class="container">
+                <div class="row img-btn-row">
+                    <div class="col-4">
+                        <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"}/>
+                    </div>
+                    <div class="col-4">
+                        <ImageButton image={goingToWorkImage} desc={"Going to Work"}/>
+                     </div>
+                    <div class="col-4">
+                        <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"}/>
+                    </div>
+                </div>
+                <div class="row img-btn-row">
+                    <div class="col-4">
+                        <ImageButton image={takingTheBusImage} desc={"Taking the Bus"}/>
+                    </div>
+                    <div class="col-4">
+                        <ImageButton image={indoorDiningImage} desc={"Indoor Dining"}/>
+                     </div>
+                    <div class="col-4">
+                        <ImageButton image={joggingImage} desc={"Jogging"}/>
+                    </div>
+                </div>
+                <div class="row img-btn-row">
+                    <div class="col-4">
+                        <ImageButton image={partyImage} desc={"Going to a Party"}/>
+                    </div>
+                    <div class="col-4">
+                        <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"}/>
+                     </div>
+                    <div class="col-4">
+                        <ImageButton image={hikingImage} desc={"Hiking"}/>
+                    </div>
+                </div>
+            </div>
 
             <h2>Didn’t see an activity you want?</h2>
             <div>
@@ -557,8 +596,8 @@ function ImageButton(props) {
     return(
         <button className="img-btn">
             <div className="img-btn-content">
-                <div className="img-btn-image">
-                    <img src={props.image} alt={props.desc} />
+                <div className="img-btn-image-container">
+                    <img className="img-btn-image" src={props.image} alt={props.desc} />
                 </div>
                 <div className="img-btn-text">
                     {props.desc}
