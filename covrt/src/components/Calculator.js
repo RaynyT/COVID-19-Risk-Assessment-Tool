@@ -129,8 +129,8 @@ export default function Calculator(props) {
         case 9:
             pageScreen = <OthersMaskPage 
                 backClickCallback={handleBackClick}
-                radioSelectionCallback={props.updateOthersMaskType} 
-                radioSelection={props.othersMask.type}
+                selectionCallback={props.updateOthersMaskType} 
+                selection={props.othersMask.type}
                 formSubmitCallback={handleOthersMaskPageSubmit} 
                 percent={props.othersMask.percent} 
             />;
@@ -558,20 +558,53 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
-    // Default to all unchecked
-    let maskTypes = [
-        { desc: "Thick cotton mask", checked: false },
-        { desc: "Surgical mask", checked: false },
-        { desc: "KN95 mask", checked: false },
-        { desc: "No mask", checked: false }
-    ];
+    let noMaskSelected = false;
+    let cottonMaskSelected = false;
+    let surgicalMaskSelected = false;
+    let kn95MaskSelected = false;
+
+    switch(props.selection) {
+        case "No Mask":
+            noMaskSelected = true;
+            break;
+        case "Cotton Mask":
+            cottonMaskSelected = true;
+            break;
+        case "Surgical Mask":
+            surgicalMaskSelected = true;
+            break;
+        case "KN95 Mask":
+            kn95MaskSelected= true;
+            break;
+        default:
+            console.log("defaulted")
+    }
 
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">What type of mask will others wear?</h1>
             <h2 className="calc-step-desc">Different types of face masks have different levels of effectiveness in catching droplets from talking, sneezing, or coughing</h2>
-            <Form id="others-mask-form" onSubmit={props.formSubmitCallback}>
-                <RadioOptions options={maskTypes} legend="Others masks" selection={props.radioSelection} selectionCallback={props.radioSelectionCallback} />
+            
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={noMaskImage} desc="No Mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                    </div>
+                </div>
+            </div>
+
+            <Form id="others-mask-form" onSubmit={props.formSubmitCallback}>            
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
@@ -580,6 +613,7 @@ function OthersMaskPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
+
             <div className="prev-next-btns">
                 <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                     <ChevronLeftIcon size={48} fill="#4A7CE2" />

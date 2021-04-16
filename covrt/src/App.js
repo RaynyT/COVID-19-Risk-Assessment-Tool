@@ -20,7 +20,7 @@ function App() {
 	const [distancing, setDistancing] = useState("none-selected");
 	const [speakingVolume, setSpeakingVolume] = useState("none-selected");
 	const [ownMask, setOwnMask] = useState("Cotton Mask");
-	const [othersMask, setOthersMask] = useState({ type: "none-selected", percent: 100 });
+	const [othersMask, setOthersMask] = useState({ type: "Cotton Mask", percent: 100 });
 
 
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
@@ -68,8 +68,8 @@ function App() {
 		setOwnMask(maskType);
 	}
 
-	const updateOthersMaskType = (event) => {
-		setOthersMask({ type: event.target.value, percent: othersMask.percent });
+	const updateOthersMaskType = (maskType) => {
+		setOthersMask({ type: maskType, percent: othersMask.percent });
 	}
 
 	const updateOthersMaskPercent = (percent) => {
