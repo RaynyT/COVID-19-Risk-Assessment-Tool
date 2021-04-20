@@ -56,8 +56,8 @@ function App() {
 		});
 	}
 
-	const updateDistancing = (event) => {
-		setDistancing(event.target.value);
+	const updateDistancing = (distance) => {
+		setDistancing(distance);
 	}
 
 	const updateSpeakingVolume = (volume) => {

@@ -81,6 +81,7 @@ export default function Calculator(props) {
             pageScreen = <WorkStatusPage 
                 submitCallback={handleRadioButtonsSubmit} 
                 backClickCallback={handleBackClick}
+                nextClickCallback={handleNextClick}
                 selectionCallback={props.updateWorkStatus} 
                 selection={props.workStatus} 
             />;
@@ -106,6 +107,7 @@ export default function Calculator(props) {
             pageScreen = <SocialDistancePage 
                 submitCallback={handleRadioButtonsSubmit} 
                 backClickCallback={handleBackClick}
+                nextClickCallback={handleNextClick}
                 selectionCallback={props.updateDistancing} 
                 selection={props.distancing} 
             />;
@@ -450,21 +452,59 @@ function SocialDistancePage(props) {
         { desc: "More than 9 feet", checked: false }
     ];
 
+    let lessThanSixSelected = false;
+    let sixSelected = false;
+    let nineSelected = false;
+    let moreThanNineSelected =false;
+
+    switch(props.selection) {
+        case "Less than 6 feet":
+            lessThanSixSelected = true;
+            break;
+        case "6 feet":
+            sixSelected = true;
+            break;
+        case "9 feet":
+            nineSelected = true;
+            break;
+        case "More than 9 feet":
+            moreThanNineSelected = true;
+            break;
+        default:
+            sixSelected = true;
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Physical Distancing</h1>
             <h2 className="calc-step-desc">Maintain a safe distance between yourself and other people who are not from your household</h2>
             <h2 className="calc-step-question">What is the distance between you and others during the activity?</h2>
-            <img className="calc-img" src={sixFeetImage} alt="Cartoon of bed that is six feet long" />
-            <Form id="distancing-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            </Form>
+
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={sixFeetImage} desc="Less than 6 feet" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={sixFeetImage} desc="6 feet" large selected={sixSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={sixFeetImage} desc="9 feet" large selected={nineSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={sixFeetImage} desc="More than 9 feet" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                    </div>
+                </div>
+            </div>
+
             <div className="fixed-bottom">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button form="distancing-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
