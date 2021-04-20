@@ -34,8 +34,8 @@ function App() {
 		setLocation({state: location.state, county: event.target.value});
 	}
 
-	const updateWorkStatus = (event) => {
-		setWorkStatus(event.target.value);
+	const updateWorkStatus = (status) => {
+		setWorkStatus(status);
 	}
 
 	const updateActivitySetting = (event) => {

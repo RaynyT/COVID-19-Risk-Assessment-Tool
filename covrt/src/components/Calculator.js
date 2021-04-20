@@ -298,29 +298,59 @@ function LocationPage(props) {
 
 function WorkStatusPage(props) {
 
-    // Default to all unchecked
-    let workTypes = [
-        { desc: "Not working", checked: false },
-        { desc: "Working from home", checked: false },
-        { desc: "Healthcare worker", checked: false },
-        { desc: "Non-healthcare essential worker", checked: false }
-    ];
+    let notWorkingSelected = false;
+    let workFromHomeSelected = false;
+    let healthcareSelected = false;
+    let essentialSelected = false;
+
+    switch(props.selection) {
+        case "Not working":
+            notWorkingSelected = true;
+            break;
+        case "Working from home":
+            workFromHomeSelected = true;
+            break;
+        case "Healthcare worker":
+            healthcareSelected = true;
+            break;
+        case "Essential worker":
+            essentialSelected = true;
+            break;
+        default:
+            notWorkingSelected = true;
+    }
 
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Your work status</h1>
             <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
             <h2 className="calc-step-question">What is your occupation?</h2>
-            <img className="calc-img" src={workFromHomeImage} alt="Person working on a laptop" />
-            <Form id="work-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            </Form>
+            
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={workFromHomeImage} desc="Not working" large selected={notWorkingSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={workFromHomeImage} desc="Working from home" large selected={workFromHomeSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={workFromHomeImage} desc="Healthcare worker" large selected={healthcareSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={workFromHomeImage} desc="Essential worker" large selected={essentialSelected} clickCallback={props.selectionCallback} />
+                    </div>
+                </div>
+            </div>
+
             <div className="fixed-bottom">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>                
-                    <button form="work-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
@@ -443,14 +473,6 @@ function ActivityPage(props) {
 }
 
 function SocialDistancePage(props) {
-
-    // Default to all unchecked
-    let distances = [
-        { desc: "Less than 6 feet", checked: false },
-        { desc: "6 feet", checked: false },
-        { desc: "9 feet", checked: false },
-        { desc: "More than 9 feet", checked: false }
-    ];
 
     let lessThanSixSelected = false;
     let sixSelected = false;
