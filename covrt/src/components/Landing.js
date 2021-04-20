@@ -35,7 +35,7 @@ function Splash(props) {
     const daysSince = today.diff(covidStart, "days");
 
     return (
-        <div className="container" onClick={props.clickCallback}>
+        <div className="container main-container" onClick={props.clickCallback}>
             <div>
                 <h1 className="blue landing-text">It has been</h1>
                 <h1 className="blue landing-text large-text-shadow">{daysSince} days</h1>
