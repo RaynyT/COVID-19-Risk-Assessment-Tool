@@ -278,13 +278,15 @@ function LocationPage(props) {
                     </Input>
                 </Label>
             </FormGroup>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -310,13 +312,15 @@ function WorkStatusPage(props) {
             <Form id="work-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={workTypes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>                
-                <button form="work-form" type="submit" className="btn next-btn" aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>                
+                    <button form="work-form" type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -374,13 +378,15 @@ function PresetPage(props) {
             <div className="horizontal-center build-own-btn">
                 <Button color="outline-primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -418,13 +424,15 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button form="activity-form" type="submit" className="btn next-btn" aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button form="activity-form" type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -450,13 +458,15 @@ function SocialDistancePage(props) {
             <Form id="distancing-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={distances} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button form="distancing-form" type="submit" className="btn next-btn" aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button form="distancing-form" type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -481,13 +491,15 @@ function TalkingPage(props) {
             <Form id="talking-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
             </Form>
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button form="talking-form" type="submit" className="btn next-btn" aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button form="talking-form" type="submit" className="btn next-btn" aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -541,16 +553,16 @@ function OwnMaskPage(props) {
                     </div>
                 </div>
             </div>
-            
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                    <ChevronRightIcon size={48} fill="#4A7CE2" />
-                </button>
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
+                </div>
             </div>
-
         </div>
     );
 
@@ -613,16 +625,18 @@ function OthersMaskPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
-
-            <div className="prev-next-btns">
-                <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
-                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                </button>
-                <span>
-                    <button form="others-mask-form" type="submit" className="btn btn-primary next-btn">
-                        Get my risk score
+            
+            <div className="fixed-bottom">
+                <div className="prev-next-btns">
+                    <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                </span>
+                    <span>
+                        <button form="others-mask-form" type="submit" className="btn btn-primary next-btn">
+                            Get my risk score
+                        </button>
+                    </span>
+                </div>
             </div>
         </div>
     );
