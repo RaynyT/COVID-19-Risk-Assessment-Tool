@@ -60,8 +60,8 @@ function App() {
 		setDistancing(event.target.value);
 	}
 
-	const updateSpeakingVolume = (event) => {
-		setSpeakingVolume(event.target.value);
+	const updateSpeakingVolume = (volume) => {
+		setSpeakingVolume(volume);
 	}
 
 	const updateOwnMask = (maskType) => {

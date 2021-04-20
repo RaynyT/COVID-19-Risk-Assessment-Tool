@@ -114,6 +114,7 @@ export default function Calculator(props) {
             pageScreen = <TalkingPage 
                 submitCallback={handleRadioButtonsSubmit} 
                 backClickCallback={handleBackClick}
+                nextClickCallback={handleNextClick}
                 selectionCallback={props.updateSpeakingVolume} 
                 selection={props.speakingVolume} 
             />;
@@ -475,28 +476,52 @@ function SocialDistancePage(props) {
 
 function TalkingPage(props) {
 
-    // Default to all unchecked
-    let volumes = [
-        { desc: "Not speaking", checked: false },
-        { desc: "Speaking normally", checked: false },
-        { desc: "Speaking loudly or shouting", checked: false }
-    ];
+    let notSpeakingSelected = false;
+    let normalSpeakingSelected = false;
+    let loudSpeakingSelected = false;
+
+    switch(props.selection) {
+        case "Not speaking":
+            notSpeakingSelected = true;
+            break;
+        case "Speaking normally":
+            normalSpeakingSelected = true;
+            break;
+        case "Speaking loudly or shouting":
+            loudSpeakingSelected = true;
+            break;
+        default:
+            normalSpeakingSelected = true;
+    }
 
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Speaking volume</h1>
             <h2 className="calc-step-desc">Risk is also calculated based on <span className="blue">movement of air </span>particles through <span className="blue">speaking</span></h2>
             <h2 className="calc-step-question">How loud will people be speaking during the activity?</h2>
-            <img className="calc-img" src={speakingNormalImage} alt="Two people talking outdoors" />
-            <Form id="talking-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={volumes} legend="" selection={props.selection} selectionCallback={props.selectionCallback} />
-            </Form>
+
+            <div className="container">
+                <div className="row img-btn-row">
+                    <div className="col-6">
+                        <ImageButton image={speakingNormalImage} desc="Not speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                    <div className="col-6">
+                        <ImageButton image={speakingNormalImage} desc="Speaking normally" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+                <div className="row img-btn-row">
+                    <div className="col-12 text-center">
+                        <ImageButton image={speakingNormalImage} desc="Speaking loudly or shouting" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
+                    </div>
+                </div>
+            </div>
+
             <div className="fixed-bottom">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button form="talking-form" type="submit" className="btn next-btn" aria-label="Next step">
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
@@ -527,7 +552,7 @@ function OwnMaskPage(props) {
             kn95MaskSelected= true;
             break;
         default:
-            console.log("defaulted")
+            cottonMaskSelected = true;
     }
 
     return (
@@ -589,7 +614,7 @@ function OthersMaskPage(props) {
             kn95MaskSelected= true;
             break;
         default:
-            console.log("defaulted")
+            cottonMaskSelected = true;
     }
 
     return (
