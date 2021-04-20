@@ -44,6 +44,10 @@
     width: 100%;
 }
 
+.nav-controls {
+    margin-bottom: 3rem;
+}
+
 .prev-next-btns {
     display: flex;
     justify-content: space-around;
@@ -63,4 +67,8 @@
 .horizontal-center{
     display: flex;
     justify-content: center;
+}
+
+.hidden {
+    visibility: hidden;
 }
