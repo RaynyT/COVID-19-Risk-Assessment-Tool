@@ -89,7 +89,8 @@ export default function Calculator(props) {
         case 4:
             pageScreen = <PresetPage 
                 nextClickCallback={handleNextClick} 
-                backClickCallback={handleBackClick} 
+                backClickCallback={handleBackClick}
+                presetCallback={props.updateWithPreset}
             />;
             break;
         case 5:
@@ -362,8 +363,23 @@ function WorkStatusPage(props) {
 
 function PresetPage(props) {
 
-    const fillSurvey = () => {
-        console.log("TODO")
+    const presets = {
+        "Indoor Dining": {
+            activityBasicInfo: { setting: "Indoor", attendees: null, hours: 1,  minutes: 0 },
+            distancing: "Less than 6 feet",
+            volume: "Speaking normally",
+            ownMask: "No mask",
+            othersMask: { type: "No mask", percent: 100 }
+        }
+    }
+
+    // Checks if the preset buttons description matches one of the preset objects and fills it in
+    // If it doesn't it proceeds as if no preset was entered for safety, but this should never happen anyway
+    const fillSurvey = (desc) => {
+        if (presets.hasOwnProperty(desc)) {
+            props.presetCallback(presets[desc]);
+        }
+        props.nextClickCallback();
     }
 
     return (

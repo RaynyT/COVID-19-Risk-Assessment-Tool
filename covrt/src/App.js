@@ -21,11 +21,18 @@ function App() {
 	const [speakingVolume, setSpeakingVolume] = useState("Speaking normally");
 	const [ownMask, setOwnMask] = useState("Cotton Mask");
 	const [othersMask, setOthersMask] = useState({ type: "Cotton Mask", percent: 100 });
-
-
+	
+	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
 	// for state variables is the reccomended method so that app state isn't exposed to child components
-
+	
+	const updateWithPreset = (preset) => {
+		setActivityBasicInfo(preset.activityBasicInfo);
+		setDistancing(preset.distancing);
+		setSpeakingVolume(preset.volume);
+		setOwnMask(preset.ownMask);
+		setOthersMask(preset.othersMask);
+	}
 	const updateStateSelection = (event) => {
 		setLocation({state: event.target.value, county: location.county});
 	}
@@ -75,13 +82,15 @@ function App() {
 	const updateOthersMaskPercent = (percent) => {
 		setOthersMask({type: othersMask.type, percent: percent})
 	}
-
+	
+	
 	let stateAndCallbacks = {
 		location: location,
 		updateStateSelection: updateStateSelection,
 		updateCountySelection: updateCountySelection,
 		workStatus: workStatus,
 		updateWorkStatus: updateWorkStatus,
+		updateWithPreset: updateWithPreset,
 		activityBasicInfo: activityBasicInfo,
 		updateActivitySetting: updateActivitySetting,
 		updateActivityBasicInfo: updateActivityBasicInfo,
