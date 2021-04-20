@@ -192,3 +192,13 @@
     font-size: .8rem;
     font-weight: bold;
 }
+
+.info-dropdown-btn {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    text-align: center;
+}
+
+.hidden {
+    visibility: hidden;
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 
 import workFromHomeImage from '../images/work-from-home.svg';
@@ -595,26 +595,42 @@ function TalkingPage(props) {
 
 function OwnMaskPage(props) {
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => setIsOpen(!isOpen);
+
     let noMaskSelected = false;
     let cottonMaskSelected = false;
     let surgicalMaskSelected = false;
     let kn95MaskSelected = false;
 
+    let maskInfo = "N/A";
+
     switch(props.selection) {
         case "No Mask":
             noMaskSelected = true;
+            maskInfo = "N/A";
             break;
         case "Cotton Mask":
             cottonMaskSelected = true;
+            maskInfo = "The filtration effectiveness of cloth masks is generally lower than that of medical masks and respirators; however, cloth masks may provide some protection if well designed and used correctly."
             break;
         case "Surgical Mask":
             surgicalMaskSelected = true;
+            maskInfo = "Fluid resistant and provides the wearer protection against large droplets or sprays of bodily fluids. Protects others from the wearer’s respiratory emissions."
             break;
         case "KN95 Mask":
             kn95MaskSelected= true;
+            maskInfo = "Reduces wearer’s exposure to particles including small particle aerosols and large droplets. Protects others from the wearer’s respiratory emissions."
             break;
         default:
             cottonMaskSelected = true;
+    }
+
+    let dropdownClass = "";
+
+    if (noMaskSelected) {
+        dropdownClass = "hidden";
     }
 
     return (
@@ -639,6 +655,18 @@ function OwnMaskPage(props) {
                         <ImageButton image={kn95MaskImage} desc="KN95 Mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
+            </div>
+            <div className={dropdownClass}>
+                <div className="info-dropdown-btn">
+                    <button className="btn btn-outline-secondary" onClick={toggle}>What is a {props.selection}?</button>
+                </div>
+                <Collapse isOpen={isOpen}>
+                    <Card>
+                        <CardBody>
+                            {maskInfo}
+                        </CardBody>
+                    </Card>
+                </Collapse>
             </div>
             <div className="fixed-bottom">
                 <div className="prev-next-btns">
