@@ -96,6 +96,11 @@
     margin-right: 0;
 }
 
+.next-btn {
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
 .prev-next-btns {
     display: flex;
     justify-content: space-around;
@@ -197,6 +202,11 @@
     margin-top: .5rem;
     margin-bottom: .5rem;
     text-align: center;
+}
+
+.percent-form {
+    text-align: center;
+    margin-top: 1rem;
 }
 
 .hidden {

@@ -749,7 +749,7 @@ function OthersMaskPage(props) {
                 </div>
             </div>
 
-            <Form id="others-mask-form" onSubmit={props.formSubmitCallback}>            
+            <Form className="percent-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
                 <FormGroup>
                     <Label>
                         Proportion of others wearing masks:
