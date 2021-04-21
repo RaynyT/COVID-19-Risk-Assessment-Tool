@@ -41,7 +41,7 @@
 
 .vertical-center {
     min-height: 100%;
-  
+    min-height: 100vh;
     display: flex;
     align-items: center;
 }
@@ -57,6 +57,8 @@
 
 .main-container {
     padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -72,6 +74,12 @@
         border-style: solid;
         border-color: #ACB0BC;
         border-radius: 20px;
+    }
+
+    .vertical-center {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
     }
 }
 
