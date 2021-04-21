@@ -144,8 +144,10 @@ export default function Calculator(props) {
     }
 
     return (
-        <div>
-            {pageScreen}
+        <div className="outer">
+            <div className="calc-main-container">
+                {pageScreen}
+            </div>            
         </div>
     );
 }
@@ -282,7 +284,7 @@ function LocationPage(props) {
                     </Input>
                 </Label>
             </FormGroup>
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -346,7 +348,7 @@ function WorkStatusPage(props) {
                 </div>
             </div>
 
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -427,7 +429,7 @@ function PresetPage(props) {
             <div className="horizontal-center build-own-btn">
                 <Button color="outline-primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
             </div>
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -473,7 +475,7 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -537,7 +539,7 @@ function SocialDistancePage(props) {
                 </div>
             </div>
 
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -594,7 +596,7 @@ function TalkingPage(props) {
                 </div>
             </div>
 
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -684,7 +686,7 @@ function OwnMaskPage(props) {
                     </Card>
                 </Collapse>
             </div>
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -757,7 +759,7 @@ function OthersMaskPage(props) {
                 </FormGroup>
             </Form>
             
-            <div className="fixed-bottom">
+            <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
