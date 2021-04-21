@@ -96,7 +96,7 @@ const tblActivity = new Schema({
     Duration: { type: { hours: Number, minutes: Number }, required: true },
     GivenName: { type: String },
     RiskResult: { type: Decimal128, required: true},
-    PreviousSurveyID: { type: Schema.Types.ObjectId }
+    PreviousSurveyID: { type: Number }
 })
 
 module.exports = { forumSchema, messageSchema }
