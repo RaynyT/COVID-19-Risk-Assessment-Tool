@@ -63,10 +63,12 @@ export default function Tutorial() {
 function StepOne(props) {
     return (
         <div>
-            <h1 className="step-title">Demographic</h1>
-            <h2 className="sub-heading-text">Enter your basic demographic information</h2>
-            <img className="tutorial-img" src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
-            <div className="nav-controls">
+            <div className="step-content">
+                <h1 className="step-title">Demographic</h1>
+                <h2 className="sub-heading-text">Enter your basic demographic information</h2>
+                <img className="tutorial-img" src={stepOneImage} alt="Drawing of a person sitting on a location pin"/>
+            </div>
+            <div className="tutorial-nav-controls">
                 <div className="prev-next-btns">
                     <Link to="/" className="btn hidden" aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2"/>
@@ -91,7 +93,7 @@ function StepTwo(props) {
             <h1 className="step-title">Activity</h1>
             <h2 className="sub-heading-text">Enter information about one activity you are planning</h2>
             <img className="tutorial-img" src={stepTwoImage} alt="People enjoying a day outside by walking or skating"/>
-            <div className="nav-controls">
+            <div className="tutorial-nav-controls">
                 <div className="prev-next-btns">
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2"/>
@@ -115,7 +117,7 @@ function StepThree(props) {
             <h1 className="step-title">Get your risk result!</h1>
             <h2 className="sub-heading-text">A risk assessment for your activity, local demographic statistics, and risk mitigation suggestions will be available</h2>
             <img className="tutorial-img" src={stepThreeImage} alt="Drawing of people holding various graphs and charts"/>
-            <div className="nav-controls">
+            <div className="tutorial-nav-controls">
                 <div className="prev-next-btns">
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
@@ -140,7 +142,7 @@ function StepFour(props) {
             <h1 className="step-title">View Advice & Reduce Risk</h1>
             <h2 className="sub-heading-text">You are able lower your risk by implementing our suggestions and adjusting your activity </h2>
             <img className="tutorial-img" src={stepFourImage} alt="Graphic of a clipboard with checkboxes"/>
-            <div className="nav-controls">
+            <div className="tutorial-nav-controls">
                 <div className="prev-next-btns">
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
