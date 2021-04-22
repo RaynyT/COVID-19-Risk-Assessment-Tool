@@ -54,14 +54,15 @@ CREATE TABLE IF NOT EXISTS tblWorkStatus (
 
 CREATE TABLE IF NOT EXISTS tblUser (
     UserID INT NOT NULL auto_increment PRIMARY KEY,
-    CookieHash CHAR(128) NOT NULL UNIQUE -- Not sure this is the correct type?
+    CookieHash CHAR(128) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS tblUserStatusDate (
+CREATE TABLE IF NOT EXISTS tblUserCountyStatusDate (
     UserStatusDateID INT NOT NULL auto_increment PRIMARY KEY,
     UserID INT FOREIGN KEY REFERENCES tblUser(UserID),
     CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
-    WorkStatusID INT FOREIGN KEY REFERENCES tblWorkStatus(WorkStatusID)
+    WorkStatusID INT FOREIGN KEY REFERENCES tblWorkStatus(WorkStatusID),
+    UserUpdateDate DATE NOT NULL
 );
 
 -- Need to figure out Activity Types
@@ -82,36 +83,43 @@ CREATE TABLE IF NOT EXISTS tblVolume (
 INSERT INTO tblVolume (RiskCoefficient, VolumeName)
 VALUES(0.2, "Speaking Minimally"), (1.0, "Speaking Normally"), (5.0, "Speaking Loudly / Shouting");
 
+-- Inserts Done
 CREATE TABLE IF NOT EXISTS tblInOut (
     InOutID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
     InOutName VARCHAR(50) NOT NULL
 );
 
--- Inserts Done
 INSERT INTO tblInOut (RiskCoefficient, InOutName)
 VALUES(0.05, "Outdoors"), (1.0, "Indoors");
 
-CREATE TABLE IF NOT EXISTS tblMask (
-    MaskID INT NOT NULL auto_increment PRIMARY KEY,
+-- For survey taker / Inserts Done
+CREATE TABLE IF NOT EXISTS tblSelfMask (
+    SelfMaskID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    MaskName VARCHAR(50) NOT NULL
+    SelfMaskName VARCHAR(50) NOT NULL
 );
 
--- On risk model, thin cotton mask = unmasked = 1, should we use 2/3 instead for a thick cotton mask?
--- I remember why we had two seperate tables for others masks and self masks, the coefficients are different
--- Should we implement the Risk Coefficient Table just for the mask portion and call it MaskRiskCoefficient?
-INSERT INTO tblMask (RiskCoefficient, MaskName)
+INSERT INTO tblSelfMask (RiskCoefficient, SelfMaskName)
 VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"), (1.0, "No Mask") -- Self
+
+-- For other people attending activity / Inserts Done
+CREATE TABLE IF NOT EXISTS tblOtherMasks (
+    OtherMasksID INT NOT NULL auto_increment PRIMARY KEY,
+    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
+    OtherMasksName VARCHAR(50) NOT NULL
+);
+
+INSERT INTO tblOtherMasks (RiskCoefficient, OtherMasksName)
 VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask", ), (1.0, "No Mask") -- Others
 
+-- Inserts Done
 CREATE TABLE IF NOT EXISTS tblDistance (
     DistanceID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
     DistanceName VARCHAR(50) NOT NULL
 );
 
--- Still need to figure out distribution, I think this is okay?
 INSERT INTO tblDistance (RiskCoefficient, VolumeName)
 VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet")
 
@@ -124,8 +132,8 @@ CREATE TABLE IF NOT EXISTS tblActivity (
     InOutID INT FOREIGN KEY REFERENCES tblInOut(InOutID),
     CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
     DistanceID INT FOREIGN KEY REFERENCES tblDistance(DistanceID),
-    SelfMaskID INT FOREIGN KEY REFERENCES tblMask(MaskID),
-    OthersMasksID INT FOREIGN KEY REFERENCES tblMask(MaskID),
+    SelfMaskID INT FOREIGN KEY REFERENCES tblSelfMask(SelfMaskID),
+    OtherMasksID INT FOREIGN KEY REFERENCES tblOtherMasks(OtherMasksID),
     DateTimeCreated DATETIME NOT NULL,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
