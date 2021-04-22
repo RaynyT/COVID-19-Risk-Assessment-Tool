@@ -8,6 +8,8 @@ import volumeIcon from '../images/volume-vector.svg'
 
 import "./Results.css"
 import { Button } from 'reactstrap'
+import { Link } from 'react-router-dom';
+
 
 
 export default function Results(props){
@@ -46,13 +48,29 @@ export default function Results(props){
 
     let riskScore = calculateRiskScore();
 
+    let screen = <ErrorScreen />;
+    
+    if (props.surveyCompleted) {
+        screen =<ResultsScreen {...props} riskScore={riskScore}/>;
+    }
+
     return (
         <div className="outer">
             <div className="results-main-container">
-                <ResultsScreen {...props} riskScore={riskScore}/>
+                {screen}
             </div>
         </div>
     );
+}
+
+function ErrorScreen() {
+    return (
+        <div className="alert alert-warning">
+            <p className="error-text">It seems you've navigated to the results page without calculating your risk first</p>
+            <p className="error-text">To calculate your risk, head here: <Link to="/calculator">Calculator</Link> </p>
+            <p className="error-text">If you have completed the survey already, then this is an error on our end and we apologize for the inconvenience</p>
+        </div>
+    )
 }
 
 function ResultsScreen(props) {
