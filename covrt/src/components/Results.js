@@ -48,6 +48,15 @@ export default function Results(props){
 
     let riskScore = calculateRiskScore();
 
+    if (isNaN(riskScore)) {
+        console.log("Error:")
+        console.log("Basic info: ", props.activityBasicInfo);
+        console.log("Distancing: ", props.distancing);
+        console.log("Volume: ", props.speakingVolume);
+        console.log("Own Mask: ", props.ownMask);
+        console.log("Others Mask: ", props.othersMask);
+    }
+
     let screen = <ErrorScreen />;
     
     if (props.surveyCompleted) {
