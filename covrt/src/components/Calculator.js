@@ -57,10 +57,11 @@ export default function Calculator(props) {
         handleNextClick();
     }
 
-    // Submit mask page and navigate to /results
+    // Submit mask page, set survey completed, navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskPercent(event.target.percent.value);
+        props.updateSurveryCompleted(true);
         props.history.push('/results');
     }
 
