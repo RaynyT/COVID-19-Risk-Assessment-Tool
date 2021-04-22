@@ -371,8 +371,8 @@ function PresetPage(props) {
             activityBasicInfo: { setting: "Indoor", attendees: null, hours: 1,  minutes: 0 },
             distancing: "Less than 6 feet",
             volume: "Speaking normally",
-            ownMask: "No mask",
-            othersMask: { type: "No mask", percent: 100 }
+            ownMask: "No Mask",
+            othersMask: { type: "No Mask", percent: 100 }
         }
     }
 
