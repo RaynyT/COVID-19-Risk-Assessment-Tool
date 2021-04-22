@@ -1,3 +1,4 @@
+-- MySQL
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS tblState (
     StateID INT NOT NULL auto_increment PRIMARY KEY,
@@ -102,27 +103,9 @@ CREATE TABLE IF NOT EXISTS tblMask (
 -- On risk model, thin cotton mask = unmasked = 1, should we use 2/3 instead for a thick cotton mask?
 -- I remember why we had two seperate tables for others masks and self masks, the coefficients are different
 -- Should we implement the Risk Coefficient Table just for the mask portion and call it MaskRiskCoefficient?
-INSERT INTO tblMask (RiskCoefficient, MaskName, MaskDescr)
-VALUES(0.3333333333, "KN95 Mask", "KN95 masks provide 95% protection against all particles that are greater 
-            than 0.3 µm in diameter (bacteria, viruses, pollution particles, fine particles, dust, smog, pollen, 
-            etc.) KN95 masks have a 3D foldable design, earloops, nose bridge/nosepiece, and provide excellent 
-            fitting and sealing."), (0.5, "Surgical Mask", "A single-use filtration device made of fabric and 
-            wornover the nose and mouth of surgical staff to prevent contamination of the operative field and 
-            to protect the wearer from splashes and splatter."), (1.0, "Cotton Mask", "A cloth face mask is a 
-            mask made of common textiles, usually cotton, worn over the mouth and nose. ... Because they are 
-            less effective than N95 masks, surgical masks, or physical distancing in protecting the wearer 
-            against viruses, they are not considered to be personal protective equipment by public health 
-            agencies."), (1.0, "No Mask", "No mask is being worn and no filtration is taking place.") -- Self
-VALUES(0.1666666666, "KN95 Mask", "KN95 masks provide 95% protection against all particles that are greater 
-            than 0.3 µm in diameter (bacteria, viruses, pollution particles, fine particles, dust, smog, pollen, 
-            etc.) KN95 masks have a 3D foldable design, earloops, nose bridge/nosepiece, and provide excellent 
-            fitting and sealing."), (0.25, "Surgical Mask", "A single-use filtration device made of fabric and 
-            wornover the nose and mouth of surgical staff to prevent contamination of the operative field and 
-            to protect the wearer from splashes and splatter."), (0.5, "Cotton Mask", "A cloth face mask is a 
-            mask made of common textiles, usually cotton, worn over the mouth and nose. ... Because they are 
-            less effective than N95 masks, surgical masks, or physical distancing in protecting the wearer 
-            against viruses, they are not considered to be personal protective equipment by public health 
-            agencies."), (1.0, "No Mask", "No mask is being worn and no filtration is taking place.") -- Others
+INSERT INTO tblMask (RiskCoefficient, MaskName)
+VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"), (1.0, "No Mask") -- Self
+VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask", ), (1.0, "No Mask") -- Others
 
 CREATE TABLE IF NOT EXISTS tblDistance (
     DistanceID INT NOT NULL auto_increment PRIMARY KEY,
