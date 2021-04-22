@@ -11,6 +11,8 @@ import Results from './components/Results.js'
 
 function App() {
 
+	const[surveyCompleted, setSurveyCompleted] = useState(false);
+
 	// Selections on the risk survey are saved as site-wide state variables as they are relevant
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
@@ -82,6 +84,10 @@ function App() {
 	const updateOthersMaskPercent = (percent) => {
 		setOthersMask({type: othersMask.type, percent: percent})
 	}
+
+	const updateSurveryCompleted = (completed) => {
+		setSurveyCompleted(completed);
+	}
 	
 	
 	let stateAndCallbacks = {
@@ -102,7 +108,9 @@ function App() {
 		updateOwnMask: updateOwnMask,
 		othersMask: othersMask,
 		updateOthersMaskType: updateOthersMaskType,
-		updateOthersMaskPercent: updateOthersMaskPercent
+		updateOthersMaskPercent: updateOthersMaskPercent,
+		surveyCompleted: surveyCompleted,
+		updateSurveryCompleted: updateSurveryCompleted		
 	}
 
 	return (
