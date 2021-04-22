@@ -27,33 +27,34 @@ CREATE TABLE IF NOT EXISTS tblCounty (
     StateName VARCHAR(50) NOT NULL UNIQUE
 );
 
+/*
 CREATE TABLE IF NOT EXISTS tblZipCode (
     ZipCodeID INT NOT NULL auto_increment PRIMARY KEY,
     CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
     ZipCode CHAR(5) NOT NULL
 );
+*/
 
 CREATE TABLE IF NOT EXISTS tblCountyRate (
     CountyRateID INT NOT NULL auto_increment PRIMARY KEY,
-    CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
+    CountyID INT FOREIGN KEY REFERENCES tbCounty(CountyID),
     Uploaded DATETIME NOT NULL,
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
-    NumNewCasesLastWeek DECIMAL(20, 10) NOT NULL,
-    NumNewCasesPrevToLastWeek DECIMAL(20, 10) NOT NULL
+    NumNewCasesLastWeek INT NOT NULL,
+    NumNewCasesPrevToLastWeek INT NOT NULL
 );
 
 -- Need to talk with Iris
 CREATE TABLE IF NOT EXISTS tblWorkStatus (
     WorkStatusID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    WorkStatusName VARCHAR(50) NOT NULL UNIQUE,
-    WorkStatusDescr VARCHAR(100) NULL
+    WorkStatusName VARCHAR(50) NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS tblUser (
     UserID INT NOT NULL auto_increment PRIMARY KEY,
-    CookieHash CHAR(128) NOT NULL UNIQUE
+    CookieHash CHAR(128) NOT NULL UNIQUE -- Not sure this is the correct type?
 );
 
 CREATE TABLE IF NOT EXISTS tblUserStatusDate (
@@ -75,8 +76,7 @@ CREATE TABLE IF NOT EXISTS tblActivityType (
 CREATE TABLE IF NOT EXISTS tblVolume (
     VolumeID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    VolumeName VARCHAR(50) NOT NULL,
-    VolumeDescr VARCHAR(500) NULL
+    VolumeName VARCHAR(50) NOT NULL
 );
 
 INSERT INTO tblVolume (RiskCoefficient, VolumeName)
@@ -85,8 +85,7 @@ VALUES(0.2, "Speaking Minimally"), (1.0, "Speaking Normally"), (5.0, "Speaking L
 CREATE TABLE IF NOT EXISTS tblInOut (
     InOutID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    InOutName VARCHAR(50) NOT NULL,
-    InOutDescr VARCHAR(500) NULL
+    InOutName VARCHAR(50) NOT NULL
 );
 
 -- Inserts Done
@@ -96,8 +95,7 @@ VALUES(0.05, "Outdoors"), (1.0, "Indoors");
 CREATE TABLE IF NOT EXISTS tblMask (
     MaskID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    MaskName VARCHAR(50) NOT NULL,
-    MaskDescr VARCHAR(500) NOT NULL
+    MaskName VARCHAR(50) NOT NULL
 );
 
 -- On risk model, thin cotton mask = unmasked = 1, should we use 2/3 instead for a thick cotton mask?
@@ -110,8 +108,7 @@ VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask",
 CREATE TABLE IF NOT EXISTS tblDistance (
     DistanceID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    DistanceName VARCHAR(50) NOT NULL,
-    DistanceDescr VARCHAR(500) NULL
+    DistanceName VARCHAR(50) NOT NULL
 );
 
 -- Still need to figure out distribution, I think this is okay?
@@ -132,7 +129,8 @@ CREATE TABLE IF NOT EXISTS tblActivity (
     DateTimeCreated DATETIME NOT NULL,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
-    Duration INT NOT NULL, -- Stored in minutes
+    DurationHours INT NOT NULL,
+    DurationMinutes INT NOT NULL,
     RiskResult DECIMAL(20, 10) NOT NULL,
     GivenName VARCHAR(50) NULL,
     PreviousSurveyID INT NULL
