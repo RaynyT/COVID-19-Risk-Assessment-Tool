@@ -1,5 +1,6 @@
 import riskMeterImage from '../images/risk-meter.svg'
 import houseIcon from '../images/house-vector.svg'
+import sunIcon from '../images/sun-vector.svg'
 import clockIcon from '../images/clock-vector.svg'
 import peopleIcon from '../images/people-icon-vector.svg'
 import rulerIcon from '../images/ruler-vector.svg'
@@ -43,6 +44,12 @@ export default function Results(props){
         );
     }
 
+    // Set outdoor/indoor icon
+    let activitySettingIcon = houseIcon;
+    if (props.activityBasicInfo.setting === "Outdoor") {
+        activitySettingIcon = sunIcon;
+    }
+
 
     // This is the stupidest hacky way to fix the text overflowing from the button
     // But since this is the only string of text that does it, I'm using this for now
@@ -78,7 +85,7 @@ export default function Results(props){
 
                         <div className="container">
                             <div className="row img-card-row">
-                                <ImageCard image={houseIcon} desc={props.activityBasicInfo.setting} alt="Test" />
+                                <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
                                 <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes +"m"} alt="Clock icon" />
                                 <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
                                 <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
@@ -90,24 +97,14 @@ export default function Results(props){
                                 <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
                             </div>
                         </div>
-
-                        {/*
-                        <ul className="selection-list">
-                            <li className="selection-list-item">Activity Environment: <span className="blue">{props.activityBasicInfo.setting}</span></li>
-                            <li className="selection-list-item">Duration: <span className="blue">{props.activityBasicInfo.hours}h {props.activityBasicInfo.minutes}m</span></li>
-                            <li className="selection-list-item">Number of People: <span className="blue">{props.activityBasicInfo.attendees}</span></li>
-                            <li className="selection-list-item">Physical Distancing: <span className="blue">{props.distancing}</span></li>
-                            <li className="selection-list-item">Speaking Volume: <span className="blue">{props.speakingVolume}</span></li>
-                            <li className="selection-list-item">Your Mask: <span className="blue">{props.ownMask}</span></li>
-                            <li className="selection-list-item">Others' Mask: <span className="blue">{props.othersMask.type}</span></li>
-                            <li className="selection-list-item">Number of Others Wearing Masks: <span className="blue">{Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees)}</span></li>
-                        </ul>
-                        */}
                         <h3 className="list-title">Demographic</h3>
                         <ul className="selection-list">
-                            <li className="selection-list-item">State: <span className="blue">{props.location.state}</span></li>
-                            <li className="selection-list-item">County: <span className="blue">{props.location.county}</span></li>
-                            <li className="selection-list-item">Work Status: <span className="blue">{props.workStatus}</span></li>
+                            <li className="selection-list-item">{props.location.state} state</li>
+                            <li className="selection-list-item">{props.location.county} county</li>
+                        </ul>
+                        <h3 className="list-title">Work Status</h3>
+                        <ul className="selection-list">
+                            <li className="selection-list-item">{props.workStatus}</li>
                         </ul>
                     </div>
                 </div>
