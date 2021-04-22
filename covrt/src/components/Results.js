@@ -44,12 +44,24 @@ export default function Results(props){
         );
     }
 
+    let riskScore = calculateRiskScore();
+
+    return (
+        <div className="outer">
+            <div className="results-main-container">
+                <ResultsScreen {...props} riskScore={riskScore}/>
+            </div>
+        </div>
+    );
+}
+
+function ResultsScreen(props) {
+
     // Set outdoor/indoor icon
     let activitySettingIcon = houseIcon;
     if (props.activityBasicInfo.setting === "Outdoor") {
         activitySettingIcon = sunIcon;
     }
-
 
     // This is the stupidest hacky way to fix the text overflowing from the button
     // But since this is the only string of text that does it, I'm using this for now
@@ -61,7 +73,6 @@ export default function Results(props){
 
     // Another stupid edge case I felt like catching
     let attendeesText = props.activityBasicInfo.attendees
-    console.log(attendeesText);
     if (attendeesText >= 999999999) {
         attendeesText = "100000000+";
     }
@@ -71,49 +82,48 @@ export default function Results(props){
         maskAmountText = "100000000+";
     }
 
-    return (
-        <div className="outer">
-            <div className="results-main-container">
-                <div>
-                    <h1 className="risk-title">Risk Summary</h1>
-                    <h2 className="risk-level-text">Risk score: {calculateRiskScore()}</h2>
-                    <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
-                </div>
-                <div className="horizontal-center">
-                    <div>
-                        <h3 className="list-title">Activity</h3>
 
-                        <div className="container">
-                            <div className="row img-card-row">
-                                <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
-                                <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes +"m"} alt="Clock icon" />
-                                <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
-                                <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
-                            </div>
-                            <div className="row img-card-row">
-                                <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
-                                <ImageCard noImage desc={"I will wear: " + props.ownMask} alt="none" />
-                                <ImageCard noImage desc={"Others wear: " + props.othersMask.type} alt="none" />
-                                <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
-                            </div>
+    return (
+        <div>
+            <div>
+                <h1 className="risk-title">Risk Summary</h1>
+                <h2 className="risk-level-text">Risk score: {props.riskScore}</h2>
+                <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
+            </div>
+            <div className="horizontal-center">
+                <div>
+                    <h3 className="list-title">Activity</h3>
+
+                    <div className="container">
+                        <div className="row img-card-row">
+                            <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
+                            <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes + "m"} alt="Clock icon" />
+                            <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
+                            <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
                         </div>
-                        <h3 className="list-title">Demographic</h3>
-                        <ul className="selection-list">
-                            <li className="selection-list-item">{props.location.state} state</li>
-                            <li className="selection-list-item">{props.location.county} county</li>
-                        </ul>
-                        <h3 className="list-title">Work Status</h3>
-                        <ul className="selection-list">
-                            <li className="selection-list-item">{props.workStatus}</li>
-                        </ul>
+                        <div className="row img-card-row">
+                            <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
+                            <ImageCard noImage desc={"I will wear: " + props.ownMask} alt="none" />
+                            <ImageCard noImage desc={"Others wear: " + props.othersMask.type} alt="none" />
+                            <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
+                        </div>
                     </div>
-                </div>
-                <div className="horizontal-center">
-                    <Button>How is my risk calculated?</Button>
+                    <h3 className="list-title">Demographic</h3>
+                    <ul className="selection-list">
+                        <li className="selection-list-item">{props.location.state} state</li>
+                        <li className="selection-list-item">{props.location.county} county</li>
+                    </ul>
+                    <h3 className="list-title">Work Status</h3>
+                    <ul className="selection-list">
+                        <li className="selection-list-item">{props.workStatus}</li>
+                    </ul>
                 </div>
             </div>
+            <div className="horizontal-center">
+                <Button>How is my risk calculated?</Button>
+            </div>
         </div>
-    );
+    )
 }
 
 function ImageCard(props) {
