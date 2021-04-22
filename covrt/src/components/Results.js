@@ -9,6 +9,8 @@ import volumeIcon from '../images/volume-vector.svg'
 import "./Results.css"
 import { Button } from 'reactstrap'
 import { Link } from 'react-router-dom';
+import { InfoIcon } from '@primer/octicons-react';
+import { useState } from 'react'
 
 
 
@@ -38,24 +40,32 @@ export default function Results(props){
 
     const calculateRiskScore = () => {
 
-        return (
+        let score = (
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
             (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
             numericValues[props.ownMask] * (numericValues[props.othersMask.type] * props.othersMask.percent) *
             numericValues[props.distancing] * numericValues[props.speakingVolume]
         );
+
+        // if (isNaN(score)) {
+        //     console.log("Error with calc:")
+        //     console.log(score);
+        //     console.log("Basic info: ", props.activityBasicInfo);
+        //     console.log("Distancing: ", props.distancing);
+        //     console.log("Volume: ", props.speakingVolume);
+        //     console.log("Own Mask: ", props.ownMask);
+        //     console.log("Others Mask: ", props.othersMask);
+
+        //     console.log("Setting value: ", numericValues[props.activityBasicInfo.setting]);
+        //     console.log("Mask values: ",  numericValues[props.ownMask], numericValues[props.othersMask.type]);
+        //     console.log("Distancing value: ", numericValues[props.distancing]);
+        //     console.log("Volume value: ", numericValues[props.speakingVolume]  )
+        // }
+
+        return score;
     }
 
-    let riskScore = calculateRiskScore();
-
-    if (isNaN(riskScore)) {
-        console.log("Error:")
-        console.log("Basic info: ", props.activityBasicInfo);
-        console.log("Distancing: ", props.distancing);
-        console.log("Volume: ", props.speakingVolume);
-        console.log("Own Mask: ", props.ownMask);
-        console.log("Others Mask: ", props.othersMask);
-    }
+    const [riskScore, setRiskScore] = useState(calculateRiskScore());
 
     let screen = <ErrorScreen />;
     
