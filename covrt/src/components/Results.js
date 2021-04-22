@@ -38,35 +38,37 @@ export default function Results(props){
     }
 
     return (
-        <div className="container">
-            <div>
-                <h1 className="risk-title">Risk Summary</h1>
-                <h2 className="risk-level-text">Risk score: {calculateRiskScore()}</h2>
-                <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
-            </div>
-            <div className="horizontal-center">
+        <div className="outer">
+            <div className="results-main-container">
                 <div>
-                    <h3 className="list-title">Activity</h3>
-                    <ul className="selection-list">
-                        <li className="selection-list-item">Activity Environment: <span className="blue">{props.activityBasicInfo.setting}</span></li>
-                        <li className="selection-list-item">Duration: <span className="blue">{props.activityBasicInfo.hours}h {props.activityBasicInfo.minutes}m</span></li>
-                        <li className="selection-list-item">Number of People: <span className="blue">{props.activityBasicInfo.attendees}</span></li>
-                        <li className="selection-list-item">Physical Distancing: <span className="blue">{props.distancing}</span></li>
-                        <li className="selection-list-item">Speaking Volume: <span className="blue">{props.speakingVolume}</span></li>
-                        <li className="selection-list-item">Your Mask: <span className="blue">{props.ownMask}</span></li>
-                        <li className="selection-list-item">Others' Mask: <span className="blue">{props.othersMask.type}</span></li>
-                        <li className="selection-list-item">Number of Others Wearing Masks: <span className="blue">{Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees)}</span></li>
-                    </ul>
-                    <h3 className="list-title">Demographic</h3>
-                    <ul className="selection-list">
-                        <li className="selection-list-item">State: <span className="blue">{props.location.state}</span></li>
-                        <li className="selection-list-item">County: <span className="blue">{props.location.county}</span></li>
-                        <li className="selection-list-item">Work Status: <span className="blue">{props.workStatus}</span></li>
-                    </ul>
+                    <h1 className="risk-title">Risk Summary</h1>
+                    <h2 className="risk-level-text">Risk score: {calculateRiskScore()}</h2>
+                    <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
                 </div>
-            </div>
-            <div className="horizontal-center">
-                <Button>How is my risk calculated?</Button>
+                <div className="horizontal-center">
+                    <div>
+                        <h3 className="list-title">Activity</h3>
+                        <ul className="selection-list">
+                            <li className="selection-list-item">Activity Environment: <span className="blue">{props.activityBasicInfo.setting}</span></li>
+                            <li className="selection-list-item">Duration: <span className="blue">{props.activityBasicInfo.hours}h {props.activityBasicInfo.minutes}m</span></li>
+                            <li className="selection-list-item">Number of People: <span className="blue">{props.activityBasicInfo.attendees}</span></li>
+                            <li className="selection-list-item">Physical Distancing: <span className="blue">{props.distancing}</span></li>
+                            <li className="selection-list-item">Speaking Volume: <span className="blue">{props.speakingVolume}</span></li>
+                            <li className="selection-list-item">Your Mask: <span className="blue">{props.ownMask}</span></li>
+                            <li className="selection-list-item">Others' Mask: <span className="blue">{props.othersMask.type}</span></li>
+                            <li className="selection-list-item">Number of Others Wearing Masks: <span className="blue">{Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees)}</span></li>
+                        </ul>
+                        <h3 className="list-title">Demographic</h3>
+                        <ul className="selection-list">
+                            <li className="selection-list-item">State: <span className="blue">{props.location.state}</span></li>
+                            <li className="selection-list-item">County: <span className="blue">{props.location.county}</span></li>
+                            <li className="selection-list-item">Work Status: <span className="blue">{props.workStatus}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="horizontal-center">
+                    <Button>How is my risk calculated?</Button>
+                </div>
             </div>
         </div>
     );

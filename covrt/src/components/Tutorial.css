@@ -44,8 +44,12 @@
     width: 100%;
 }
 
-.nav-controls {
+.tutorial-nav-controls {
     margin-bottom: 3rem;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
 }
 
 .prev-next-btns {
@@ -71,4 +75,40 @@
 
 .hidden {
     visibility: hidden;
+}
+
+.tutorial-main-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.step-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+
+    .outer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .tutorial-main-container{
+        width: 411px;
+        height: 731px;
+        border-style: solid;
+        border-color: #ACB0BC;
+        border-radius: 20px;
+        position: relative;
+    }
+
+    .tutorial-nav-controls {
+        margin-bottom: 3rem;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+    }
 }
