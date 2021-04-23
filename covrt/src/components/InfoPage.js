@@ -1,4 +1,5 @@
 import './InfoPage.css'
+
 import { Collapse, Card, CardBody} from 'reactstrap'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { useState } from 'react';
