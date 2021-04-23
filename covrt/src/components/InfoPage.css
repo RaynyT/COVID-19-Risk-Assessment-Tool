@@ -1,0 +1,56 @@
+.info-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+}
+
+.info-main-container {
+    padding: 1.5rem;
+}
+
+.info-hr {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.dropdown-btn {
+    border: none;
+    padding: 0;
+    background-color: inherit;
+    color: #4A7CE2;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+    display: flex;
+}
+
+.chevron-container {
+    margin-right: 4px;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
+}
+
+
+@media (min-width: 768px) {
+
+    .outer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .info-main-container{
+        width: 411px;
+        min-height: 731px;
+        border-style: solid;
+        border-color: #ACB0BC;
+        border-radius: 20px;
+
+        padding-top: 2rem;
+    }
+}

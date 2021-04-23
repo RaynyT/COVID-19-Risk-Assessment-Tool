@@ -1,10 +1,11 @@
+import './Landing.css';
 
 import moment from 'moment';
 import { useState } from 'react';
-import './Landing.css';
-import finishLine from '../images/finish-line.svg'
 import { Link } from 'react-router-dom';
+import { ChevronRightIcon} from '@primer/octicons-react';
 
+import finishLine from '../images/finish-line.svg'
 import logoImage from '../images/covidAwareLogoNew.svg';
 
 export default function Landing() {
@@ -43,6 +44,9 @@ function Splash(props) {
                     <h1 className="blue landing-text">since the USA's first COVID-19 case...</h1>
                     <img src={finishLine} alt="Runner crossing finsih line" className="runner-img"/>
                     <h1 className="blue landing-text large-text-shadow">Why catch it now?</h1>
+                    <div className="blue splash-chevron">
+                        <ChevronRightIcon size={50} />
+                    </div>
                 </div>
             </div>
         </div>

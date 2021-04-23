@@ -55,6 +55,10 @@
     margin-top: 1rem;
 }
 
+.splash-chevron {
+    text-align: right;
+}
+
 .main-container {
     padding-top: 2rem;
     padding-left: 1rem;
