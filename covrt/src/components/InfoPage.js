@@ -2,6 +2,7 @@ import './InfoPage.css'
 import { Collapse, Card, CardBody} from 'reactstrap'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function InfoPage() {
 
@@ -15,6 +16,11 @@ export default function InfoPage() {
                     <Dropdown title="What is CovidAware?" body="Test"/>
                     <Dropdown title="What is CovidAware?" body="Test"/>
                     <Dropdown title="What is CovidAware?" body="Test"/>
+                </div>
+                <div className="horizontal-center">
+                    <Link to="/contact-us" className="btn btn-outline-primary">
+                        More questions? Contact us
+                    </Link>
                 </div>
             </div>
         </div>
@@ -32,11 +38,11 @@ function Dropdown(props) {
     return (
         <div>
             <button className="dropdown-btn" onClick={toggle}>
-                <div>
-                {isOpen
-                    ? <ChevronUpIcon size={24} />
-                    : <ChevronDownIcon size={24} />
-                }
+                <div className="chevron-container">
+                    {isOpen
+                        ? <ChevronUpIcon size={24} />
+                        : <ChevronDownIcon size={24} />
+                    }
                 </div>
                 {props.title}
             </button>

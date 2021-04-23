@@ -27,8 +27,13 @@
     display: flex;
 }
 
-.dropdown-btn-text {
-    text-align: left;
+.chevron-container {
+    margin-right: 4px;
+}
+
+.horizontal-center{
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -41,7 +46,7 @@
 
     .info-main-container{
         width: 411px;
-        height: 731px;
+        min-height: 731px;
         border-style: solid;
         border-color: #ACB0BC;
         border-radius: 20px;
