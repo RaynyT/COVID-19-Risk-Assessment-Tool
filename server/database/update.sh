@@ -1,5 +1,5 @@
-docker pull covidaware/radb
-docker rm -f radatabase
+sudo docker pull covidaware/radb
+sudo docker rm -f radatabase
 
 sudo -E docker run \
     -d \
