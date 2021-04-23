@@ -1,0 +1,28 @@
+.info-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
+.info-main-container {
+    padding: 1.5rem;
+}
+
+
+@media (min-width: 768px) {
+
+    .outer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .info-main-container{
+        width: 411px;
+        height: 731px;
+        border-style: solid;
+        border-color: #ACB0BC;
+        border-radius: 20px;
+
+        padding-top: 2rem;
+    }
+}
