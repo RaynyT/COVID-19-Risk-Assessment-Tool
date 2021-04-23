@@ -8,6 +8,7 @@ import Tutorial from './components/Tutorial.js';
 import InfoPage from './components/InfoPage.js';
 import Calculator from './components/Calculator.js';
 import Results from './components/Results.js'
+import ContactUs from './components/ContactUs';
 
 function App() {
 
@@ -120,6 +121,7 @@ function App() {
 			<Route exact path="/" component={Landing} />
 			<Route path="/get-started" component={Tutorial} />
 			<Route path="/about" component={InfoPage} />
+			<Route path="/contact-us" component={ContactUs} />
 			<Route path="/calculator" render={(routerProps) => (
 				<Calculator {...routerProps} {...stateAndCallbacks} />
 			)} />
