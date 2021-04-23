@@ -23,8 +23,13 @@ VALUES("AL", "Alabama"), ("AK", "Alaska"), ("AZ", "Arizona"), ("AR", "Arkansas")
 
 CREATE TABLE IF NOT EXISTS tblCounty (
     CountyID INT NOT NULL auto_increment PRIMARY KEY,
+    CountyName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tblStateCounty (
+    StateCountyID INT NOT NULL auto_increment PRIMARY KEY,
     StateID INT FOREIGN KEY REFERENCES tblState(StateID),
-    StateName VARCHAR(50) NOT NULL UNIQUE
+    CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID)
 );
 
 /*
@@ -36,33 +41,34 @@ CREATE TABLE IF NOT EXISTS tblZipCode (
 */
 
 CREATE TABLE IF NOT EXISTS tblCountyRate (
-    CountyRateID INT NOT NULL auto_increment PRIMARY KEY,
-    CountyID INT FOREIGN KEY REFERENCES tbCounty(CountyID),
-    Uploaded DATETIME NOT NULL,
+    StateCountyRateID INT NOT NULL auto_increment PRIMARY KEY,
+    StateCountyID INT FOREIGN KEY REFERENCES tblStateCounty(StateCountyID),
+    Uploaded DATE NOT NULL,
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
     NumNewCasesLastWeek INT NOT NULL,
     NumNewCasesPrevToLastWeek INT NOT NULL
 );
 
+/*
 -- Need to talk with Iris
 CREATE TABLE IF NOT EXISTS tblWorkStatus (
     WorkStatusID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
     WorkStatusName VARCHAR(50) NOT NULL UNIQUE
 );
-
+*/
 
 CREATE TABLE IF NOT EXISTS tblUser (
     UserID INT NOT NULL auto_increment PRIMARY KEY,
-    CookieHash CHAR(128) NOT NULL UNIQUE
+    CookieHash VARCHAR(128) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS tblUserCountyStatusDate (
-    UserStatusDateID INT NOT NULL auto_increment PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS tblDemographic (
+    DemographicID INT NOT NULL auto_increment PRIMARY KEY,
     UserID INT FOREIGN KEY REFERENCES tblUser(UserID),
-    CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
-    WorkStatusID INT FOREIGN KEY REFERENCES tblWorkStatus(WorkStatusID),
-    UserUpdateDate DATE NOT NULL
+    StateCountyID INT FOREIGN KEY REFERENCES tblStateCounty(StateCountyID),
+    UserUpdateDate DATE NOT NULL,
+    DemographicScore DECIMAL(20, 10) NOT NULL
 );
 
 -- Need to figure out Activity Types
@@ -77,7 +83,7 @@ CREATE TABLE IF NOT EXISTS tblActivityType (
 CREATE TABLE IF NOT EXISTS tblVolume (
     VolumeID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    VolumeName VARCHAR(50) NOT NULL
+    VolumeName VARCHAR(50) NOT NULL UNIQUE
 );
 
 INSERT INTO tblVolume (RiskCoefficient, VolumeName)
@@ -87,7 +93,7 @@ VALUES(0.2, "Speaking Minimally"), (1.0, "Speaking Normally"), (5.0, "Speaking L
 CREATE TABLE IF NOT EXISTS tblInOut (
     InOutID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    InOutName VARCHAR(50) NOT NULL
+    InOutName VARCHAR(50) NOT NULL UNIQUE
 );
 
 INSERT INTO tblInOut (RiskCoefficient, InOutName)
@@ -97,7 +103,7 @@ VALUES(0.05, "Outdoors"), (1.0, "Indoors");
 CREATE TABLE IF NOT EXISTS tblSelfMask (
     SelfMaskID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    SelfMaskName VARCHAR(50) NOT NULL
+    SelfMaskName VARCHAR(50) NOT NULL UNIQUE
 );
 
 INSERT INTO tblSelfMask (RiskCoefficient, SelfMaskName)
@@ -107,7 +113,7 @@ VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"),
 CREATE TABLE IF NOT EXISTS tblOtherMasks (
     OtherMasksID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    OtherMasksName VARCHAR(50) NOT NULL
+    OtherMasksName VARCHAR(50) NOT NULL UNIQUE
 );
 
 INSERT INTO tblOtherMasks (RiskCoefficient, OtherMasksName)
@@ -117,11 +123,23 @@ VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask",
 CREATE TABLE IF NOT EXISTS tblDistance (
     DistanceID INT NOT NULL auto_increment PRIMARY KEY,
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    DistanceName VARCHAR(50) NOT NULL
+    DistanceName VARCHAR(50) NOT NULL UNIQUE
 );
 
 INSERT INTO tblDistance (RiskCoefficient, VolumeName)
 VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet")
+
+CREATE TABLE IF NOT EXISTS tblVaccineType (
+    VaccineTypeID INT NOT NULL auto_increment PRIMARY KEY,
+    VaccineTypeName VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS tblVaccine (
+    VaccineID INT NOT NULL auto_increment PRIMARY KEY,
+    VaccineTypeID INT FOREIGN KEY REFERENCES tblVaccineType(VaccineTypeID),
+    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
+    DoseNum INT NOT NULL
+);
 
 -- Need to figure out default activities
 CREATE TABLE IF NOT EXISTS tblActivity (
@@ -133,12 +151,14 @@ CREATE TABLE IF NOT EXISTS tblActivity (
     CountyID INT FOREIGN KEY REFERENCES tblCounty(CountyID),
     DistanceID INT FOREIGN KEY REFERENCES tblDistance(DistanceID),
     SelfMaskID INT FOREIGN KEY REFERENCES tblSelfMask(SelfMaskID),
+    VaccineID INT FOREIGN KEY REFERENCES tblVaccine(VaccineID),
     OtherMasksID INT FOREIGN KEY REFERENCES tblOtherMasks(OtherMasksID),
     DateTimeCreated DATETIME NOT NULL,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
     DurationHours INT NOT NULL,
     DurationMinutes INT NOT NULL,
+    WithinTwoWeeks BOOLEAN NOT NULL,
     RiskResult DECIMAL(20, 10) NOT NULL,
     GivenName VARCHAR(50) NULL,
     PreviousSurveyID INT NULL
