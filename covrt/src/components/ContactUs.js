@@ -11,7 +11,7 @@ export default function ContactUs() {
                     <h1 className="contact-heading">Contact Us</h1>
                     <h2 className="contact-email">
                         <MailIcon className="mail-icon"/>
-                        CovidAware@gmail.com
+                        CovidAware.ischool@gmail.com
                     </h2>
                 </div>
             </div>
