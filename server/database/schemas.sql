@@ -1,4 +1,5 @@
 -- MySQL
+
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS tblState (
     StateID INT NOT NULL auto_increment PRIMARY KEY,
@@ -71,13 +72,19 @@ CREATE TABLE IF NOT EXISTS tblDemographic (
     DemographicScore DECIMAL(20, 10) NOT NULL
 );
 
--- Need to figure out Activity Types
+-- Inserts Done
 CREATE TABLE IF NOT EXISTS tblActivityType (
     ActivityTypeID INT NOT NULL auto_increment PRIMARY KEY,
     ActivityTypeName VARCHAR(50) NOT NULL UNIQUE,
     ActivityTypeDescr VARCHAR(500) NULL,
-    InitialActivity BOOLEAN DEFAULT FALSE NOT NULL
+    InitialActivity BOOLEAN NOT NULL
 );
+
+INSERT INTO tblActivityType (ActivityTypeName, ActivityTypeDescr, InitialActivity)
+VALUES("Preset", "Predefined activity with default values with initial survey.", True),
+      ("Preset", "Predefined activity with default values with initial survey.", False),
+      ("Created", "Activity was created by user, it is unique. This is the initial survey.", True),
+      ("Created", "Activity was created by user, it is unique. This is the initial survey.", False);
 
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS tblVolume (
@@ -107,7 +114,7 @@ CREATE TABLE IF NOT EXISTS tblSelfMask (
 );
 
 INSERT INTO tblSelfMask (RiskCoefficient, SelfMaskName)
-VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"), (1.0, "No Mask") -- Self
+VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"), (1.0, "No Mask"); -- Self
 
 -- For other people attending activity / Inserts Done
 CREATE TABLE IF NOT EXISTS tblOtherMasks (
@@ -117,7 +124,7 @@ CREATE TABLE IF NOT EXISTS tblOtherMasks (
 );
 
 INSERT INTO tblOtherMasks (RiskCoefficient, OtherMasksName)
-VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask", ), (1.0, "No Mask") -- Others
+VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask", ), (1.0, "No Mask"); -- Others
 
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS tblDistance (
@@ -127,19 +134,27 @@ CREATE TABLE IF NOT EXISTS tblDistance (
 );
 
 INSERT INTO tblDistance (RiskCoefficient, VolumeName)
-VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet")
+VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet");
 
+-- Inserts Done
 CREATE TABLE IF NOT EXISTS tblVaccineType (
     VaccineTypeID INT NOT NULL auto_increment PRIMARY KEY,
     VaccineTypeName VARCHAR(50) NOT NULL UNIQUE
 );
 
+INSERT INTO tblVaccineType (VaccineTypeName)
+VALUES("Pfizer"), ("Moderna"), ("Johnson"), ("No Vaccine");
+
+-- Inserts Done
 CREATE TABLE IF NOT EXISTS tblVaccine (
     VaccineID INT NOT NULL auto_increment PRIMARY KEY,
     VaccineTypeID INT FOREIGN KEY REFERENCES tblVaccineType(VaccineTypeID),
     RiskCoefficient DECIMAL(20, 10 )NOT NULL,
     DoseNum INT NOT NULL
 );
+
+INSERT INTO tblVaccine (VaccineTypeID, RiskCoefficient, DoseNum)
+VALUES(1, 0.56, 1), (1, 0.1, 2), (2, 0.56, 1), (2, 0.1, 2), (3, 0.33, 1), (4, 1.0, 0);
 
 -- Need to figure out default activities
 CREATE TABLE IF NOT EXISTS tblActivity (
