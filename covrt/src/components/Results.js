@@ -7,9 +7,8 @@ import rulerIcon from '../images/ruler-vector.svg'
 import volumeIcon from '../images/volume-vector.svg'
 
 import "./Results.css"
-import { Button } from 'reactstrap'
 import { Link } from 'react-router-dom';
-import { InfoIcon } from '@primer/octicons-react';
+import { InfoIcon, LightBulbIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 
 
@@ -156,8 +155,11 @@ function ResultsScreen(props) {
                     </ul>
                 </div>
             </div>
+            <div className="horizontal-center link-container">
+                <Link to="/about"><InfoIcon /> How is my risk calculated?</Link>
+            </div>
             <div className="horizontal-center">
-                <Button>How is my risk calculated?</Button>
+                <btn className="btn btn-primary"><LightBulbIcon/> Tips to lower risk</btn>
             </div>
         </div>
     )
