@@ -1,11 +1,32 @@
 .info-title {
     font-family: 'Open Sans', sans-serif;
     font-weight: bolder;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
 }
 
 .info-main-container {
     padding: 1.5rem;
+}
+
+.info-hr {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.dropdown-btn {
+    border: none;
+    padding: 0;
+    background-color: inherit;
+    color: #4A7CE2;
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
 }
 
 
