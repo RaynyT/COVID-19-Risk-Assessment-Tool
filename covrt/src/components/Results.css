@@ -121,7 +121,7 @@
 
     .results-main-container{
         width: 411px;
-        height: 731px;
+        min-height: 731px;
         border-style: solid;
         border-color: #ACB0BC;
         border-radius: 20px;
