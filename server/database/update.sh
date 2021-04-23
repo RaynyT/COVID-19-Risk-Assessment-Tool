@@ -1,4 +1,4 @@
-docker pull riskaware/radb
+docker pull covidaware/radb
 docker rm -f radatabase
 
 sudo -E docker run \
@@ -9,5 +9,5 @@ sudo -E docker run \
     -e MYSQL_ROOT_PASSWORD="testpassword12345" \
     -e MYSQL_DATABASE="radb" \
     --network ranetwork \
-    riskaware/radb
+    covidaware/radb
 exit
