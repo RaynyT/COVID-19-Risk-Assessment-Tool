@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse } from 'reactstrap';
-import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -677,7 +677,12 @@ function OwnMaskPage(props) {
             </div>
             <div className={dropdownClass}>
                 <div className="info-dropdown-btn">
-                    <button className="btn btn-outline-secondary" onClick={toggle}>What is a {props.selection}?</button>
+                    <button className="btn btn-outline-secondary" onClick={toggle}>
+                        What is a {props.selection}? {isOpen
+                        ? <ChevronUpIcon size={24} />
+                        : <ChevronDownIcon size={24} />
+                    }
+                    </button>
                 </div>
                 <Collapse isOpen={isOpen}>
                     <Card>
