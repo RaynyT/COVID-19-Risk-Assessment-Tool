@@ -11,7 +11,7 @@ export default function InfoPage() {
                 <h1 className="info-title">Frequently Asked Questions</h1>
                 <div>
                     <Dropdown title="What is CovidAware?" body="Test"/>
-                    <Dropdown title="What is CovidAware?" body="Test"/>
+                    <Dropdown title="Does CovidAware share my information with a third party?" body="Test"/>
                     <Dropdown title="What is CovidAware?" body="Test"/>
                     <Dropdown title="What is CovidAware?" body="Test"/>
                     <Dropdown title="What is CovidAware?" body="Test"/>
@@ -32,14 +32,16 @@ function Dropdown(props) {
     return (
         <div>
             <button className="dropdown-btn" onClick={toggle}>
-                <div>{props.title}</div>
+                <div>
                 {isOpen
-                    ? <ChevronUpIcon />
-                    : <ChevronDownIcon />
+                    ? <ChevronUpIcon size={24} />
+                    : <ChevronDownIcon size={24} />
                 }
+                </div>
+                {props.title}
             </button>
             <Collapse isOpen={isOpen}>
-                <Card>
+                <Card className="border-0">
                     <CardBody>
                         {props.body}
                     </CardBody>
