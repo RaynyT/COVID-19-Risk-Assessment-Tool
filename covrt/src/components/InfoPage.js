@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export default function InfoPage() {
 
     return (
-        <div className="outer">
+        <div className="info-outer">
             <div className="info-main-container">
                 <h1 className="info-title">Frequently Asked Questions</h1>
                 <div>

@@ -73,7 +73,7 @@ export default function Results(props){
     }
 
     return (
-        <div className="outer">
+        <div className="results-outer">
             <div className="results-main-container">
                 {screen}
             </div>

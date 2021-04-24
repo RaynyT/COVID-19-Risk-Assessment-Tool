@@ -49,7 +49,7 @@ export default function Tutorial() {
     }
 
     return (
-        <div className="outer">
+        <div className="tutorial-outer">
             <div className="tutorial-main-container">
                 <h1 className="heading-text">Get Started</h1>
                 <h2 className="sub-heading-text">4 simple steps to get your risk results!</h2>

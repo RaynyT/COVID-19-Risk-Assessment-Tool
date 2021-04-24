@@ -39,14 +39,16 @@
 
 @media (min-width: 768px) {
 
-    .outer {
+    .info-outer {
+        height: 100vh;
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 
     .info-main-container{
-        width: 411px;
-        min-height: 731px;
+        width: 51vh;
+        min-height: 90vh;
         border-style: solid;
         border-color: #ACB0BC;
         border-radius: 20px;

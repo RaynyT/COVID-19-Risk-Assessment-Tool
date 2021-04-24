@@ -5,7 +5,7 @@ import { MailIcon } from '@primer/octicons-react'
 export default function ContactUs() {
 
     return (
-        <div className="outer">
+        <div className="contact-outer">
             <div className="contact-main-container">
                 <div className="contact-links-container">
                     <h1 className="contact-heading">Contact Us</h1>

@@ -36,8 +36,8 @@ function Splash(props) {
     const daysSince = today.diff(covidStart, "days");
 
     return (
-        <div className="outer">
-            <div className="main-container" onClick={props.clickCallback}>
+        <div className="landing-outer">
+            <div className="landing-main-container" onClick={props.clickCallback}>
                 <div>
                     <h1 className="blue landing-text">It has been</h1>
                     <h1 className="blue landing-text large-text-shadow">{daysSince} days</h1>
@@ -56,8 +56,8 @@ function Splash(props) {
 
 function HomePage() {
     return (
-        <div className="outer">        
-            <div className="main-container vertical-center">
+        <div className="landing-outer">        
+            <div className="landing-main-container vertical-center horizontal-center">
                 <div>
                     <img src={logoImage} alt="Covid Aware logo" className="logo-img"/>
                     <h1 className="landing-text">COVID Aware</h1>

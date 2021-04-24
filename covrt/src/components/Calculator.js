@@ -145,7 +145,7 @@ export default function Calculator(props) {
     }
 
     return (
-        <div className="outer">
+        <div className="calc-outer">
             <div className="calc-main-container">
                 {pageScreen}
             </div>            
