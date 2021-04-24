@@ -132,16 +132,32 @@ function ResultsScreen(props) {
 
                     <div className="container">
                         <div className="row img-card-row">
-                            <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
-                            <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes + "m"} alt="Clock icon" />
-                            <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
-                            <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
+                            <div className="col-3">
+                                <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
+                            </div>
+                            <div className="col-3">
+                                <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes + "m"} alt="Clock icon" />
+                            </div>
+                            <div className="col-3">
+                                <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
+                            </div>
+                            <div className="col-3">
+                                <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
+                            </div>
                         </div>
                         <div className="row img-card-row">
-                            <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
+                            <div className="col-3">
+                                <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
+                            </div>
+                            <div className="col-3">
                             <ImageCard noImage desc={"I will wear: " + props.ownMask} alt="none" />
+                            </div>
+                            <div className="col-3">
                             <ImageCard noImage desc={"Others wear: " + props.othersMask.type} alt="none" />
+                            </div>
+                            <div className="col-3">
                             <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
+                            </div>
                         </div>
                     </div>
                     <h3 className="list-title">Demographic</h3>

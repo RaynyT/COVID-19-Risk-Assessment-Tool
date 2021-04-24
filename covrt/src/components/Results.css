@@ -47,7 +47,7 @@
 }
 
 .results-main-container{
-    padding-top: 2rem;   
+    padding: 2rem; 
 }
 
 .img-card {
@@ -60,7 +60,6 @@
     box-sizing: border-box;
     width: 3.5em;
     height: 3.5em;
-    margin-right: 1em;
 }
 
 .img-card-row {
