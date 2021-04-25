@@ -223,7 +223,7 @@ function LocationPage(props) {
             </h2>
             <FormGroup tag="fieldset" className="form-inline">
                 <Label> State:
-                    <Input type="select" name="state" className="w-auto" defaultValue={props.selection.state} onChange={props.stateSelectionCallback}>
+                    <Input type="select" name="state" className="w-auto" defaultValue={props.selection.stateCode} onChange={props.stateSelectionCallback}>
                         <option value="AL">AL</option>
                         <option value="AK">AK</option>
                         <option value="AZ">AZ</option>
