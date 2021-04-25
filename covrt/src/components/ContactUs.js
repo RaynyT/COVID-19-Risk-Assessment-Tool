@@ -2,7 +2,7 @@ import './ContactUs.css';
 import { MailIcon } from '@primer/octicons-react'
 import { useForm, ValidationError } from '@formspree/react';
 import { Link } from 'react-router-dom';
-
+import NavBar from './NavBar.js'
 
 import contactImage from '../images/contact-us.svg'
 
@@ -12,6 +12,7 @@ export default function ContactUs() {
     return (
         <div className="contact-outer">
             <div className="contact-main-container">
+                <NavBar />
                 <div className="contact-links-container">
                     <h1 className="contact-heading">Contact Us</h1>
                     <h2 className="contact-email">

@@ -172,7 +172,7 @@ function ResultsScreen(props) {
                 </div>
             </div>
             <div className="horizontal-center link-container">
-                <Link to="/about"><InfoIcon /> How is my risk calculated?</Link>
+                <Link to="/faq"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
                 <btn className="btn btn-primary"><LightBulbIcon/> Tips to lower risk</btn>

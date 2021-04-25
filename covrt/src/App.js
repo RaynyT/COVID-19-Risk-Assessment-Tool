@@ -120,7 +120,7 @@ function App() {
 			</header>
 			<Route exact path="/" component={Landing} />
 			<Route path="/get-started" component={Tutorial} />
-			<Route path="/about" component={InfoPage} />
+			<Route path="/faq" component={InfoPage} />
 			<Route path="/contact-us" component={ContactUs} />
 			<Route path="/calculator" render={(routerProps) => (
 				<Calculator {...routerProps} {...stateAndCallbacks} />
