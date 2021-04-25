@@ -31,6 +31,8 @@ export default function Calculator(props) {
 
     const [pageNum, setPageNum] = useState(1);
 
+    console.log(props.location.state);
+
 
     let pageScreen = <div></div>;
 
@@ -75,7 +77,7 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick} 
                 stateSelectionCallback={props.updateStateSelection} 
                 countySelectionCallback={props.updateCountySelection} 
-                selection={props.location} 
+                selection={props.userLocation} 
             />;
             break;
         case 3:

@@ -17,7 +17,7 @@ function App() {
 	// Selections on the risk survey are saved as site-wide state variables as they are relevant
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
-	const [location, setLocation] = useState({ state: "WA", county: "Pierce" });
+	const [userLocation, setUserLocation] = useState({ stateCode: "WA", county: "Pierce" });
 	const [workStatus, setWorkStatus] = useState("Not working");
 	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("6 feet");
@@ -37,11 +37,11 @@ function App() {
 		setOthersMask(preset.othersMask);
 	}
 	const updateStateSelection = (event) => {
-		setLocation({state: event.target.value, county: location.county});
+		setUserLocation({stateCode: event.target.value, county: userLocation.county});
 	}
 
 	const updateCountySelection = (event) => {
-		setLocation({state: location.state, county: event.target.value});
+		setUserLocation({stateCode: userLocation.state, county: event.target.value});
 	}
 
 	const updateWorkStatus = (status) => {
@@ -92,7 +92,7 @@ function App() {
 	
 	
 	let stateAndCallbacks = {
-		location: location,
+		userLocation: userLocation,
 		updateStateSelection: updateStateSelection,
 		updateCountySelection: updateCountySelection,
 		workStatus: workStatus,
