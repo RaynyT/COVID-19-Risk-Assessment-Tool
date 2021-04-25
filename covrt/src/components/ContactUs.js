@@ -22,7 +22,7 @@ export default function ContactUs() {
                 </div>
                 <div className="questions-container">
                     <h1 className="questions-heading">Have questions?</h1>
-                    <p className="questions-text">Visit our <Link to="/about">FAQ </Link> page</p>
+                    <p className="questions-text">Visit our <Link to="/FAQ">FAQ </Link> page</p>
                     <p className="questions-text">or fill out the form below!</p>
                     <img className="questions-image" alt="Person with speech bubbles" src={contactImage}/>
                 </div>

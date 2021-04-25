@@ -203,7 +203,7 @@ function DisclaimerPage(props) {
                 </Button>
             </div>
             <div>
-                <Link to="/faq" className="horizontal-center learn-more-link">
+                <Link to="/FAQ" className="horizontal-center learn-more-link">
                     Learn about the calculations
                 </Link>
             </div>
