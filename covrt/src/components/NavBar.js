@@ -15,7 +15,7 @@ export default function NavBar(props) {
             <NavLink to="/faq" className="nav-link-inactive" activeClassName="nav-link-active">
                 FAQ
             </NavLink>
-            <NavLink to="/contact-us" clasName="nav-link-inactive" activeClassName="nav-link-active">
+            <NavLink to="/contact-us" className="nav-link-inactive" activeClassName="nav-link-active">
                 Contact Us
             </NavLink>
         </div>
