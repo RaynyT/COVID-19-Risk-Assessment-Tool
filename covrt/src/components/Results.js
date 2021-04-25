@@ -10,8 +10,7 @@ import "./Results.css"
 import { Link } from 'react-router-dom';
 import { InfoIcon, LightBulbIcon } from '@primer/octicons-react';
 import { useState } from 'react'
-
-
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 
 export default function Results(props){
 
@@ -122,6 +121,21 @@ function ResultsScreen(props) {
     return (
         <div>
             <div>
+                <div className="results-nav">
+                        <button className="btn" aria-label="Previous step">
+                            <Link to="/calculator" aria-label="Link to dashboard">
+                                <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                            </Link>
+                        </button>
+                        <div>
+                            <Link to="/dashboard" className="dashboard-link-btn" aria-label="Link to dashboard">
+                                <p className="to-dashboard-text">To Risk Dashboard</p>
+                                <ChevronRightIcon size={48} fill="#4A7CE2" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 <h2 className="risk-level-text">Risk score: {props.riskScore}</h2>
                 <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
@@ -175,7 +189,7 @@ function ResultsScreen(props) {
                 <Link to="/FAQ"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
-                <btn className="btn btn-primary"><LightBulbIcon/> Tips to lower risk</btn>
+                <btn className="btn btn-primary"><LightBulbIcon/> Lower my risk!</btn>
             </div>
         </div>
     )
