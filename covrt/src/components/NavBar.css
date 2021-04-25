@@ -1,0 +1,32 @@
+.nav-link-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.nav-link-inactive {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+
+    display: block;
+    padding: 0.5rem 0rem;
+    
+    color: #3A405A;
+}
+
+.nav-link-active {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: underline;
+    text-decoration-thickness: .2rem;
+
+    display: block;
+    padding: 0.5rem 0rem;
+
+    color: #4A7CE2;
+}
+
