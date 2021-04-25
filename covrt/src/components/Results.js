@@ -123,7 +123,7 @@ function ResultsScreen(props) {
             <div>
                 <div className="results-nav">
                         <button className="btn" aria-label="Previous step">
-                            <Link to="/calculator" aria-label="Link to dashboard">
+                            <Link to={{pathname: "/calculator", fromResults: true}} aria-label="Link to dashboard">
                                 <ChevronLeftIcon size={48} fill="#4A7CE2" />
                             </Link>
                         </button>
@@ -176,8 +176,8 @@ function ResultsScreen(props) {
                     </div>
                     <h3 className="list-title">Demographic</h3>
                     <ul className="selection-list">
-                        <li className="selection-list-item">{props.location.state} state</li>
-                        <li className="selection-list-item">{props.location.county} county</li>
+                        <li className="selection-list-item">{props.userLocation.stateCode} state</li>
+                        <li className="selection-list-item">{props.userLocation.county} county</li>
                     </ul>
                     <h3 className="list-title">Work Status</h3>
                     <ul className="selection-list">
@@ -189,7 +189,7 @@ function ResultsScreen(props) {
                 <Link to="/FAQ"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
-                <btn className="btn btn-primary"><LightBulbIcon/> Lower my risk!</btn>
+                <button className="btn btn-primary"><LightBulbIcon/> Lower my risk!</button>
             </div>
         </div>
     )

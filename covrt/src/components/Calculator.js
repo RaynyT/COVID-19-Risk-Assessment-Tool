@@ -29,10 +29,16 @@ import './Calculator.css';
 
 export default function Calculator(props) {
 
-    const [pageNum, setPageNum] = useState(1);
+    let startingPageNum = 1;
+        
+    // If user has navigated here by coming back from the results page
+    // start them on the last screen of the calculator
+    if (props.location.fromResults) {
+        startingPageNum = 9;
+    }
 
-    console.log(props.location.state);
 
+    const [pageNum, setPageNum] = useState(startingPageNum);
 
     let pageScreen = <div></div>;
 
