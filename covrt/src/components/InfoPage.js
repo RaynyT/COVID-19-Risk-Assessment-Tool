@@ -4,12 +4,15 @@ import { Collapse, Card, CardBody} from 'reactstrap'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar.js'
+
 
 export default function InfoPage() {
 
     return (
         <div className="info-outer">
             <div className="info-main-container">
+                <NavBar />
                 <h1 className="info-title">Frequently Asked Questions</h1>
                 <div>
                     <Dropdown title="What is CovidAware?" body="Test"/>
