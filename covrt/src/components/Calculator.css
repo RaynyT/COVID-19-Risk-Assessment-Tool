@@ -108,6 +108,8 @@
 .prev-next-btns {
     margin-bottom: 1rem;
     margin-top: auto;
+    display: flex;
+    align-items: center;
 }
 
 .btn-text {
