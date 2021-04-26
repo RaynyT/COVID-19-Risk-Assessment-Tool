@@ -356,7 +356,6 @@ function WorkStatusPage(props) {
                     </div>
                 </div>
             </div>
-
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
