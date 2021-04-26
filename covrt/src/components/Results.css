@@ -3,6 +3,15 @@
     font-weight: bolder;
     font-size: 2rem;
     text-align: center;
+    margin-bottom: 1rem;
+}
+
+.reduce-risk-subheading {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-align: center;
+    color: #ACADA8;
 }
 
 .risk-level-text {
@@ -118,7 +127,6 @@
     margin-bottom: 1rem;
 }
 
-
 .to-dashboard-text {
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
@@ -130,6 +138,10 @@
     padding: 0;
     display: flex;
     align-items: center;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 @media (min-width: 768px) {

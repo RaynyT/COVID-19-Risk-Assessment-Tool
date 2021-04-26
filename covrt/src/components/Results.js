@@ -64,11 +64,21 @@ export default function Results(props){
     }
 
     const [riskScore, setRiskScore] = useState(calculateRiskScore());
+    const [page, setPage] = useState("results");
 
-    let screen = <ErrorScreen />;
+
+    const changePageCallback = (value) => {
+        setPage(value)
+    }
+
+    let screen = <ResultsScreen {...props} riskScore={riskScore} setPage={changePageCallback} />;
     
-    if (props.surveyCompleted) {
-        screen =<ResultsScreen {...props} riskScore={riskScore}/>;
+    if (!props.surveyCompleted) {
+        screen = <ErrorScreen />
+    } else if (page === "results") {
+        screen = <ResultsScreen {...props} riskScore={riskScore} setPage={changePageCallback} />
+    } else {
+        screen = <ReduceRiskScreen {...props} riskScore={riskScore} setPage={changePageCallback} />
     }
 
     return (
@@ -117,6 +127,9 @@ function ResultsScreen(props) {
         maskAmountText = "100000000+";
     }
 
+    const switchToReducePage = () => {
+        props.setPage("reduce");
+    }
 
     return (
         <div>
@@ -189,8 +202,33 @@ function ResultsScreen(props) {
                 <Link to="/FAQ"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
-                <button className="btn btn-primary"><LightBulbIcon/> Lower my risk!</button>
+                <button className="btn btn-primary" onClick={switchToReducePage}><LightBulbIcon/> Lower my risk!</button>
             </div>
+        </div>
+    )
+}
+
+function ReduceRiskScreen(props) {
+
+    const switchToResultsPage = () => {
+        props.setPage("results")
+    }
+
+    return (
+        <div>
+            <div className="results-nav">
+                <button className="btn" onClick={switchToResultsPage} aria-label="Previous step">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </button>
+                <div className="hidden">
+                    <Link to="/dashboard" className="dashboard-link-btn" aria-label="Link to dashboard">
+                        <p className="to-dashboard-text">To Risk Dashboard</p>
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </Link>
+                </div>
+            </div>
+            <h1 className="risk-title">Tips to Lower Risk</h1>
+            <h2 className="reduce-risk-subheading">Check the suggestions you would like to implement:</h2>
         </div>
     )
 }
