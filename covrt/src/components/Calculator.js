@@ -720,7 +720,7 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
-    const [ sliderValue, setSliderValue ] = useState(100); 
+    const [ sliderValue, setSliderValue ] = useState(parseInt(props.attendees)); 
 
 
     let noMaskSelected = false;
@@ -772,16 +772,17 @@ function OthersMaskPage(props) {
             <Form className="percent-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
                 <FormGroup>
                     <Label>
-                        Percentage of others wearing masks:
+                        Number of people wearing masks:
                         <Input required type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
-                            defaultValue={props.percent} value={sliderValue} onChange={e => setSliderValue(e.target.value)} />
+                            value={sliderValue} onChange={e => setSliderValue(e.target.value)} />
                         <RangeSlider
                             value={sliderValue}
                             onChange={changeEvent => setSliderValue(changeEvent.target.value) }
-                            tooltipLabel={currentValue => `${currentValue}%`}
+                            min={0}
+                            max={parseInt(props.attendees)}
                         />
                     </Label>
-                    <h3><span className="blue">{Math.round((sliderValue/100) * props.attendees)}</span> of the other people will wear a mask</h3>
+                    <h3><span className="blue">{sliderValue}</span> of the other people will wear a mask</h3>
                 </FormGroup>
             </Form>
             
