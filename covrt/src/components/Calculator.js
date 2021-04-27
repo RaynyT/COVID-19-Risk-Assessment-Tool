@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import RangeSlider from 'react-bootstrap-range-slider';
+
 
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -68,6 +70,7 @@ export default function Calculator(props) {
     // Submit mask page, set survey completed, navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
+        console.log(event);
         props.updateOthersMaskPercent(event.target.percent.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
@@ -146,6 +149,7 @@ export default function Calculator(props) {
                 selection={props.othersMask.type}
                 formSubmitCallback={handleOthersMaskPageSubmit} 
                 percent={props.othersMask.percent} 
+                attendees={props.activityBasicInfo.attendees}
             />;
             break;
         default:
@@ -716,6 +720,9 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
+    const [ sliderValue, setSliderValue ] = useState(100); 
+
+
     let noMaskSelected = false;
     let cottonMaskSelected = false;
     let surgicalMaskSelected = false;
@@ -765,10 +772,16 @@ function OthersMaskPage(props) {
             <Form className="percent-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
                 <FormGroup>
                     <Label>
-                        Proportion of others wearing masks:
+                        Percentage of others wearing masks:
                         <Input required type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
-                            defaultValue={props.percent} />
+                            defaultValue={props.percent} value={sliderValue} onChange={e => setSliderValue(e.target.value)} />
+                        <RangeSlider
+                            value={sliderValue}
+                            onChange={changeEvent => setSliderValue(changeEvent.target.value) }
+                            tooltipLabel={currentValue => `${currentValue}%`}
+                        />
                     </Label>
+                    <h3><span className="blue">{Math.round((sliderValue/100) * props.attendees)}</span> of the other people will wear a mask</h3>
                 </FormGroup>
             </Form>
             
