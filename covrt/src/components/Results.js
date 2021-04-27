@@ -38,10 +38,18 @@ export default function Results(props){
 
     const calculateRiskScore = () => {
 
+        let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
+
         let score = (
+            // Activity setting risk coefficient * Number of attendees
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
+            // * Duration in hours
             (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
-            numericValues[props.ownMask] * (numericValues[props.othersMask.type] * props.othersMask.percent) *
+            // * Own mask type risk coefficent
+            numericValues[props.ownMask] * 
+            // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
+            (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
+            // * Distancing risk * Volume risk
             numericValues[props.distancing] * numericValues[props.speakingVolume]
         );
 
@@ -122,7 +130,7 @@ function ResultsScreen(props) {
         attendeesText = "100000000+";
     }
 
-    let maskAmountText = Math.round(props.othersMask.percent / 100 * props.activityBasicInfo.attendees);
+    let maskAmountText = Math.round(props.othersMask.numWearers);
     if (maskAmountText >= 999999999) {
         maskAmountText = "100000000+";
     }

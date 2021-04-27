@@ -23,7 +23,7 @@ function App() {
 	const [distancing, setDistancing] = useState("6 feet");
 	const [speakingVolume, setSpeakingVolume] = useState("Speaking normally");
 	const [ownMask, setOwnMask] = useState("Cotton Mask");
-	const [othersMask, setOthersMask] = useState({ type: "Cotton Mask", percent: 100 });
+	const [othersMask, setOthersMask] = useState({ type: "Cotton Mask", numWearers: 100 });
 	
 	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
@@ -79,11 +79,11 @@ function App() {
 	}
 
 	const updateOthersMaskType = (maskType) => {
-		setOthersMask({ type: maskType, percent: othersMask.percent });
+		setOthersMask({ type: maskType, numWearers: othersMask.numWearers });
 	}
 
-	const updateOthersMaskPercent = (percent) => {
-		setOthersMask({type: othersMask.type, percent: percent})
+	const updateOthersMaskNumWearers = (numWearers) => {
+		setOthersMask({type: othersMask.type, numWearers: numWearers})
 	}
 
 	const updateSurveryCompleted = (completed) => {
@@ -109,7 +109,7 @@ function App() {
 		updateOwnMask: updateOwnMask,
 		othersMask: othersMask,
 		updateOthersMaskType: updateOthersMaskType,
-		updateOthersMaskPercent: updateOthersMaskPercent,
+		updateOthersMaskNumWearers: updateOthersMaskNumWearers,
 		surveyCompleted: surveyCompleted,
 		updateSurveryCompleted: updateSurveryCompleted		
 	}

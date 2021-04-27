@@ -71,7 +71,7 @@ export default function Calculator(props) {
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         console.log(event);
-        props.updateOthersMaskPercent(event.target.percent.value);
+        props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
     }
@@ -148,7 +148,7 @@ export default function Calculator(props) {
                 selectionCallback={props.updateOthersMaskType} 
                 selection={props.othersMask.type}
                 formSubmitCallback={handleOthersMaskPageSubmit} 
-                percent={props.othersMask.percent} 
+                numWearers={props.othersMask.numWearers} 
                 attendees={props.activityBasicInfo.attendees}
             />;
             break;
@@ -383,7 +383,7 @@ function PresetPage(props) {
             distancing: "Less than 6 feet",
             volume: "Speaking normally",
             ownMask: "No Mask",
-            othersMask: { type: "No Mask", percent: 100 }
+            othersMask: { type: "No Mask", numWearers: null }
         }
     }
 
@@ -769,11 +769,11 @@ function OthersMaskPage(props) {
                 </div>
             </div>
 
-            <Form className="percent-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
+            <Form className="others-mask-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
                 <FormGroup>
                     <Label>
                         Number of people wearing masks:
-                        <Input required type="number" name="percent" id="percent" min="0" max="100" className="w-auto"
+                        <Input required type="number" name="portion" id="portion" min="0" max={parseInt(props.attendees)} className="w-auto"
                             value={sliderValue} onChange={e => setSliderValue(e.target.value)} />
                         <RangeSlider
                             value={sliderValue}
