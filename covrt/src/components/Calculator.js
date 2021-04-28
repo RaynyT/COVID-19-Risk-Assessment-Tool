@@ -37,7 +37,9 @@ export default function Calculator(props) {
     // start them on the last screen of the calculator
     if (props.location.fromResults) {
         startingPageNum = 9;
-    }
+    } else if (props.location.fromStartNewButton) {
+        startingPageNum = 4;
+    } 
 
 
     const [pageNum, setPageNum] = useState(startingPageNum);

@@ -13,7 +13,6 @@ import dataIcon from '../images/data-icon.svg'
 
 export default function Dashboard() {
     
-    let tipsLink = {pathname: "/results", fromTipsButton: true}
 
     return (
         <div className="dashboard-outer">
@@ -27,7 +26,7 @@ export default function Dashboard() {
                             alt="Illustration of a piece of paper with graphs and charts" />
                         </div>
                         <div className="col-6 d-flex justify-content-center">
-                            <RouterImageLink link={tipsLink} image={tipsIcon} desc="Tips to lower risk" 
+                            <RouterImageLink link={{pathname: "/results", fromTipsButton: true}} image={tipsIcon} desc="Tips to lower risk" 
                             alt="Illustration of a lightbulb" />
                         </div>
                     </div>
@@ -37,8 +36,8 @@ export default function Dashboard() {
                                 alt="Illustration of a medical vial and syringe" />
                             </div>
                             <div className="col-6 d-flex justify-content-center">
-                                <RouterImageLink link={tipsLink} image={tipsIcon} desc="Tips to lower risk" 
-                                alt="Illustration of a lightbulb" />
+                                <RouterImageLink link={{pathname: "/calculator", fromStartNewButton: true}} image={startNewIcon} desc="Start a new activity" 
+                                alt="Illustration of a rocket ship" />
                             </div>
                         </div>
                 </div>
