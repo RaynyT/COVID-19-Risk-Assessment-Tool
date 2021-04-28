@@ -1,0 +1,22 @@
+@media (min-width: 768px) {
+
+    .about-outer {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-main-container{
+        min-width: 51vh;
+        max-width: 70vh;
+        min-height: 90vh;
+        border-style: solid;
+        border-color: #ACB0BC;
+        border-radius: 20px;
+
+        padding-top: 2rem;
+    }
+}

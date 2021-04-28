@@ -9,6 +9,8 @@ import InfoPage from './components/InfoPage.js';
 import Calculator from './components/Calculator.js';
 import Results from './components/Results.js'
 import ContactUs from './components/ContactUs';
+import Dashboard from './components/Dashboard';
+import About from './components/About';
 
 function App() {
 
@@ -122,6 +124,8 @@ function App() {
 			<Route path="/get-started" component={Tutorial} />
 			<Route path="/faq" component={InfoPage} />
 			<Route path="/contact-us" component={ContactUs} />
+			<Route path="/dashboard" component={Dashboard} />
+			<Route path="/about" component={About}/>
 			<Route path="/calculator" render={(routerProps) => (
 				<Calculator {...routerProps} {...stateAndCallbacks} />
 			)} />
