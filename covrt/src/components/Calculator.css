@@ -244,7 +244,8 @@
     }
 
     .calc-main-container{
-        width: 51vh;
+        min-width: 51vh;
+        max-width: 70vh;
         min-height: 90vh;
         border-style: solid;
         border-color: #ACB0BC;
