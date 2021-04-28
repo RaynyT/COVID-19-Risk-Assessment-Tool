@@ -228,20 +228,24 @@
     display: flex;
     flex-direction: column;
 
-    height: 90vh;
+    min-height: 90vh;
 }
 
 @media (min-width: 768px) {
 
     .calc-outer {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     .calc-main-container{
-        width: 51vh;
+        min-width: 51vh;
+        max-width: 70vh;
         min-height: 90vh;
         border-style: solid;
         border-color: #ACB0BC;
