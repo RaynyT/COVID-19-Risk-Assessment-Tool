@@ -228,16 +228,19 @@
     display: flex;
     flex-direction: column;
 
-    height: 90vh;
+    min-height: 90vh;
 }
 
 @media (min-width: 768px) {
 
     .calc-outer {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     .calc-main-container{
