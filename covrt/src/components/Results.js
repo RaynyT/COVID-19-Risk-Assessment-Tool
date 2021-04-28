@@ -71,8 +71,16 @@ export default function Results(props){
         return score;
     }
 
+    let startingPage = "results";
+        
+    // If user has navigated here by coming back from the results page
+    // start them on the last screen of the calculator
+    if (props.location.fromTipsButton) {
+        startingPage = "tips";
+    }
+
     const [riskScore, setRiskScore] = useState(calculateRiskScore());
-    const [page, setPage] = useState("results");
+    const [page, setPage] = useState(startingPage);
 
 
     const changePageCallback = (value) => {
