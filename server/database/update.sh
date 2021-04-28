@@ -8,6 +8,6 @@ sudo -E docker run \
     -v /etc/letsencrypt:/etc/letsencrypt:ro \
     -e MYSQL_ROOT_PASSWORD="testpassword12345" \
     -e MYSQL_DATABASE="radb" \
-    --network ranetwork \
+    #--network ranetwork \
     covidaware/radb
 exit
