@@ -208,10 +208,6 @@ function ResultsScreen(props) {
                         <li className="selection-list-item">{props.userLocation.stateCode} state</li>
                         <li className="selection-list-item">{props.userLocation.county} county</li>
                     </ul>
-                    <h3 className="list-title">Work Status</h3>
-                    <ul className="selection-list">
-                        <li className="selection-list-item">{props.workStatus}</li>
-                    </ul>
                 </div>
             </div>
             <div className="horizontal-center link-container">
