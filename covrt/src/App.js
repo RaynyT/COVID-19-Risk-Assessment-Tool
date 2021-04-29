@@ -93,7 +93,7 @@ function App() {
 		setSurveyCompleted(completed);
 	}
 
-	const updateVaccination = (vaccination) {
+	const updateVaccination = (vaccination) => {
 		setVaccination(vaccination);
 	}
 	
