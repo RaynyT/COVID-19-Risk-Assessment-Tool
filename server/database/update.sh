@@ -1,4 +1,5 @@
 sudo docker pull covidaware/radb
+sudo docker stop radatabase
 sudo docker rm -f radatabase
 
 sudo -E docker run \
@@ -8,6 +9,4 @@ sudo -E docker run \
     -v /etc/letsencrypt:/etc/letsencrypt:ro \
     -e MYSQL_ROOT_PASSWORD="testpassword12345" \
     -e MYSQL_DATABASE="radb" \
-    #--network ranetwork \
     covidaware/radb
-exit

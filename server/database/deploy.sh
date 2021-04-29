@@ -1,6 +1,7 @@
-#./build.sh
+./build.sh
 
 docker push covidaware/radb
 
 # ssh into server instance
-ssh -t -t raynat6@riskaware.ischool.uw.edu < update.sh
+scp ./update.sh raynat6@riskaware.ischool.uw.edu:~/bin/update.sh
+ssh -t -t raynat6@riskaware.ischool.uw.edu ./bin/update.sh
