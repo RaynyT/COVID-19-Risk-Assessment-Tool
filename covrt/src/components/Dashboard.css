@@ -1,3 +1,54 @@
+.dashboard-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.img-link {
+    background-color: #4A7CE2;
+    border-style: solid;
+    border-width: medium;
+    border-radius: 20%;
+
+    box-sizing: border-box;
+    width: 10rem;
+    height: 10rem;
+}
+
+.img-link-content {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    text-align: center;
+    color: white;
+
+
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.img-link-image-container {
+    max-width:100%;
+    max-height:55%;
+    height: auto;
+}
+
+.img-link-img {
+    max-height: 100%;
+    height: auto;
+}
+
+.img-link-row {
+    margin-top: 1rem;
+}
+
+
 @media (min-width: 768px) {
 
     .dashboard-outer {

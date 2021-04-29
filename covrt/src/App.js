@@ -21,6 +21,7 @@ function App() {
 	// Some default to certain selections, others like radio buttons default to none selected
 	const [userLocation, setUserLocation] = useState({ stateCode: "WA", county: "Pierce" });
 	const [workStatus, setWorkStatus] = useState("Not working");
+	const [vaccination, setVaccination] = useState({ type: "none", doseNumber: 0});
 	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("6 feet");
 	const [speakingVolume, setSpeakingVolume] = useState("Speaking normally");
@@ -91,6 +92,10 @@ function App() {
 	const updateSurveryCompleted = (completed) => {
 		setSurveyCompleted(completed);
 	}
+
+	const updateVaccination = (vaccination) => {
+		setVaccination(vaccination);
+	}
 	
 	
 	let stateAndCallbacks = {
@@ -99,6 +104,8 @@ function App() {
 		updateCountySelection: updateCountySelection,
 		workStatus: workStatus,
 		updateWorkStatus: updateWorkStatus,
+		vaccination: vaccination,
+		updateVaccination: updateVaccination,
 		updateWithPreset: updateWithPreset,
 		activityBasicInfo: activityBasicInfo,
 		updateActivitySetting: updateActivitySetting,
