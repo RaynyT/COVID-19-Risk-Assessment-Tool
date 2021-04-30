@@ -8,6 +8,7 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import workFromHomeImage from '../images/work-from-home.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
+import doctorsImage from '../images/doctors.svg'
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
@@ -55,12 +56,7 @@ export default function Calculator(props) {
     const handleBackClick = () => {
         setPageNum(pageNum - 1);
     }
-
-    const handleRadioButtonsSubmit = (event) => {
-        event.preventDefault();
-        handleNextClick();
-    }
-
+    
     const handleActivityPageSubmit = (event) => {
         event.preventDefault();
         props.updateActivityBasicInfo(
@@ -94,12 +90,10 @@ export default function Calculator(props) {
             />;
             break;
         case 3:
-            pageScreen = <WorkStatusPage 
-                submitCallback={handleRadioButtonsSubmit} 
-                backClickCallback={handleBackClick}
+            pageScreen = <VaccinePage
                 nextClickCallback={handleNextClick}
-                selectionCallback={props.updateWorkStatus} 
-                selection={props.workStatus} 
+                backClickCallback={handleBackClick}
+                selection={props.vaccination}
             />;
             break;
         case 4:
@@ -122,7 +116,6 @@ export default function Calculator(props) {
             break;
         case 6:
             pageScreen = <SocialDistancePage 
-                submitCallback={handleRadioButtonsSubmit} 
                 backClickCallback={handleBackClick}
                 nextClickCallback={handleNextClick}
                 selectionCallback={props.updateDistancing} 
@@ -131,7 +124,6 @@ export default function Calculator(props) {
             break;
         case 7:
             pageScreen = <TalkingPage 
-                submitCallback={handleRadioButtonsSubmit} 
                 backClickCallback={handleBackClick}
                 nextClickCallback={handleNextClick}
                 selectionCallback={props.updateSpeakingVolume} 
@@ -235,8 +227,8 @@ function LocationPage(props) {
             <h2 className="calc-step-desc">
                 Fill in the <span className="blue">state and county </span> where you have spent the most time during the <span className="blue">past two weeks</span>
             </h2>
-            <FormGroup tag="fieldset" className="form-inline">
-                <Label> State:
+            <FormGroup tag="fieldset">
+                <Label>State:</Label>
                     <Input type="select" name="state" className="w-auto" defaultValue={props.selection.stateCode} onChange={props.stateSelectionCallback}>
                         <option value="AL">AL</option>
                         <option value="AK">AK</option>
@@ -290,16 +282,14 @@ function LocationPage(props) {
                         <option value="WI">WI</option>
                         <option value="WY">WY</option>
                     </Input>
-                </Label>
             </FormGroup>
-            <FormGroup tag="fieldset" className="form-inline">
-                <Label> County:
+            <FormGroup tag="fieldset">
+                <Label>County:</Label>
                     <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}
                         onChange={props.countySelectionCallback}>
                         <option>King</option>
                         <option>Pierce</option>
                     </Input>
-                </Label>
             </FormGroup>
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
@@ -316,67 +306,69 @@ function LocationPage(props) {
 
 }
 
-function WorkStatusPage(props) {
+function VaccinePage(props) {
 
-    let notWorkingSelected = false;
-    let workFromHomeSelected = false;
-    let healthcareSelected = false;
-    let essentialSelected = false;
+    let yesChecked = false;
+    let noChecked = false;
 
-    switch(props.selection) {
-        case "Not working":
-            notWorkingSelected = true;
-            break;
-        case "Working from home":
-            workFromHomeSelected = true;
-            break;
-        case "Healthcare worker":
-            healthcareSelected = true;
-            break;
-        case "Essential worker":
-            essentialSelected = true;
-            break;
-        default:
-            notWorkingSelected = true;
+    if (props.selection.twoWeeks === "Yes") {
+        yesChecked = true;
+    } else if (props.selection.twoWeeks === "No") {
+        noChecked = true;
     }
-
+    
     return (
         <div className="calc-step-container">
-            <h1 className="calc-step-title">Your work status</h1>
-            <h2 className="calc-step-desc">Your occupation impacts your potential exposure to COVID-19</h2>
-            <h2 className="calc-step-question">What is your occupation?</h2>
+            <h1 className="calc-step-title">What is your vaccination status?</h1>
+            <h2 className="calc-step-desc">Description placeholder</h2>
+            <img className="calc-img" src={doctorsImage} alt="Illustration of two doctors" />
+            <FormGroup tag="fieldset">
+                <Label>Have you recieved a COVID-19 vaccine? If so, which type?</Label>
+                    <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type}>
+                        <option>No</option>
+                        <option>Yes - Pfizer</option>
+                        <option>Yes - Moderna</option>
+                        <option>Yes - Johnson & Johnson</option>
+                    </Input>
+            </FormGroup>
+            <FormGroup tag="fieldset">
+                <Label>How many doses have you recieved? </Label>
+                    <Input type="select" name="doses" className="w-auto" defaultValue={props.selection.dose}>
+                        <option>1</option>
+                        <option>2</option>
+                    </Input>
+            </FormGroup>
+            <FormGroup tag="fieldset">
+                <legend>Has it been two weeks since your last dose?</legend>
+                <FormGroup check required>
+                    <Label>
+                        <Input required type="radio" name="weeks" value="Yes" defaultChecked={yesChecked}
+                        />{' '}
+                        Yes
+                    </Label>
+                </FormGroup>
+                <FormGroup check required>
+                    <Label>
+                        <Input required type="radio" name="weeks" value="No" defaultChecked = {noChecked}
+                        />{' '}
+                        No
+                    </Label>
+                </FormGroup>
+            </FormGroup>
             
-            <div className="container">
-                <div className="row img-btn-row">
-                    <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={workFromHomeImage} desc="Not working" alt="Person working at a laptop" large selected={notWorkingSelected} clickCallback={props.selectionCallback}/>
-                    </div>
-                    <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={workFromHomeImage} desc="Working from home" alt="Person working at a laptop" large selected={workFromHomeSelected} clickCallback={props.selectionCallback}/>
-                    </div>
-                </div>
-                <div className="row img-btn-row">
-                    <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={workFromHomeImage} desc="Healthcare worker" alt="Person working at a laptop" large selected={healthcareSelected} clickCallback={props.selectionCallback}/>
-                    </div>
-                    <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={workFromHomeImage} desc="Essential worker" alt="Person working at a laptop" large selected={essentialSelected} clickCallback={props.selectionCallback} />
-                    </div>
-                </div>
-            </div>
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>                
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    </button>
+                    <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
             </div>
+            
         </div>
     );
-
 }
 
 function PresetPage(props) {
