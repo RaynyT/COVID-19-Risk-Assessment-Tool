@@ -56,6 +56,30 @@ export default function Calculator(props) {
     const handleBackClick = () => {
         setPageNum(pageNum - 1);
     }
+
+    // The vaccine selection is handled separate from the vaccine page submission
+    // so that the state will change and re-render the form based on vaccine type
+    const handleVaccineTypeChange = (event) => {
+        props.updateVaccineType(event.target.value);
+    }
+
+    const handleVaccinePageSubmit = (event) => {
+        event.preventDefault();
+
+        // If no vaccine was selected, the form will not have rendered all components, so this check
+        // prevents refrencing a null variable
+        if (event.target.vaccine.value === "No") {
+            props.updateVaccination({ type: "No", doseNumber: 0, twoWeeks: null});
+        }else {
+            console.log(event.target.doses.value)
+            props.updateVaccination({ 
+                type: event.target.vaccine.value,
+                doseNumber: event.target.doses.value,
+                twoWeeks: event.target.weeks.value
+            });
+        }
+        handleNextClick();
+    }
     
     const handleActivityPageSubmit = (event) => {
         event.preventDefault();
@@ -91,8 +115,9 @@ export default function Calculator(props) {
             break;
         case 3:
             pageScreen = <VaccinePage
-                nextClickCallback={handleNextClick}
                 backClickCallback={handleBackClick}
+                submitCallback={handleVaccinePageSubmit}
+                vaccineTypeCallback={handleVaccineTypeChange}
                 selection={props.vaccination}
             />;
             break;
@@ -316,52 +341,74 @@ function VaccinePage(props) {
     } else if (props.selection.twoWeeks === "No") {
         noChecked = true;
     }
+
+    // Render dose form only if the user has selected that they have been vaccinated
+    let doseForm = <div></div>;
+    if (props.selection.type !== "No") {
+
+        // Don't render doseNumberInput if user selected J&J (1 dose vaccine)
+        let doseNumberInput = <div></div>;
+        if (props.selection.type !== "Yes - Johnson & Johnson"){
+            doseNumberInput = (
+                <FormGroup tag="fieldset">
+                    <Label>How many doses have you received? </Label>
+                    <Input type="select" name="doses" className="w-auto" defaultValue={props.selection.doseNumber}>
+                        <option>1</option>
+                        <option>2</option>
+                    </Input>
+                </FormGroup>
+            );
+        }
+
+        doseForm = (
+            <div>
+                {doseNumberInput}
+                <FormGroup tag="fieldset">
+                    <legend>Has it been two weeks since your last dose?</legend>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="weeks" value="Yes" defaultChecked={yesChecked}
+                            />{' '}
+                    Yes
+                </Label>
+                    </FormGroup>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="weeks" value="No" defaultChecked={noChecked}
+                            />{' '}
+                    No
+                </Label>
+                    </FormGroup>
+                </FormGroup>
+            </div>
+        );
+    }
+    
     
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">What is your vaccination status?</h1>
             <h2 className="calc-step-desc">Description placeholder</h2>
             <img className="calc-img" src={doctorsImage} alt="Illustration of two doctors" />
-            <FormGroup tag="fieldset">
-                <Label>Have you recieved a COVID-19 vaccine? If so, which type?</Label>
-                    <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type}>
-                        <option>No</option>
-                        <option>Yes - Pfizer</option>
-                        <option>Yes - Moderna</option>
-                        <option>Yes - Johnson & Johnson</option>
-                    </Input>
-            </FormGroup>
-            <FormGroup tag="fieldset">
-                <Label>How many doses have you recieved? </Label>
-                    <Input type="select" name="doses" className="w-auto" defaultValue={props.selection.dose}>
-                        <option>1</option>
-                        <option>2</option>
-                    </Input>
-            </FormGroup>
-            <FormGroup tag="fieldset">
-                <legend>Has it been two weeks since your last dose?</legend>
-                <FormGroup check required>
-                    <Label>
-                        <Input required type="radio" name="weeks" value="Yes" defaultChecked={yesChecked}
-                        />{' '}
-                        Yes
-                    </Label>
+            <Form id="vaccine-form" onSubmit={props.submitCallback}>
+                <FormGroup tag="fieldset">
+                    <Label>Have you recieved a COVID-19 vaccine? If so, which type?</Label>
+                        <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type} onChange={props.vaccineTypeCallback}>
+                            <option>No</option>
+                            <option>Yes - Pfizer</option>
+                            <option>Yes - Moderna</option>
+                            <option>Yes - Johnson & Johnson</option>
+                        </Input>
                 </FormGroup>
-                <FormGroup check required>
-                    <Label>
-                        <Input required type="radio" name="weeks" value="No" defaultChecked = {noChecked}
-                        />{' '}
-                        No
-                    </Label>
-                </FormGroup>
-            </FormGroup>
+                {doseForm}
+            </Form>
             
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button type="submit" className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <button type="submit" form="vaccine-form" className="btn next-btn" aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
