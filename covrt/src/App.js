@@ -20,7 +20,7 @@ function App() {
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
 	const [userLocation, setUserLocation] = useState({ stateCode: "WA", county: "Pierce" });
-	const [vaccination, setVaccination] = useState({ type: "none", doseNumber: 0});
+	const [vaccination, setVaccination] = useState({ type: "No", doseNumber: 1, twoWeeks: null});
 	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("6 feet");
 	const [speakingVolume, setSpeakingVolume] = useState("Speaking normally");
