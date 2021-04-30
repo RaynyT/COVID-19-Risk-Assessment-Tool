@@ -825,7 +825,6 @@ function OthersMaskPage(props) {
                             max={parseInt(props.attendees)}
                         />
                     </Label>
-                    <h3><span className="blue">{sliderValue}</span> of the other people will wear a mask</h3>
                 </FormGroup>
             </Form>
             
