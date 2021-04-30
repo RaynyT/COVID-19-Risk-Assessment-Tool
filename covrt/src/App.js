@@ -20,7 +20,6 @@ function App() {
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
 	const [userLocation, setUserLocation] = useState({ stateCode: "WA", county: "Pierce" });
-	const [workStatus, setWorkStatus] = useState("Not working");
 	const [vaccination, setVaccination] = useState({ type: "none", doseNumber: 0});
 	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useState("6 feet");
@@ -45,10 +44,6 @@ function App() {
 
 	const updateCountySelection = (event) => {
 		setUserLocation({stateCode: userLocation.state, county: event.target.value});
-	}
-
-	const updateWorkStatus = (status) => {
-		setWorkStatus(status);
 	}
 
 	const updateActivitySetting = (event) => {
@@ -102,8 +97,6 @@ function App() {
 		userLocation: userLocation,
 		updateStateSelection: updateStateSelection,
 		updateCountySelection: updateCountySelection,
-		workStatus: workStatus,
-		updateWorkStatus: updateWorkStatus,
 		vaccination: vaccination,
 		updateVaccination: updateVaccination,
 		updateWithPreset: updateWithPreset,
