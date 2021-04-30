@@ -5,10 +5,11 @@ import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } fro
 import RangeSlider from 'react-bootstrap-range-slider';
 
 
-import workFromHomeImage from '../images/work-from-home.svg';
+import locationImage from '../images/space-search.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
 import doctorsImage from '../images/doctors.svg'
+
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
@@ -316,6 +317,8 @@ function LocationPage(props) {
                         <option>Pierce</option>
                     </Input>
             </FormGroup>
+            <img className="calc-img" src={locationImage} alt="Illustration of two doctors" />
+
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
