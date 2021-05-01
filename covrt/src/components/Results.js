@@ -40,6 +40,18 @@ export default function Results(props){
 
         let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
 
+        // Determine vaccine efficacy
+        let vaccineEfficacy = 1;
+        if (props.vaccination.effectiveDoseNumber === "1") {
+            vaccineEfficacy = .56;
+        } else if (props.vaccination.effectiveDoseNumber === "2") {
+            if (props.vaccination.type === "Pfizer" || props.vaccination.type === "Moderna") {
+                vaccineEfficacy = .1;
+            } else {
+                vaccineEfficacy = .4;
+            }
+        }
+
         let score = (
             // Activity setting risk coefficient * Number of attendees
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
@@ -50,7 +62,9 @@ export default function Results(props){
             // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
             (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
             // * Distancing risk * Volume risk
-            numericValues[props.distancing] * numericValues[props.speakingVolume]
+            numericValues[props.distancing] * numericValues[props.speakingVolume] *
+            // * Vaccine efficacy
+            vaccineEfficacy
         );
 
         // if (isNaN(score)) {
