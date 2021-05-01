@@ -107,7 +107,6 @@ export default function Calculator(props) {
     // Submit mask page, set survey completed, navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
-        console.log(event);
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
@@ -413,6 +412,10 @@ function VaccinePage(props) {
                             <option>Yes - Pfizer</option>
                             <option>Yes - Moderna</option>
                             <option>Yes - Johnson & Johnson</option>
+                            <option>Yes - Astrazeneca</option>
+                            <option>Yes - Other</option>
+
+
                         </Input>
                 </FormGroup>
                 {doseForm}
