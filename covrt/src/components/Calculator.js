@@ -70,26 +70,33 @@ export default function Calculator(props) {
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
         if (event.target.vaccine.value === "None") {
-            props.updateVaccination({ type: "None", doseNumber: 0, twoWeeks: null});
+            props.updateVaccination({ type: "None", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
         }else {
-            // If it hasn't been two weeks since the last dose, don't count it
             let twoWeeks = event.target.weeks.value;
-            let doseNumber = 1;
+
+            let doseNumber = 0;
+            let effectiveDoseNumber = 1;
             
-            // Make sure user didn't selecte JJ or else event.target.doses will return null
+            // If J&J was selected use defaults, if not check the selections
             if (event.target.vaccine.value !== "J&J") {
                 doseNumber = event.target.doses.value;
+                effectiveDoseNumber = event.target.doses.value;
             }
 
+            // If it hasn't been two weeks since the last dose, don't count it
             if (twoWeeks === "No") {
-                doseNumber--;
+                effectiveDoseNumber--;
             }
 
             props.updateVaccination({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
+                effectiveDoseNumber: effectiveDoseNumber,
                 twoWeeks: twoWeeks
             });
+
+            console.log("Dose number", doseNumber);
+            console.log("Effective dose number", effectiveDoseNumber);
         }
         handleNextClick();
     }
