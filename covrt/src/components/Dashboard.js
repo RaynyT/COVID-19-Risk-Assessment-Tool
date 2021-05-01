@@ -42,7 +42,7 @@ export default function Dashboard() {
                     </div>
                     <div className="row img-link-row">
                         <div className="col-12 d-flex justify-content-center">
-                            <RouterImageLink link={{pathname: "/calculator", fromUpdateButton: true}} image={updateIcon} desc="Update location & vaccine status"
+                            <RouterImageLink link="/update" image={updateIcon} desc="Update location & vaccine status"
                             alt="Illustration of a checkmark"/>
                         </div>
                     </div>
