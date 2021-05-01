@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { InfoIcon, LightBulbIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import { type } from 'jquery'
 
 export default function Results(props){
 
