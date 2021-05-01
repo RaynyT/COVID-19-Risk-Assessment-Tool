@@ -72,11 +72,24 @@ export default function Calculator(props) {
         if (event.target.vaccine.value === "No") {
             props.updateVaccination({ type: "No", doseNumber: 0, twoWeeks: null});
         }else {
-            console.log(event.target.doses.value)
+            // If it hasn't been two weeks since the last dose, don't count it
+            let twoWeeks = event.target.weeks.value;
+            let doseNumber = 1;
+            
+            // Make sure user didn't selecte JJ or else event.target.doses will return null
+            if (event.target.vaccine.value !== "Yes - Johnson & Johnson") {
+                doseNumber = event.target.doses.value;
+            }
+
+            if (twoWeeks === "No") {
+                doseNumber--;
+            }           
+
+
             props.updateVaccination({ 
                 type: event.target.vaccine.value,
-                doseNumber: event.target.doses.value,
-                twoWeeks: event.target.weeks.value
+                doseNumber: doseNumber,
+                twoWeeks: twoWeeks
             });
         }
         handleNextClick();
