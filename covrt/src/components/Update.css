@@ -1,0 +1,11 @@
+.submit-btn {
+    display: flex;
+    align-items: center;
+}
+
+.to-dashboard-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    color: #4A7CE2;
+    margin-bottom: 0;
+}

@@ -8,9 +8,10 @@ import Tutorial from './components/Tutorial.js';
 import InfoPage from './components/InfoPage.js';
 import Calculator from './components/Calculator.js';
 import Results from './components/Results.js'
-import ContactUs from './components/ContactUs';
-import Dashboard from './components/Dashboard';
-import About from './components/About';
+import ContactUs from './components/ContactUs.js';
+import Dashboard from './components/Dashboard.js';
+import About from './components/About.js';
+import Update from './components/Update.js'
 
 function App() {
 
@@ -138,6 +139,9 @@ function App() {
 			)} />
 			<Route path="/results" render={(routerProps) => (
 				<Results {...routerProps} {...stateAndCallbacks} />
+			)} />
+			<Route path="/update" render={(routerProps) => (
+				<Update {...routerProps} {...stateAndCallbacks} />
 			)} />
 		</div>
 	);
