@@ -83,8 +83,7 @@ export default function Calculator(props) {
 
             if (twoWeeks === "No") {
                 doseNumber--;
-            }           
-
+            }
 
             props.updateVaccination({ 
                 type: event.target.vaccine.value,
