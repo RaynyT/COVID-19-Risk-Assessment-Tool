@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { InfoIcon, LightBulbIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import { type } from 'jquery'
 
 export default function Results(props){
 
@@ -40,17 +41,20 @@ export default function Results(props){
 
         let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
 
+        console.log("Result effDoseNumber", props.vaccination.effectiveDoseNumber, "Type:", typeof props.vaccination.effectiveDoseNumber );
         // Determine vaccine efficacy
         let vaccineEfficacy = 1;
-        if (props.vaccination.effectiveDoseNumber === "1") {
+        let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
+        if (doseInt === 1) {
             vaccineEfficacy = .56;
-        } else if (props.vaccination.effectiveDoseNumber === "2") {
+        } else if (doseInt === 2) {
             if (props.vaccination.type === "Pfizer" || props.vaccination.type === "Moderna") {
                 vaccineEfficacy = .1;
             } else {
                 vaccineEfficacy = .4;
             }
         }
+        console.log("Efficacy:", vaccineEfficacy )
 
         let score = (
             // Activity setting risk coefficient * Number of attendees
