@@ -95,8 +95,6 @@ export default function Calculator(props) {
                 twoWeeks: twoWeeks
             });
 
-            console.log("Dose number", doseNumber);
-            console.log("Effective dose number", effectiveDoseNumber);
         }
         handleNextClick();
     }
