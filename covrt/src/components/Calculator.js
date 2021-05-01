@@ -69,15 +69,15 @@ export default function Calculator(props) {
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
-        if (event.target.vaccine.value === "No") {
-            props.updateVaccination({ type: "No", doseNumber: 0, twoWeeks: null});
+        if (event.target.vaccine.value === "None") {
+            props.updateVaccination({ type: "None", doseNumber: 0, twoWeeks: null});
         }else {
             // If it hasn't been two weeks since the last dose, don't count it
             let twoWeeks = event.target.weeks.value;
             let doseNumber = 1;
             
             // Make sure user didn't selecte JJ or else event.target.doses will return null
-            if (event.target.vaccine.value !== "Yes - Johnson & Johnson") {
+            if (event.target.vaccine.value !== "J&J") {
                 doseNumber = event.target.doses.value;
             }
 
@@ -358,11 +358,11 @@ function VaccinePage(props) {
 
     // Render dose form only if the user has selected that they have been vaccinated
     let doseForm = <div></div>;
-    if (props.selection.type !== "No") {
+    if (props.selection.type !== "None") {
 
         // Don't render doseNumberInput if user selected J&J (1 dose vaccine)
         let doseNumberInput = <div></div>;
-        if (props.selection.type !== "Yes - Johnson & Johnson"){
+        if (props.selection.type !== "J&J"){
             doseNumberInput = (
                 <FormGroup tag="fieldset">
                     <Label>How many doses have you received? </Label>
@@ -408,14 +408,12 @@ function VaccinePage(props) {
                 <FormGroup tag="fieldset">
                     <Label>Have you recieved a COVID-19 vaccine? If so, which type?</Label>
                         <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type} onChange={props.vaccineTypeCallback}>
-                            <option>No</option>
-                            <option>Yes - Pfizer</option>
-                            <option>Yes - Moderna</option>
-                            <option>Yes - Johnson & Johnson</option>
-                            <option>Yes - Astrazeneca</option>
-                            <option>Yes - Other</option>
-
-
+                            <option value="None">No</option>
+                            <option value="Pfizer">Yes - Pfizer</option>
+                            <option value="Moderna">Yes - Moderna</option>
+                            <option value="J&J">Yes - Johnson & Johnson</option>
+                            <option value="Astrazeneca">Yes - Astrazeneca</option>
+                            <option value="Other">Yes - Other</option>
                         </Input>
                 </FormGroup>
                 {doseForm}
