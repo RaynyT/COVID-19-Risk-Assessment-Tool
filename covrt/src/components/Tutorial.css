@@ -98,6 +98,11 @@
     flex: 1;
 }
 
+.tutorial-progress-bar {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
 .pagination-dots {
     padding: 0;
     margin: unset;

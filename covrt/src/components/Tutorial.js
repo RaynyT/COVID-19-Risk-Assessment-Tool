@@ -57,7 +57,7 @@ export default function Tutorial() {
             <div className="tutorial-main-container">
                 <h1 className="heading-text">Get Started</h1>
                 <h2 className="sub-heading-text">4 simple steps to get your risk results!</h2>
-                    <ProgressBar now={progress} label={progress + "%"} srOnly />
+                    <ProgressBar className="tutorial-progress-bar" now={progress} label={progress + "%"} srOnly />
                 {stepScreen}
             </div>
         </div>
