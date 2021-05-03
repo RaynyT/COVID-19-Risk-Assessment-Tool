@@ -15,18 +15,53 @@ import Update from './components/Update.js'
 
 function App() {
 
-	const[surveyCompleted, setSurveyCompleted] = useState(false);
+	// Hook from https://usehooks.com/useLocalStorage/
+	function useLocalStorage(key, initialValue) {
+		// State to store our value
+		// Pass initial state function to useState so logic is only executed once
+		const [storedValue, setStoredValue] = useState(() => {
+			try {
+				// Get from local storage by key
+				const item = window.localStorage.getItem(key);
+				// Parse stored json or if none return initialValue
+				return item ? JSON.parse(item) : initialValue;
+			} catch (error) {
+				// If error also return initialValue
+				console.log(error);
+				return initialValue;
+			}
+		});
+		// Return a wrapped version of useState's setter function that ...
+		// ... persists the new value to localStorage.
+		const setValue = (value) => {
+			try {
+				// Allow value to be a function so we have same API as useState
+				const valueToStore =
+					value instanceof Function ? value(storedValue) : value;
+				// Save state
+				setStoredValue(valueToStore);
+				// Save to local storage
+				window.localStorage.setItem(key, JSON.stringify(valueToStore));
+			} catch (error) {
+				// A more advanced implementation would handle the error case
+				console.log(error);
+			}
+		};
+		return [storedValue, setValue];
+	}
+
+	const[surveyCompleted, setSurveyCompleted] = useLocalStorage("surveyCompleted", false);
 
 	// Selections on the risk survey are saved as site-wide state variables as they are relevant
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
-	const [userLocation, setUserLocation] = useState({ stateCode: "WA", county: "Pierce" });
-	const [vaccination, setVaccination] = useState({ type: "None", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
-	const [activityBasicInfo, setActivityBasicInfo] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
-	const [distancing, setDistancing] = useState("6 feet");
-	const [speakingVolume, setSpeakingVolume] = useState("Speaking normally");
-	const [ownMask, setOwnMask] = useState("Cotton Mask");
-	const [othersMask, setOthersMask] = useState({ type: "Cotton Mask", numWearers: 100 });
+	const [userLocation, setUserLocation] = useLocalStorage("userLocation", { stateCode: "WA", county: "Pierce" });
+	const [vaccination, setVaccination] = useLocalStorage("vaccination", { type: "None", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
+	const [activityBasicInfo, setActivityBasicInfo] = useLocalStorage("activityBasicInfo", { setting: "none-selected", attendees: null, hours: null,  minutes: null});
+	const [distancing, setDistancing] = useLocalStorage("distancing", "6 feet");
+	const [speakingVolume, setSpeakingVolume] = useLocalStorage("speakingVolume", "Speaking normally");
+	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "Cotton Mask");
+	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "Cotton Mask", numWearers: 100 });
 	
 	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
