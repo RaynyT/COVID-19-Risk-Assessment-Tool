@@ -228,7 +228,7 @@ function DisclaimerPage(props) {
                 <h1 className="disclaimer-title">Agreement & Regulations</h1>
                 <div className="disclaimer-body-container">
                     <p className="disclaimer-body">
-                        CovidAware has been designed specifically for use in the United States. The use of this tool is subject to the <Link to="/about">Terms of Use.</Link>
+                        CovidAware has been designed specifically for use in the United States.
                     </p>
                     <p className="disclaimer-body">
                         Be aware that the information provided by this tool
