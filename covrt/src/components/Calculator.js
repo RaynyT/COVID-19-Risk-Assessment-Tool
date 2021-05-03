@@ -46,6 +46,11 @@ export default function Calculator(props) {
     const [pageNum, setPageNum] = useState(startingPageNum);
 
     let pageScreen = <div></div>;
+    let paginationDots =  (
+        <div className="calc-dots-container">
+            <PaginationDots activeNumber={pageNum} />
+        </div>
+    )
 
     const handleNextClick = () => {
         setPageNum(pageNum + 1);
@@ -117,6 +122,7 @@ export default function Calculator(props) {
     switch (pageNum) {
         case 1:
             pageScreen = <DisclaimerPage nextClickCallback={handleNextClick} />;
+            paginationDots = <div></div>;
             break;
         case 2:
             pageScreen = <LocationPage 
@@ -194,7 +200,7 @@ export default function Calculator(props) {
     return (
         <div className="calc-outer">
             <div className="calc-main-container">
-                <PaginationDots activeNumber={pageNum}/>
+                {paginationDots}
                 {pageScreen}
             </div>            
         </div>

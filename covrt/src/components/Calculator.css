@@ -235,7 +235,7 @@
     display: inline-block;
     width: 14px;
     height: 14px;
-    margin: 6px;
+    margin: .5rem;
     text-indent: -999px;
     background-color: rgba(0,0,0,0);
     border: 1px solid #F2A958;
@@ -246,6 +246,13 @@
     background-color: #F2A958
     ;
     padding: 0;
+}
+
+.calc-dots-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem
 }
 
 @media (min-width: 768px) {
