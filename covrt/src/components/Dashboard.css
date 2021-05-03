@@ -7,15 +7,13 @@
 }
 
 .img-link {
-    background-color: #4A7CE2;
-    border-style: solid;
-    border-width: medium;
     border-radius: 20%;
 
     box-sizing: border-box;
     width: 10rem;
     height: 10rem;
 }
+
 
 .img-link-content {
     font-family: 'Open Sans', sans-serif;
@@ -48,6 +46,25 @@
     margin-top: 1rem;
 }
 
+.blue-link {
+    background-color: #4A7CE2;
+}
+
+.grey-link {
+    background-color: #B8B7BF
+}
+
+.green-link {
+    background-color: #9BE17C;
+}
+
+.orange-link {
+    background-color: #F2A958;
+}
+
+.yellow-link {
+    background-color: #F9D153;
+}
 
 @media (min-width: 768px) {
 

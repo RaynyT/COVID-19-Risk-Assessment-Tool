@@ -21,29 +21,29 @@ export default function Dashboard() {
                 <h1 className="dashboard-title">Risk Dashboard</h1>
                 <div className="container">
                     <div className="row img-link-row">
-                        <div className="col-6 d-flex justify-content-center">
+                        <div className="col-12 d-flex justify-content-center">
                             <RouterImageLink link="/results" image={riskSummaryIcon} desc="Risk Summary" 
-                            alt="Illustration of a piece of paper with graphs and charts" />
-                        </div>
-                        <div className="col-6 d-flex justify-content-center">
-                            <RouterImageLink link={{pathname: "/results", fromTipsButton: true}} image={tipsIcon} desc="Tips to lower risk" 
-                            alt="Illustration of a lightbulb" />
+                            alt="Illustration of a piece of paper with graphs and charts" colorClass="blue-link" />
                         </div>
                     </div>
                     <div className="row img-link-row">
                         <div className="col-6 d-flex justify-content-center">
+                            <RouterImageLink link={{pathname: "/results", fromTipsButton: true}} image={tipsIcon} desc="Tips to lower risk" 
+                            alt="Illustration of a lightbulb" colorClass="grey-link" />
+                        </div>
+                        <div className="col-6 d-flex justify-content-center">
                             <ExternalImageLink link="https://www.doh.wa.gov/Emergencies/COVID19/vaccine" image={vaccineIcon} desc="Vaccine Information" 
-                            alt="Illustration of a medical vial and syringe" />
+                            alt="Illustration of a medical vial and syringe" colorClass="green-link" />
+                        </div>
+                    </div>
+                    <div className="row img-link-row">
+                        <div className="col-6 d-flex justify-content-center">
+                            <RouterImageLink link="/update" image={updateIcon} desc="Update location & vaccine status"
+                            alt="Illustration of a checkmark" colorClass= "yellow-link" />
                         </div>
                         <div className="col-6 d-flex justify-content-center">
                             <RouterImageLink link={{pathname: "/calculator", fromStartNewButton: true}} image={startNewIcon} desc="Start a new activity" 
-                            alt="Illustration of a rocket ship" />
-                        </div>
-                    </div>
-                    <div className="row img-link-row">
-                        <div className="col-12 d-flex justify-content-center">
-                            <RouterImageLink link="/update" image={updateIcon} desc="Update location & vaccine status"
-                            alt="Illustration of a checkmark"/>
+                            alt="Illustration of a rocket ship" colorClass="orange-link" />
                         </div>
                     </div>
                 </div>
@@ -53,8 +53,11 @@ export default function Dashboard() {
 }
 
 function ImageLink(props) {
+
+    let linkClass = "img-link " + props.colorClass;
+
     return (
-        <div className="img-link">
+        <div className={linkClass}>
             <div className="img-link-content">
                 <div className="img-link-image-container">
                     <img className="img-link-img" src={props.image} alt={props.alt} />
