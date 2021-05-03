@@ -26,25 +26,29 @@ export default function Tutorial() {
         setStep(step - 1);
     }
 
+    const setStepCallback = (stepNum) => {
+        setStep(stepNum)
+    }
+
     switch(step) {
         case 1:
-            stepScreen = <StepOne nextClickCallback={handleNextClick}/>;
+            stepScreen = <StepOne nextClickCallback={handleNextClick} setStepCallback={setStepCallback}/>;
             progress = 25;
             break;
         case 2:
-            stepScreen = <StepTwo nextClickCallback={handleNextClick} backClickCallback={handleBackClick}/>;
+            stepScreen = <StepTwo nextClickCallback={handleNextClick} backClickCallback={handleBackClick} setStepCallback={setStepCallback} />;
             progress = 50;
             break;
         case 3:
-            stepScreen = <StepThree nextClickCallback={handleNextClick}  backClickCallback={handleBackClick}/>;
+            stepScreen = <StepThree nextClickCallback={handleNextClick}  backClickCallback={handleBackClick} setStepCallback={setStepCallback}/>;
             progress = 75;
             break;
         case 4:
-            stepScreen = <StepFour  backClickCallback={handleBackClick}/>;
+            stepScreen = <StepFour  backClickCallback={handleBackClick} setStepCallback={setStepCallback}/>;
             progress = 100;
             break;
         default:
-            stepScreen = <StepOne nextClickCallback={handleNextClick}/>;
+            stepScreen = <StepOne nextClickCallback={handleNextClick} setStepCallback={setStepCallback}/>;
             progress = 25;
     }
 
@@ -61,6 +65,7 @@ export default function Tutorial() {
 }
 
 function StepOne(props) {
+
     return (
         <div className="step-container">
             <div className="step-content">
@@ -73,6 +78,12 @@ function StepOne(props) {
                     <Link to="/" className="btn hidden" aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2"/>
                     </Link>
+                    <ol className="pagination-dots">
+                        <li className="active"></li>
+                        <li onClick={() => props.setStepCallback(2)}></li>
+                        <li onClick={() => props.setStepCallback(3)}></li>
+                        <li onClick={() => props.setStepCallback(4)}></li>
+                    </ol>
                     <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2"/>
                     </button>
@@ -96,10 +107,17 @@ function StepTwo(props) {
             <div className="tutorial-nav-controls">
                 <div className="prev-next-btns">
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
-                        <ChevronLeftIcon size={48} fill="#4A7CE2"/>
-                    </button>                <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2"/>
-                    </button>            
+                        <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                    </button>
+                    <ol className="pagination-dots">
+                        <li onClick={() => props.setStepCallback(1)}></li>
+                        <li className="active"></li>
+                        <li onClick={() => props.setStepCallback(3)}></li>
+                        <li onClick={() => props.setStepCallback(4)}></li>
+                    </ol>               
+                    <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
+                        <ChevronRightIcon size={48} fill="#4A7CE2" />
+                    </button>
                 </div>
                 <div className="horizontal-center">
                     <Link to="/calculator" className="btn btn-outline-primary">
@@ -121,7 +139,13 @@ function StepThree(props) {
                 <div className="prev-next-btns">
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                    </button>                
+                    </button>
+                    <ol className="pagination-dots">
+                        <li onClick={() => props.setStepCallback(1)}></li>
+                        <li onClick={() => props.setStepCallback(2)}></li>
+                        <li className="active"></li>
+                        <li onClick={() => props.setStepCallback(4)}></li>
+                    </ol>                   
                     <button type="button" className="btn" onClick={props.nextClickCallback} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
@@ -147,6 +171,12 @@ function StepFour(props) {
                     <button type="button" className="btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
+                    <ol className="pagination-dots">
+                        <li onClick={() => props.setStepCallback(1)}></li>
+                        <li onClick={() => props.setStepCallback(2)}></li>
+                        <li onClick={() => props.setStepCallback(3)}></li>
+                        <li className="active"></li>
+                    </ol>
                     <button type="button" className="btn hidden" aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>             

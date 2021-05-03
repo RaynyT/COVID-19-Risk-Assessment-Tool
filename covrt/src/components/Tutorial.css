@@ -98,6 +98,28 @@
     flex: 1;
 }
 
+.pagination-dots {
+    padding: 0;
+    margin: unset;
+}
+
+.pagination-dots li {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 6px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #4A7CE2;
+    border-radius: 10px;
+}
+
+.pagination-dots .active {
+    background-color: #4A7CE2;
+    padding: 0;
+}
+
 @media (min-width: 768px) {
 
     .tutorial-outer {
