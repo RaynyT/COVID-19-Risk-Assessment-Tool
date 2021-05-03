@@ -194,6 +194,7 @@ export default function Calculator(props) {
     return (
         <div className="calc-outer">
             <div className="calc-main-container">
+                <PaginationDots activeNumber={pageNum}/>
                 {pageScreen}
             </div>            
         </div>
@@ -930,5 +931,24 @@ function ImageButton(props) {
                 </div>
             </div>
         </button>
+    );
+}
+
+function PaginationDots(props) {
+
+    let dotsArr = [2, 3, 4, 5, 6, 7, 8, 9];
+    let dotsList = dotsArr.map((item) => {
+        
+        let dotClass = ""
+        if (item === props.activeNumber) {
+            dotClass = "active"
+        }
+        return <li key={item} className={dotClass}></li>;
+    })
+
+    return (
+        <ol className="calc-pagination-dots">
+            {dotsList}
+        </ol>
     );
 }

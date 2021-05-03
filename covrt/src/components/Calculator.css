@@ -226,6 +226,28 @@
     min-height: 90vh;
 }
 
+.calc-pagination-dots {
+    padding: 0;
+    margin: unset;
+}
+
+.calc-pagination-dots li {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 6px;
+    text-indent: -999px;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #F2A958;
+    border-radius: 10px;
+}
+
+.calc-pagination-dots .active {
+    background-color: #F2A958
+    ;
+    padding: 0;
+}
+
 @media (min-width: 768px) {
 
     .calc-outer {
