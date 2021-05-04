@@ -1,3 +1,8 @@
+.dashboard-main-container{
+    padding-top: 1.5rem;
+}
+
+
 .dashboard-title {
     font-family: 'Open Sans', sans-serif;
     font-weight: bolder;

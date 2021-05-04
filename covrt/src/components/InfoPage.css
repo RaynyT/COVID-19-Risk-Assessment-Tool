@@ -6,7 +6,12 @@
 }
 
 .info-main-container {
-    padding: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.info-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 .info-hr {

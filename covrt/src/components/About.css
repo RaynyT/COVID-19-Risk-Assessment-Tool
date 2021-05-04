@@ -1,3 +1,9 @@
+.about-main-container{
+    padding-top: 1.5rem;
+}
+
+
+
 @media (min-width: 768px) {
 
     .about-outer {
