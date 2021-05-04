@@ -229,7 +229,7 @@ function ResultsScreen(props) {
                 <Link to="/FAQ"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
-                <button className="btn btn-primary" onClick={switchToReducePage}><LightBulbIcon/> Lower my risk!</button>
+                <button className="btn btn-primary" onClick={switchToReducePage}>Lower my risk!</button>
             </div>
         </div>
     )
@@ -259,6 +259,9 @@ function ReduceRiskScreen(props) {
             <div className="tips-container">
                 <TipList />
             </div>
+            <div className="horizontal-center">
+                <button className="btn btn-primary lower-risk-btn" onClick={switchToResultsPage}>Lower my risk!</button>
+            </div>
         </div>
     )
 }
@@ -274,16 +277,20 @@ function TipList (props) {
     ];
 
     let list = testArray.map((item) => {
-        console.log(item.suggestion)
         return(
-            <li key={item.suggestion}>
-                <input type="checkbox" value={item.suggestion} />
+            <li key={item.suggestion} className="tips-list-item">
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value={item.suggestion} id="flexCheckDefault" />
+                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                        {item.suggestion}
+                    </label>
+                </div>
             </li>
         );
     })
 
     return (
-        <ul>
+        <ul className="tips-list">
             {list}
         </ul>
     );
