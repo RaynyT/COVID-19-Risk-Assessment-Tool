@@ -1074,7 +1074,7 @@ CREATE TABLE IF NOT EXISTS TblStateCounty_Rate (
     StateCountyRateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     StateCountyID INT,
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
-    Uploaded DATE NOT NULL,
+    Uploaded VARCHAR(25) NOT NULL, -- DATE
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
     NumNewCasesLastWeek INT NOT NULL,
     NumNewCasesPrevToLastWeek INT NOT NULL
@@ -1103,7 +1103,7 @@ CREATE TABLE IF NOT EXISTS TblDemographic (
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
     FOREIGN KEY (VaccineTypeID) REFERENCES TblVaccineType(VaccineTypeID),
-    UserUpdateDate DATE NOT NULL
+    UserUpdateDate VARCHAR(25) NOT NULL -- DATE
 );
 
 -- Inserts Done
@@ -1200,7 +1200,7 @@ CREATE TABLE IF NOT EXISTS TblSurvey (
     FOREIGN KEY (DemographicID) REFERENCES TblDemographic(DemographicID),
     FOREIGN KEY (ActivityID) REFERENCES TblActivity(ActivityID),
     GivenName VARCHAR(50) NULL,
-    CreationDate DATETIME NOT NULL,
+    CreationDate VARCHAR(25) NOT NULL, -- DATETIME
     OverallScore DECIMAL(20, 10),
     LastSurveyID INT NULL
 );
