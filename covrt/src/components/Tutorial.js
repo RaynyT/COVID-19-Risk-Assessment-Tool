@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ProgressBar } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import ReactGA from 'react-ga';
 
 import '../App.css'
 import './Tutorial.css'
@@ -12,6 +13,8 @@ import stepThreeImage from '../images/risk-result.svg';
 import stepFourImage from '../images/survey.svg';
 
 export default function Tutorial() {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+
 
     const[step, setStep] = useState(1);
 

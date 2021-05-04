@@ -8,11 +8,14 @@ import volumeIcon from '../images/volume-vector.svg'
 
 import "./Results.css"
 import { Link } from 'react-router-dom';
-import { InfoIcon, LightBulbIcon } from '@primer/octicons-react';
+import { InfoIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import ReactGA from 'react-ga';
+
 
 export default function Results(props){
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     // TODO
     // Should find a way to make these not dependent on the names of the selections

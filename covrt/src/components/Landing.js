@@ -4,11 +4,15 @@ import moment from 'moment';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRightIcon} from '@primer/octicons-react';
+import ReactGA from 'react-ga';
+
 
 import finishLine from '../images/finish-line.svg'
 import logoImage from '../images/covidAwareLogoNew.svg';
 
 export default function Landing(props) {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+
 
     const[splashClicked, setSplashClicked] = useState(false);
 

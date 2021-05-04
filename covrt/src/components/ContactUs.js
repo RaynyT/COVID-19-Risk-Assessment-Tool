@@ -3,11 +3,13 @@ import { MailIcon } from '@primer/octicons-react'
 import { useForm, ValidationError } from '@formspree/react';
 import { Link } from 'react-router-dom';
 import NavBar from './NavBar.js'
+import ReactGA from 'react-ga';
 
 import contactImage from '../images/contact-us.svg'
 
 
 export default function ContactUs() {
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
         <div className="contact-outer">

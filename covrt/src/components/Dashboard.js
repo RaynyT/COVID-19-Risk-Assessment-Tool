@@ -6,13 +6,13 @@ import NavBar from './NavBar.js'
 import riskSummaryIcon from '../images/risk-summary-icon.svg'
 import tipsIcon from '../images/tips-icon.svg'
 import updateIcon from '../images/update-icon.svg'
-import shareIcon from '../images/share-icon.svg'
 import vaccineIcon from '../images/vaccine-icon.svg'
 import startNewIcon from '../images/start-new-icon.svg'
-import dataIcon from '../images/data-icon.svg'
+import ReactGA from 'react-ga';
+
 
 export default function Dashboard() {
-    
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
         <div className="dashboard-outer">

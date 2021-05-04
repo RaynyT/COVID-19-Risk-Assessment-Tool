@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
+import ReactGA from 'react-ga';
+
 
 
 import locationImage from '../images/space-search.svg';
@@ -32,6 +34,7 @@ import '../App.css';
 import './Calculator.css';
 
 export default function Calculator(props) {
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     let startingPageNum = 1;
         
