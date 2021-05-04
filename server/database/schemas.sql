@@ -1103,8 +1103,7 @@ CREATE TABLE IF NOT EXISTS TblDemographic (
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
     FOREIGN KEY (VaccineTypeID) REFERENCES TblVaccineType(VaccineTypeID),
-    UserUpdateDate DATE NOT NULL,
-    DemographicScore DECIMAL(20, 10) NOT NULL
+    UserUpdateDate DATE NOT NULL
 );
 
 -- Inserts Done
@@ -1172,6 +1171,7 @@ INSERT INTO TblDistance(RiskCoefficient, DistanceName)
 VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet");
 
 -- Need to figure out default activities
+-- AcitivtyName is unique and is only present when the activity is a preset activity
 CREATE TABLE IF NOT EXISTS TblActivity (
     ActivityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     ActivityTypeID INT,
@@ -1186,11 +1186,11 @@ CREATE TABLE IF NOT EXISTS TblActivity (
     FOREIGN KEY (DistanceID) REFERENCES TblDistance(DistanceID),
     FOREIGN KEY (SelfMaskID) REFERENCES TblSelfMask(SelfMaskID),
     FOREIGN KEY (OtherMasksID) REFERENCES TblOtherMasks(OtherMasksID),
+    ActivityName VARCHAR(50) UNIQUE NULL,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
     DurationHours INT NOT NULL,
-    DurationMinutes INT NOT NULL,
-    ActivityScore DECIMAL(20, 10) NOT NULL
+    DurationMinutes INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TblSurvey (
