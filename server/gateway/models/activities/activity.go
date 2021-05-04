@@ -6,7 +6,7 @@ import (
 )
 
 //Activity represents an activity in the database
-type Acitivity struct {
+type Activity struct {
 	ActivityID       int64   `json:"activityID"`
     ActivityTypeID   int64   `json:"activityTypeID"`
     VolumeID         int64   `json:"volumeID"`
@@ -36,7 +36,7 @@ type NewActivity struct {
     DurationMinutes  int64   `json:"durationMinutes"`
 }
 
-//Validate validates the new activity and returns an error if it violates and of these rules
+//Validate validates the new activity and returns an error if it violates any of these rules
 func (na *NewActivity) Validate() error {
     if na.NumPeopleMasks > na.NumPeople {
         return fmt.Errorf("Number of people wearing masks cannot be greater than number of people attending activity.")
@@ -82,7 +82,7 @@ func (na *NewActivity) ToActivity() (*Activity, error) {
         return nil, validationErr
     }
 
-    newActivity := &Activity{
+    newActivity := &Activity {
         ActivityTypeID:   na.ActivityTypeID,
         VolumeID:         na.VolumeID,
         InOutID:          na.InOutID,
@@ -96,5 +96,5 @@ func (na *NewActivity) ToActivity() (*Activity, error) {
         DurationMinutes:  na.DurationMinutes,
     }
 
-    return NewActivity, nil
+    return newActivity, nil
 }
