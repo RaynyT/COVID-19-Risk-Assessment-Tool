@@ -74,12 +74,10 @@ function App() {
 		setOwnMask(preset.ownMask);
 		setOthersMask(preset.othersMask);
 	}
-	const updateStateSelection = (event) => {
-		setUserLocation({stateCode: event.target.value, county: userLocation.county});
-	}
 
-	const updateCountySelection = (event) => {
-		setUserLocation({stateCode: userLocation.state, county: event.target.value});
+	const updateLocation = (stateCode, county) => {
+		console.log("App called");
+		setUserLocation({stateCode: stateCode, county: county});
 	}
 
 	const updateActivitySetting = (event) => {
@@ -137,8 +135,7 @@ function App() {
 	
 	let stateAndCallbacks = {
 		userLocation: userLocation,
-		updateStateSelection: updateStateSelection,
-		updateCountySelection: updateCountySelection,
+		updateLocation: updateLocation,
 		vaccination: vaccination,
 		updateVaccination: updateVaccination,
 		updateVaccineType: updateVaccineType,
