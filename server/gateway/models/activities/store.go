@@ -19,7 +19,7 @@ type Store interface {
 	//the newly-inserted Activity, complete with the DBMS-assigned ID
 	Insert(activity *Activity) (*Activity, error)
 
-	//Delete deletes the class with the given ID
+	//Delete deletes the activity with the given ID
 	Delete(id int64) error
 
 	//AllActivities returns all the activities given an activity type

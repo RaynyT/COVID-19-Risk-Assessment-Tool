@@ -32,7 +32,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 
 // getByProvidedType gets a specific activity given the provided type.
 // This requires the GetByType to be "unique" in the database - hence ActivityID and ActivityName
-func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Class, error) {
+func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Activity, error) {
 	sel := string("SELECT ActivityID, ActivityTypeID, VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes FROM TblActivity WHERE " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
@@ -63,12 +63,12 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Class, e
 	return activity, nil
 }
 
-//GetByID returns the Class with the given ID
+//GetByID returns the Activity with the given ID
 func (ms *MySQLStore) GetByID(id int64) (*Activity, error) {
 	return ms.getByProvidedType(ID, id)
 }
 
-//GetByName returns the Class with the given Name
+//GetByName returns the Activity with the given Name
 func (ms *MySQLStore) GetByName(name string) (*Activity, error) {
 	return ms.getByProvidedType(Name, name)
 }
@@ -88,7 +88,7 @@ func (ms *MySQLStore) Insert(activity *Activity) (*Activity, error) {
 	}
 
 	activity.ActivityID = lid
-	return class, nil
+	return activity, nil
 }
 
 //Delete deletes the activity with the given ID
