@@ -8,7 +8,7 @@ import { ChevronRightIcon} from '@primer/octicons-react';
 import finishLine from '../images/finish-line.svg'
 import logoImage from '../images/covidAwareLogoNew.svg';
 
-export default function Landing() {
+export default function Landing(props) {
 
     const[splashClicked, setSplashClicked] = useState(false);
 
@@ -16,7 +16,7 @@ export default function Landing() {
         setSplashClicked(true);
     }
 
-    if (splashClicked) {
+    if (splashClicked || props.surveyCompleted) {
         return (
             <HomePage />
         );

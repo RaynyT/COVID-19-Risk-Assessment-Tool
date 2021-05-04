@@ -163,7 +163,9 @@ function App() {
 		<div className="App">
 			<header className="App-header">
 			</header>
-			<Route exact path="/" component={Landing} />
+			<Route exact path="/" render={(routerProps) => (
+				<Landing {...routerProps} surveyCompleted={surveyCompleted} /> 
+			)} />
 			<Route path="/get-started" component={Tutorial} />
 			<Route path="/faq" component={InfoPage} />
 			<Route path="/contact-us" component={ContactUs} />
