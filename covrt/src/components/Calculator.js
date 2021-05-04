@@ -41,6 +41,8 @@ export default function Calculator(props) {
         startingPageNum = 9;
     } else if (props.location.fromStartNewButton) {
         startingPageNum = 4;
+    } else if (props.updateSurveryCompleted) {
+        startingPageNum = 2;
     }
 
     const [pageNum, setPageNum] = useState(startingPageNum);
@@ -946,7 +948,7 @@ function PaginationDots(props) {
     let dotsList = dotsArr.map((item) => {
         
         let dotClass = ""
-        if (item === props.activeNumber) {
+        if (item <= props.activeNumber) {
             dotClass = "active"
         }
         return <li key={item} className={dotClass}></li>;
