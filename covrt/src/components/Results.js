@@ -40,7 +40,6 @@ export default function Results(props){
 
         let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
 
-        console.log("Result effDoseNumber", props.vaccination.effectiveDoseNumber, "Type:", typeof props.vaccination.effectiveDoseNumber );
         // Determine vaccine efficacy
         let vaccineEfficacy = 1;
         let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
@@ -53,7 +52,6 @@ export default function Results(props){
                 vaccineEfficacy = .4;
             }
         }
-        console.log("Efficacy:", vaccineEfficacy )
 
         let score = (
             // Activity setting risk coefficient * Number of attendees
@@ -258,8 +256,37 @@ function ReduceRiskScreen(props) {
             </div>
             <h1 className="risk-title">Tips to Lower Risk</h1>
             <h2 className="reduce-risk-subheading">Check the suggestions you would like to implement:</h2>
+            <div className="tips-container">
+                <TipList />
+            </div>
         </div>
     )
+}
+
+function TipList (props) {
+    let testArray = [
+        {suggestion: "Suggestion One"},
+        {suggestion: "Suggestion Two"},
+        {suggestion: "Suggestion Three"},
+        {suggestion: "Suggestion Four"},
+        {suggestion: "Suggestion Five"},
+        {suggestion: "Suggestion Six"}
+    ];
+
+    let list = testArray.map((item) => {
+        console.log(item.suggestion)
+        return(
+            <li key={item.suggestion}>
+                <input type="checkbox" value={item.suggestion} />
+            </li>
+        );
+    })
+
+    return (
+        <ul>
+            {list}
+        </ul>
+    );
 }
 
 function ImageCard(props) {
