@@ -1074,7 +1074,7 @@ CREATE TABLE IF NOT EXISTS TblStateCounty_Rate (
     StateCountyRateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     StateCountyID INT,
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
-    Uploaded DATE NOT NULL,
+    Uploaded VARCHAR(25) NOT NULL, -- DATE
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
     NumNewCasesLastWeek INT NOT NULL,
     NumNewCasesPrevToLastWeek INT NOT NULL
@@ -1097,14 +1097,13 @@ VALUES(0.1, "Pfizer 2"), (0.1, "Moderna 2"), (0.56, "Pfizer 1"), (0.56, "Moderna
 
 CREATE TABLE IF NOT EXISTS TblDemographic (
     DemographicID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    UserID INT,
+    UserID UNIQUE INT,
     StateCountyID INT,
     VaccineTypeID INT,
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
     FOREIGN KEY (VaccineTypeID) REFERENCES TblVaccineType(VaccineTypeID),
-    UserUpdateDate DATE NOT NULL,
-    DemographicScore DECIMAL(20, 10) NOT NULL
+    UserUpdateDate VARCHAR(25) NOT NULL -- DATE
 );
 
 -- Inserts Done
@@ -1172,6 +1171,7 @@ INSERT INTO TblDistance(RiskCoefficient, DistanceName)
 VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet");
 
 -- Need to figure out default activities
+-- AcitivtyName is unique and is only present when the activity is a preset activity
 CREATE TABLE IF NOT EXISTS TblActivity (
     ActivityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     ActivityTypeID INT,
@@ -1186,11 +1186,11 @@ CREATE TABLE IF NOT EXISTS TblActivity (
     FOREIGN KEY (DistanceID) REFERENCES TblDistance(DistanceID),
     FOREIGN KEY (SelfMaskID) REFERENCES TblSelfMask(SelfMaskID),
     FOREIGN KEY (OtherMasksID) REFERENCES TblOtherMasks(OtherMasksID),
+    ActivityName VARCHAR(50) UNIQUE NULL,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
     DurationHours INT NOT NULL,
-    DurationMinutes INT NOT NULL,
-    ActivityScore DECIMAL(20, 10) NOT NULL
+    DurationMinutes INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TblSurvey (
@@ -1200,7 +1200,7 @@ CREATE TABLE IF NOT EXISTS TblSurvey (
     FOREIGN KEY (DemographicID) REFERENCES TblDemographic(DemographicID),
     FOREIGN KEY (ActivityID) REFERENCES TblActivity(ActivityID),
     GivenName VARCHAR(50) NULL,
-    CreationDate DATETIME NOT NULL,
+    CreationDate VARCHAR(25) NOT NULL, -- DATETIME
     OverallScore DECIMAL(20, 10),
     LastSurveyID INT NULL
 );
