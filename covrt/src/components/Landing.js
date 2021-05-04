@@ -18,7 +18,7 @@ export default function Landing(props) {
 
     if (splashClicked || props.surveyCompleted) {
         return (
-            <HomePage />
+            <HomePage surveyCompleted={props.surveyCompleted}/>
         );
     } else {
         return (
@@ -54,7 +54,14 @@ function Splash(props) {
 
 }
 
-function HomePage() {
+function HomePage(props) {
+
+    let getStartedPath = "/get-started";
+    if(props.surveyCompleted) {
+        getStartedPath = "/dashboard"
+    }
+
+
     return (
         <div className="landing-outer">        
             <div className="landing-main-container vertical-center horizontal-center">
@@ -64,7 +71,7 @@ function HomePage() {
                     <p className="subheading-text">Your go-to COVID-19 risk calculator for planning activities</p>
                     <div>
                         <div className="horizontal-center">
-                            <Link to="/get-started" className="btn btn-primary get-started-btn">
+                            <Link to={getStartedPath} className="btn btn-primary get-started-btn">
                                 Get Started
                             </Link>
                         </div>
