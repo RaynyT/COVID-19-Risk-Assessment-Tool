@@ -1097,7 +1097,7 @@ VALUES(0.1, "Pfizer 2"), (0.1, "Moderna 2"), (0.56, "Pfizer 1"), (0.56, "Moderna
 
 CREATE TABLE IF NOT EXISTS TblDemographic (
     DemographicID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    UserID INT,
+    UserID UNIQUE INT,
     StateCountyID INT,
     VaccineTypeID INT,
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
