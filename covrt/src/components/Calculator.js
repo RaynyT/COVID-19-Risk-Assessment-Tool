@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
@@ -429,7 +429,7 @@ function VaccinePage(props) {
             <img className="calc-img" src={doctorsImage} alt="Illustration of two doctors" />
             <Form id="vaccine-form" onSubmit={props.submitCallback}>
                 <FormGroup tag="fieldset">
-                    <Label>Have you recieved a COVID-19 vaccine? If so, which type?</Label>
+                    <Label>Have you received a COVID-19 vaccine? If so, which type?</Label>
                         <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type} onChange={props.vaccineTypeCallback}>
                             <option value="None">No</option>
                             <option value="Pfizer">Yes - Pfizer</option>
@@ -586,6 +586,13 @@ function ActivityPage(props) {
 
 function SocialDistancePage(props) {
 
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => setTooltipOpen(!tooltipOpen);
+
+    let toolTip = <div></div>
+    let nextButtonDisabled = false
+
     let lessThanSixSelected = false;
     let sixSelected = false;
     let nineSelected = false;
@@ -604,9 +611,22 @@ function SocialDistancePage(props) {
         case "More than 9 feet":
             moreThanNineSelected = true;
             break;
+        case "none-selected":
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="distance-next-btn" toggle={toggle}>
+                    Please select a distance from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;
+            break;
         default:
-            sixSelected = true;
-    }
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="distance-next-btn" toggle={toggle}>
+                    Please select a distance from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;    
+        }
 
     return (
         <div className="calc-step-container">
@@ -638,9 +658,13 @@ function SocialDistancePage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step" >
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
+                    <div id="distance-next-btn" tabIndex="0">
+                        <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step"
+                        disabled={nextButtonDisabled} >
+                            <ChevronRightIcon size={48} fill="#4A7CE2" />
+                        </button>
+                        {toolTip}
+                    </div>
                 </div>
             </div>
         </div>
@@ -649,6 +673,13 @@ function SocialDistancePage(props) {
 }
 
 function TalkingPage(props) {
+
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => setTooltipOpen(!tooltipOpen);
+
+    let toolTip = <div></div>
+    let nextButtonDisabled = false
 
     let notSpeakingSelected = false;
     let normalSpeakingSelected = false;
@@ -664,9 +695,22 @@ function TalkingPage(props) {
         case "Speaking loudly or shouting":
             loudSpeakingSelected = true;
             break;
+        case "none-selected":
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="talking-next-btn" toggle={toggle}>
+                    Please select a volume from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;
+            break;
         default:
-            normalSpeakingSelected = true;
-    }
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="talking-next-btn" toggle={toggle}>
+                    Please select a volume from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;    
+        }
 
     return (
         <div className="calc-step-container">
@@ -695,9 +739,13 @@ function TalkingPage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
+                    <div id="talking-next-btn" tabIndex="0">
+                        <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step"
+                        disabled={nextButtonDisabled} >
+                            <ChevronRightIcon size={48} fill="#4A7CE2" />
+                        </button>
+                        {toolTip}
+                    </div>
                 </div>
             </div>
         </div>
@@ -707,9 +755,16 @@ function TalkingPage(props) {
 
 function OwnMaskPage(props) {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [tooltipOpen, setTooltipOpen] = useState(false);
 
-    const toggle = () => setIsOpen(!isOpen);
+    const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+
+    let toolTip = <div></div>
+    let nextButtonDisabled = false
+
+    const [infoIsOpen, setInfoIsOpen] = useState(false);
+
+    const toggleInfo = () => setInfoIsOpen(!infoIsOpen);
 
     let noMaskSelected = false;
     let cottonMaskSelected = false;
@@ -735,13 +790,26 @@ function OwnMaskPage(props) {
             kn95MaskSelected= true;
             maskInfo = "Reduces wearer’s exposure to particles including small particle aerosols and large droplets. Protects others from the wearer’s respiratory emissions."
             break;
+        case "none-selected":
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="own-mask-next-btn" toggle={toggleTooltip}>
+                    Please select a mask from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;
+            break;
         default:
-            cottonMaskSelected = true;
-    }
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="own-mask-next-btn" toggle={toggleTooltip}>
+                    Please select a mask from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;    
+        }
 
     let dropdownClass = "";
 
-    if (noMaskSelected) {
+    if (noMaskSelected || props.selection === "none-selected") {
         dropdownClass = "hidden";
     }
 
@@ -770,14 +838,14 @@ function OwnMaskPage(props) {
             </div>
             <div className={dropdownClass}>
                 <div className="info-dropdown-btn">
-                    <button className="btn btn-outline-secondary" onClick={toggle}>
-                        What is a {props.selection}? {isOpen
+                    <button className="btn btn-outline-secondary" onClick={toggleInfo}>
+                        What is a {props.selection}? {infoIsOpen
                         ? <ChevronUpIcon size={24} />
                         : <ChevronDownIcon size={24} />
                     }
                     </button>
                 </div>
-                <Collapse isOpen={isOpen}>
+                <Collapse isOpen={infoIsOpen}>
                     <Card>
                         <CardBody>
                             {maskInfo}
@@ -790,9 +858,13 @@ function OwnMaskPage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
-                        <ChevronRightIcon size={48} fill="#4A7CE2" />
-                    </button>
+                    <div id="own-mask-next-btn" tabIndex="0">
+                        <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step"
+                        disabled={nextButtonDisabled} >
+                            <ChevronRightIcon size={48} fill="#4A7CE2" />
+                        </button>
+                        {toolTip}
+                    </div>
                 </div>
             </div>
         </div>
@@ -802,7 +874,14 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
-    const [ sliderValue, setSliderValue ] = useState(parseInt(props.attendees)); 
+    const [sliderValue, setSliderValue ] = useState(parseInt(props.attendees)); 
+
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => setTooltipOpen(!tooltipOpen);
+
+    let toolTip = <div></div>
+    let nextButtonDisabled = false
 
 
     let noMaskSelected = false;
@@ -823,9 +902,22 @@ function OthersMaskPage(props) {
         case "KN95 Mask":
             kn95MaskSelected= true;
             break;
+        case "none-selected":
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="others-mask-next-btn" toggle={toggle}>
+                    Please select a mask from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;
+            break;
         default:
-            cottonMaskSelected = true;
-    }
+            toolTip = (
+                <Tooltip placement="top" isOpen={tooltipOpen} target="others-mask-next-btn" toggle={toggle}>
+                    Please select a mask from the buttons above
+                </Tooltip>
+            )
+            nextButtonDisabled = true;
+        }
 
     return (
         <div className="calc-step-container">
@@ -872,11 +964,15 @@ function OthersMaskPage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <span>
-                        <button form="others-mask-form" type="submit" className="btn btn-primary next-btn">
+                    <div id="others-mask-next-btn" tabIndex="0">
+
+                        <button form="others-mask-form" type="submit" className="btn btn-primary next-btn" disabled={nextButtonDisabled}>
+                            <div>
                             Get my risk score
+                            </div>
                         </button>
-                    </span>
+                        {toolTip}
+                    </div>
                 </div>
             </div>
         </div>
