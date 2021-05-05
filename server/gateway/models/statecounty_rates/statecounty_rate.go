@@ -57,5 +57,5 @@ func (nscr *NewStateCounty_Rate) ToStateCounty_Rate() (*StateCounty_Rate, error)
 		NumNewCasesPrevToLastWeek: nscr.NumNewCasesPrevToLastWeek,
     }
 
-    return NewStateCounty_Rate, nil
+    return newStateCounty_Rate, nil
 }
