@@ -3,6 +3,7 @@ package demographics
 import (
 	"fmt"
 	"strings"
+    "time"
 )
 
 //Demographic represents a demographic in the database
