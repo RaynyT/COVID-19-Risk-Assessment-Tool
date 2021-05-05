@@ -61,10 +61,10 @@ function App() {
 	const [userLocation, setUserLocation] = useLocalStorage("userLocation", { stateCode: "WA", county: "Pierce" });
 	const [vaccination, setVaccination] = useLocalStorage("vaccination", { type: "None", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
 	const [activityBasicInfo, setActivityBasicInfo] = useLocalStorage("activityBasicInfo", { setting: "none-selected", attendees: null, hours: null,  minutes: null});
-	const [distancing, setDistancing] = useLocalStorage("distancing", "6 feet");
-	const [speakingVolume, setSpeakingVolume] = useLocalStorage("speakingVolume", "Speaking normally");
-	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "Cotton Mask");
-	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "Cotton Mask", numWearers: 100 });
+	const [distancing, setDistancing] = useLocalStorage("distancing", "none-selected");
+	const [speakingVolume, setSpeakingVolume] = useLocalStorage("speakingVolume", "none-selected");
+	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "none-selected");
+	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: 100 });
 	
 	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
