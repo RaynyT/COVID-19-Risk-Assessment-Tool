@@ -67,7 +67,6 @@ export default function Calculator(props) {
 
     const handleLocationPageSubmit = (event) => {
         event.preventDefault();
-        console.log("Handler called")
         props.updateLocation(
             event.target.state.value,
             event.target.county.value
@@ -639,7 +638,7 @@ function SocialDistancePage(props) {
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step" >
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>

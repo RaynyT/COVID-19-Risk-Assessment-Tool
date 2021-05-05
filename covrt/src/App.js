@@ -79,7 +79,6 @@ function App() {
 	}
 
 	const updateLocation = (stateCode, county) => {
-		console.log("App called");
 		setUserLocation({stateCode: stateCode, county: county});
 	}
 
