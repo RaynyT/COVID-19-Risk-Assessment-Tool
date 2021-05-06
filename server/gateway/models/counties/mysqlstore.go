@@ -2,7 +2,6 @@ package counties
 
 import (
 	"database/sql"
-	"time"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -30,9 +29,6 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 
 	return &MySQLStore{db}, nil
 }
-// ----------------
-CountyID	int64	`json:"countyID"`
-CountyName	string	`json:"countyName"`
 
 // getByProvidedType gets a specific county given the provided type.
 // This requires the GetByType to be "unique" in the database - hence CountyID and CountyName
@@ -65,42 +61,4 @@ func (ms *MySQLStore) GetByID(id int64) (*County, error) {
 //GetByName returns the Activity with the given Name
 func (ms *MySQLStore) GetByName(name string) (*County, error) {
 	return ms.getByProvidedType(Name, name)
-}
-
-//Insert inserts the county into the database, and returns
-//the newly-inserted county, complete with the DBMS-assigned CountyID
-func (ms *MySQLStore) Insert(county *County) (*County, error) {
-	ins := string("INSERT INTO TblCounty(CountyName) VALUES(?)")
-	res, err := ms.Database.Exec(ins, county.CountyName)
-	if err != nil {
-		return nil, err
-	}
-
-	lid, lidErr := res.LastInsertId()
-	if lidErr != nil {
-		return nil, lidErr
-	}
-
-	county.CountyID = lid
-	return county, nil
-}
-
-//Delete deletes the county with the given ID
-func (ms *MySQLStore) Delete(id int64) error {
-	del := string("DELETE FROM TblCounty WHERE CountyID = ?")
-	res, err := ms.Database.Exec(del, id)
-	if err != nil {
-		return err
-	}
-
-	rowsAffected, rowsAffectedErr := res.RowsAffected()
-	if rowsAffectedErr != nil {
-		return rowsAffectedErr
-	}
-
-	if rowsAffected != 1 {
-		return ErrActivityNotFound
-	}
-
-	return nil
 }
