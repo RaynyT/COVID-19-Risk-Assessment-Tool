@@ -6,5 +6,5 @@ import (
 
 type County struct {
 	CountyID	  int64	  `json:"countyID"`
-	CountyName	string	`json:"countyName"`
+	CountyName	  string	`json:"countyName"`
 }

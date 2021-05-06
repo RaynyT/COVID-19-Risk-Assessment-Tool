@@ -31,9 +31,9 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 }
 
 // getByProvidedType gets a specific activity given the provided type.
-// This requires the GetByType to be "unique" in the database - hence ActivityID and ActivityName
+// This requires the GetByType to be "unique" in the database - hence DistanceID and DistanceName
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Distance, error) {
-	sel := string("SELECT DistanceID, DistanceName, DistanceDescr, InitialActivity FROM TblDistance WHERE " + t + " = ?")
+	sel := string("SELECT DistanceID, RiskCoefficient, DistanceName FROM TblDistance WHERE " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
 	if err != nil {
@@ -47,9 +47,8 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Distance
 	rows.Next()
 	if err := rows.Scan(
 		&distance.DistanceID,
-		&distance.DistanceName,
-		&distance.DistanceDescr,
-		&distance.InitialActivity); err != nil {
+		&distance.RiskCoefficient,
+		&distance.DistanceName); err != nil {
 		return nil, err
 	}
 	return distance, nil
@@ -67,7 +66,7 @@ func (ms *MySQLStore) GetByName(name string) (*Distance, error) {
 
 // Gets all surveys based on a given:
 // Risk Coefficient
-func (ms *MySQLStore) AllDistances(rc float64) (*[]Survey, error) {
+func (ms *MySQLStore) AllDistances(rc float64) (*[]Distance, error) {
 	sel := string("SELECT DistanceID, RiskCoefficient, DistanceName FROM TblDistance WHERE RiskCoefficient = ?")
 
 	rows, err := ms.Database.Query(sel, rc)
@@ -75,7 +74,7 @@ func (ms *MySQLStore) AllDistances(rc float64) (*[]Survey, error) {
 
 	for rows.Next() {
 		var distance Distance
-		err = rows.Scan(&distance.DistanceID, &distance.RiskCoefficient, &survey.DistanceName)
+		err = rows.Scan(&distance.DistanceID, &distance.RiskCoefficient, &distance.DistanceName)
 		
 		if err != nil {
 			return nil, err
