@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
@@ -133,10 +133,18 @@ export default function Calculator(props) {
     // Submit mask page, set survey completed, navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
+        useEffect(() => {
+            axios({
+            "method": "GET",
+            "url": "https://riskaware.ischool.uw.edu/"
+            })
+        });
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
     }
+
+    
 
     switch (pageNum) {
         case 1:
