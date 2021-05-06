@@ -1095,6 +1095,7 @@ CREATE TABLE IF NOT EXISTS TblVaccineType (
 INSERT INTO TblVaccineType(RiskCoefficient, VaccineTypeName)
 VALUES(0.1, "Pfizer 2"), (0.1, "Moderna 2"), (0.56, "Pfizer 1"), (0.56, "Moderna 1"), (0.33, "Johnson"), (1.0, "No Vaccine");
 
+-- Unique User - only one entry per user and this will require updates
 CREATE TABLE IF NOT EXISTS TblDemographic (
     DemographicID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     UserID INT UNIQUE,
