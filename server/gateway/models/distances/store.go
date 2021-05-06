@@ -13,7 +13,7 @@ type Store interface {
 	//GetByID returns the Distance with the given ID
 	GetByID(id int64) (*Distance, error)
 
-	//GetByID returns the Distance with the given ID
+	//GetByID returns the Distance with the given Name
 	GetByName(name string) (*Distance, error)
 
 	//AllDistances returns all Distances with the given risk coefficient
