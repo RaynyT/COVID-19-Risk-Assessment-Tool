@@ -49,6 +49,7 @@ export default function Calculator(props) {
     }
 
     const [pageNum, setPageNum] = useState(startingPageNum);
+    const [usingPreset, setUsingPreset] = useState(false);
 
     let pageScreen = <div></div>;
     let paginationDots =  (
@@ -115,6 +116,10 @@ export default function Calculator(props) {
         handleNextClick();
     }
     
+    const handlePresetActivityState = (presetUsed) => {
+        setUsingPreset(presetUsed);
+    }
+
     const handleActivityPageSubmit = (event) => {
         event.preventDefault();
         props.updateActivityBasicInfo(
@@ -158,7 +163,8 @@ export default function Calculator(props) {
             pageScreen = <PresetPage 
                 nextClickCallback={handleNextClick} 
                 backClickCallback={handleBackClick}
-                presetCallback={props.updateWithPreset}
+                fillWithPresetCallback={props.updateWithPreset}
+                updatePresetUsedCallback={handlePresetActivityState}
             />;
             break;
         case 5:
@@ -169,6 +175,7 @@ export default function Calculator(props) {
                 attendees={props.activityBasicInfo.attendees}
                 hours={props.activityBasicInfo.hours}
                 minutes={props.activityBasicInfo.minutes}
+                usingPreset={usingPreset}
                 submitCallback={handleActivityPageSubmit}
             />;
             break;
@@ -473,8 +480,14 @@ function PresetPage(props) {
     // If it doesn't it proceeds as if no preset was entered for safety, but this should never happen anyway
     const fillSurvey = (desc) => {
         if (presets.hasOwnProperty(desc)) {
-            props.presetCallback(presets[desc]);
+            props.fillWithPresetCallback(presets[desc]);
+            props.updatePresetUsedCallback(true);
         }
+        props.nextClickCallback();
+    }
+
+    const buildOwnActivity = () => {
+        props.updatePresetUsedCallback(false);
         props.nextClickCallback();
     }
 
@@ -521,14 +534,14 @@ function PresetPage(props) {
 
             <h2 className="calc-subtext">Didn’t see an activity you want?</h2>
             <div className="horizontal-center build-own-btn">
-                <Button color="outline-primary" onClick={props.nextClickCallback}>Build my own activity!</Button>
+                <Button color="outline-primary" onClick={buildOwnActivity}>Build my own activity!</Button>
             </div>
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
                         <ChevronLeftIcon size={48} fill="#4A7CE2" />
                     </button>
-                    <button className="btn next-btn" onClick={props.nextClickCallback} aria-label="Next step">
+                    <button className="btn next-btn" onClick={buildOwnActivity} aria-label="Next step">
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </button>
                 </div>
@@ -546,10 +559,21 @@ function ActivityPage(props) {
         { desc: "Outdoor", checked: false }
     ];
 
+    let subHeader = (
+        <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
+    )
+    if(props.usingPreset) {
+        subHeader = (
+        <h2 className="preset-text">
+            Calculator choices have been auto-filled based on your chosen activity
+        </h2>
+        );
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Basic information</h1>
-            <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
+            {subHeader}
             <Form id="activity-form" onSubmit={props.submitCallback}>
                 <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
                     selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
@@ -669,7 +693,6 @@ function SocialDistancePage(props) {
             </div>
         </div>
     );
-
 }
 
 function TalkingPage(props) {

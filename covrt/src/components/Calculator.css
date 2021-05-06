@@ -78,6 +78,13 @@
     margin-top: 3rem;
 }
 
+.preset-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color:#F2A958;
+    font-size: 1rem;
+}
+
 .calc-img {
     display: block;
     margin-left: auto;
