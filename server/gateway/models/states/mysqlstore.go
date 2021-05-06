@@ -54,12 +54,12 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*State, e
 	return state, nil
 }
 
-//GetByID returns the Activity with the given ID
+//GetByID returns the State with the given ID
 func (ms *MySQLStore) GetByID(id int64) (*State, error) {
 	return ms.getByProvidedType(ID, id)
 }
 
-//GetByName returns the Activity with the given Name
+//GetByName returns the State with the given Abbr
 func (ms *MySQLStore) GetByAbbr(abbr string) (*State, error) {
 	return ms.getByProvidedType(Abbr, abbr)
 }
