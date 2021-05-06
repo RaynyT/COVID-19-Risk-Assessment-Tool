@@ -71,7 +71,7 @@ func (ms *MySQLStore) GetByName(name string) (*ActivityType, error) {
 //Insert inserts the activityType into the database, and returns
 //the newly-inserted ActivityType, complete with the DBMS-assigned ActivityTypeID
 func (ms *MySQLStore) Insert(activityType *ActivityType) (*ActivityType, error) {
-	ins := string("INSERT INTO TblActivityType(ActivityTypeName, ActivityTypeDescr, InitialActivity) VALUES(?,?,?,?)")
+	ins := string("INSERT INTO TblActivityType(ActivityTypeName, ActivityTypeDescr, InitialActivity) VALUES(?,?,?)")
 	res, err := ms.Database.Exec(ins, activityType.ActivityTypeName, activityType.ActivityTypeDescr, activityType.InitialActivity)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (ms *MySQLStore) Insert(activityType *ActivityType) (*ActivityType, error) 
 		return nil, lidErr
 	}
 
-	activity.ActivityTypeID = lid
+	activityType.ActivityTypeID = lid
 	return activityType, nil
 }
 
