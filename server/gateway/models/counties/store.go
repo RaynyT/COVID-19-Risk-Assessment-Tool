@@ -2,6 +2,7 @@ package counties
 
 import (
 	"errors"
+	"strings"
 )
 
 //ErrActivityNotFound is returned when the county can't be found
@@ -12,6 +13,6 @@ type Store interface {
 	//GetByID returns the County with the given ID
 	GetByID(id int64) (*County, error)
 
-	//GetByID returns the County with the given ID
+	//GetByID returns the County with the given Name
 	GetByName(name string) (*County, error)
 }

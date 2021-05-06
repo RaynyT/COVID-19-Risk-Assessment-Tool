@@ -2,6 +2,7 @@ package counties
 
 import (
 	"database/sql"
+	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
