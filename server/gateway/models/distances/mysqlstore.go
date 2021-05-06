@@ -2,6 +2,7 @@ package distances
 
 import (
 	"database/sql"
+	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -30,7 +31,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 	return &MySQLStore{db}, nil
 }
 
-// getByProvidedType gets a specific activity given the provided type.
+// getByProvidedType gets a specific distance given the provided type.
 // This requires the GetByType to be "unique" in the database - hence DistanceID and DistanceName
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Distance, error) {
 	sel := string("SELECT DistanceID, RiskCoefficient, DistanceName FROM TblDistance WHERE " + t + " = ?")
