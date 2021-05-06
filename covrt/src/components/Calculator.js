@@ -133,12 +133,6 @@ export default function Calculator(props) {
     // Submit mask page, set survey completed, navigate to /results
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
-        useEffect(() => {
-            axios({
-            "method": "GET",
-            "url": "https://riskaware.ischool.uw.edu/"
-            })
-        });
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
