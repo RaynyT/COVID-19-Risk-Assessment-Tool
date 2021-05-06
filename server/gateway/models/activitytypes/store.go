@@ -15,11 +15,4 @@ type Store interface {
 	//GetByID returns the ActivityType with the given Name
 	GetByName(name string) (*ActivityType, error)
 
-	//Insert inserts the activityType into the database, and returns
-	//the newly-inserted ActivityType, complete with the DBMS-assigned ID
-	Insert(activityType *ActivityType) (*ActivityType, error)
-
-	//Delete deletes the activity with the given ID
-	Delete(id int64) error
-
 }
