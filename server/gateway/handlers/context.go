@@ -23,7 +23,7 @@ import (
 //handler functions that need access to
 //globals
 type HandlerContext struct {
-	ActivitiesStore			activities.Store
+	ActivitiesStore         activities.Store
 	ActivityTypesStore      activitytypes.Store
 	CountiesStore           counties.Store
 	DemographicsStore       demographics.Store
