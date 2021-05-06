@@ -44,7 +44,7 @@ export default function Calculator(props) {
         startingPageNum = 9;
     } else if (props.location.fromStartNewButton) {
         startingPageNum = 4;
-    } else if (props.updateSurveryCompleted) {
+    } else if (props.surveyCompleted) {
         startingPageNum = 2;
     }
 
@@ -473,6 +473,14 @@ function PresetPage(props) {
             volume: "Speaking normally",
             ownMask: "No Mask",
             othersMask: { type: "No Mask", numWearers: null }
+        },
+
+        "empty-activity": {
+            activityBasicInfo: { setting: "none-selected", attendees: null, hours: null,  minutes: null },
+            distancing: "none-selected",
+            volume: "none-selected",
+            ownMask: "none-selected",
+            othersMask: { type: "none-selected", numWearers: null }
         }
     }
 
@@ -488,6 +496,7 @@ function PresetPage(props) {
 
     const buildOwnActivity = () => {
         props.updatePresetUsedCallback(false);
+        props.fillWithPresetCallback(presets["empty-activity"])
         props.nextClickCallback();
     }
 
