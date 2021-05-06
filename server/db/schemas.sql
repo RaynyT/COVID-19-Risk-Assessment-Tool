@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS TblStateCounty (
     FOREIGN KEY (StateID) REFERENCES TblState(StateID),
     FOREIGN KEY (CountyID) REFERENCES TblCounty(CountyID),
     Pop INT NOT NULL,
-    FIPS VARCHAR(5) UNIQUE NOT NULL
+    FIPS VARCHAR(5) NOT NULL UNIQUE
 );
 
 INSERT INTO TblStateCounty(StateID, CountyID, Pop, FIPS)
@@ -1097,7 +1097,7 @@ VALUES(0.1, "Pfizer 2"), (0.1, "Moderna 2"), (0.56, "Pfizer 1"), (0.56, "Moderna
 
 CREATE TABLE IF NOT EXISTS TblDemographic (
     DemographicID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    UserID UNIQUE INT,
+    UserID INT UNIQUE,
     StateCountyID INT,
     VaccineTypeID INT,
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
@@ -1186,7 +1186,7 @@ CREATE TABLE IF NOT EXISTS TblActivity (
     FOREIGN KEY (DistanceID) REFERENCES TblDistance(DistanceID),
     FOREIGN KEY (SelfMaskID) REFERENCES TblSelfMask(SelfMaskID),
     FOREIGN KEY (OtherMasksID) REFERENCES TblOtherMasks(OtherMasksID),
-    ActivityName VARCHAR(50) UNIQUE NULL,
+    ActivityName VARCHAR(50) NULL UNIQUE,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,
     DurationHours INT NOT NULL,
