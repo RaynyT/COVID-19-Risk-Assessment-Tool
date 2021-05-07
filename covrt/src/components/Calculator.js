@@ -9,10 +9,13 @@ import LocalizedStrings from 'react-localization';
 
 
 import locationImage from '../images/space-search.svg';
+import doctorsImage from '../images/doctors.svg'
+
 import sixFeetImage from '../images/six-feet-bed.svg';
+
 import speakingNormalImage from '../images/speaking-normal.svg';
 import notSpeakingImage from '../images/not-speaking.svg'
-import doctorsImage from '../images/doctors.svg'
+import speakingLoudImage from '../images/speaking-loudly.svg'
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
@@ -799,7 +802,7 @@ function TalkingPage(props) {
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-12 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingLoudImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
             </div>
