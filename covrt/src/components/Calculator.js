@@ -146,14 +146,8 @@ export default function Calculator(props) {
         setUsingPreset(presetUsed);
     }
 
-    const handleActivityPageSubmit = (event) => {
-        event.preventDefault();
-        props.updateActivityBasicInfo(
-            event.target.setting.value,
-            event.target.attendees.value,
-            event.target.hours.value,
-            event.target.minutes.value
-        );
+    const handleActivityPageSubmit = (setting, attendees, hours, minutes) => {
+        props.updateActivityBasicInfo(setting, attendees, hours, minutes);
         handleNextClick();
     }
 
@@ -507,7 +501,17 @@ function PresetPage(props) {
             volume: "none-selected",
             ownMask: "none-selected",
             othersMask: { type: "none-selected", numWearers: null }
-        }
+        },
+
+        "groceryShopping": {
+            activityBasicInfo: { setting: "indoors", attendees: 1, hours: 1,  minutes: 0 },
+            distancing: "sixFeet",
+            volume: "normalSpeaking",
+            ownMask: "none-selected",
+            othersMask: { type: "cottonMask", numWearers: null }
+        },
+
+        
     }
 
     // Checks if the preset buttons description matches one of the preset objects and fills it in
@@ -599,7 +603,8 @@ function ActivityPage(props) {
 
     let subHeader = (
         <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
-    )
+    );
+
     if(props.usingPreset) {
         subHeader = (
         <h2 className="preset-text">
@@ -608,11 +613,30 @@ function ActivityPage(props) {
         );
     }
 
+    const [durationError, setDurationError] = useState("");
+
+    const verifyAndSubmitForm = (event) => {
+        event.preventDefault();
+        let hours = event.target.hours.value;
+        let minutes = event.target.minutes.value;
+
+        if (hours + minutes <= 0) {
+            setDurationError(<h2 className="duration-error">Error: Estimated duration must be greater than zero</h2>);
+        } else {
+            props.submitCallback(
+                event.target.setting.value,
+                event.target.attendees.value,
+                hours,
+                minutes
+            );
+        }
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Basic information</h1>
             {subHeader}
-            <Form id="activity-form" onSubmit={props.submitCallback}>
+            <Form id="activity-form" onSubmit={verifyAndSubmitForm}>
                 <FormGroup tag="fieldset">
                     <legend>Where will the activity be held?</legend>
                     <FormGroup check required>
@@ -630,7 +654,7 @@ function ActivityPage(props) {
                 </FormGroup>
                 <FormGroup tag="fieldset">
                     <legend>How many people will attend?</legend>
-                    <Input required type="number" name="attendees" id="atendees" min="0" className="w-auto"
+                    <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
                         defaultValue={props.attendees} />
                 </FormGroup>
                 <FormGroup tag="fieldset" className="form-inline">
@@ -644,6 +668,7 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
+            {durationError}
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">

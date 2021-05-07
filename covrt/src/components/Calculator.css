@@ -262,6 +262,13 @@
     margin-top: 1rem
 }
 
+.duration-error {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: red;
+}
+
 @media (min-width: 768px) {
 
     .calc-outer {
