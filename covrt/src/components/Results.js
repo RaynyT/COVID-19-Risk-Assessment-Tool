@@ -24,8 +24,8 @@ export default function Results(props){
     // TODO: Find a way to make fractions work in a JSON object
 
     const numericValues = {
-        "Indoors": 1,
-        "Outdoors": .05,
+        "indoors": 1,
+        "outdoors": .05,
         "Less than 6 feet": 1,
         "6 feet": .5,
         "9 feet": .25,
@@ -49,7 +49,7 @@ export default function Results(props){
         if (doseInt === 1) {
             vaccineEfficacy = .56;
         } else if (doseInt === 2) {
-            if (props.vaccination.type === "Pfizer" || props.vaccination.type === "Moderna") {
+            if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
                 vaccineEfficacy = .1;
             } else {
                 vaccineEfficacy = .4;
@@ -138,7 +138,7 @@ function ResultsScreen(props) {
 
     // Set outdoors/indoors icon
     let activitySettingIcon = houseIcon;
-    if (props.activityBasicInfo.setting === "Outdoors") {
+    if (props.activityBasicInfo.setting === "outdoors") {
         activitySettingIcon = sunIcon;
     }
 

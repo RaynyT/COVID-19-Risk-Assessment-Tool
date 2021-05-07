@@ -83,8 +83,8 @@ export default function Calculator(props) {
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
-        if (event.target.vaccine.value === "None") {
-            props.updateVaccination({ type: "None", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
+        if (event.target.vaccine.value === "none") {
+            props.updateVaccination({ type: "none", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
         }else {
             let twoWeeks = event.target.weeks.value;
 
@@ -92,13 +92,13 @@ export default function Calculator(props) {
             let effectiveDoseNumber = 1;
             
             // If J&J was selected use defaults, if not check the selections
-            if (event.target.vaccine.value !== "J&J") {
+            if (event.target.vaccine.value !== "johnsonAndJohnson") {
                 doseNumber = event.target.doses.value;
                 effectiveDoseNumber = event.target.doses.value;
             }
 
             // If it hasn't been two weeks since the last dose, don't count it
-            if (twoWeeks === "No") {
+            if (twoWeeks === "no") {
                 effectiveDoseNumber--;
             }
 
@@ -134,9 +134,7 @@ export default function Calculator(props) {
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
-    }
-
-    
+    }    
 
     switch (pageNum) {
         case 1:
@@ -379,19 +377,19 @@ function VaccinePage(props) {
     let yesChecked = false;
     let noChecked = false;
 
-    if (props.selection.twoWeeks === "Yes") {
+    if (props.selection.twoWeeks === "yes") {
         yesChecked = true;
-    } else if (props.selection.twoWeeks === "No") {
+    } else if (props.selection.twoWeeks === "no") {
         noChecked = true;
     }
 
     // Render dose form only if the user has selected that they have been vaccinated
     let doseForm = <div></div>;
-    if (props.selection.type !== "None") {
+    if (props.selection.type !== "none") {
 
         // Don't render doseNumberInput if user selected J&J (1 dose vaccine)
         let doseNumberInput = <div></div>;
-        if (props.selection.type !== "J&J"){
+        if (props.selection.type !== "johnsonAndJohnson"){
             doseNumberInput = (
                 <FormGroup tag="fieldset">
                     <Label>How many doses have you received? </Label>
@@ -410,14 +408,14 @@ function VaccinePage(props) {
                     <legend>Has it been two weeks since your last dose?</legend>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="weeks" value="Yes" defaultChecked={yesChecked}
+                            <Input required type="radio" name="weeks" value="yes" defaultChecked={yesChecked}
                             />{' '}
                     Yes
                 </Label>
                     </FormGroup>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="weeks" value="No" defaultChecked={noChecked}
+                            <Input required type="radio" name="weeks" value="no" defaultChecked={noChecked}
                             />{' '}
                     No
                 </Label>
@@ -437,12 +435,12 @@ function VaccinePage(props) {
                 <FormGroup tag="fieldset">
                     <Label>Have you received a COVID-19 vaccine? If so, which type?</Label>
                         <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type} onChange={props.vaccineTypeCallback}>
-                            <option value="None">No</option>
-                            <option value="Pfizer">Yes - Pfizer</option>
-                            <option value="Moderna">Yes - Moderna</option>
-                            <option value="J&J">Yes - Johnson & Johnson</option>
-                            <option value="Astrazeneca">Yes - Astrazeneca</option>
-                            <option value="Other">Yes - Other</option>
+                            <option value="none">No</option>
+                            <option value="pfizer">Yes - Pfizer</option>
+                            <option value="moderna">Yes - Moderna</option>
+                            <option value="johnsonAndJohnson">Yes - Johnson & Johnson</option>
+                            <option value="astrazeneca">Yes - Astrazeneca</option>
+                            <option value="other">Yes - Other</option>
                         </Input>
                 </FormGroup>
                 {doseForm}
@@ -467,7 +465,7 @@ function PresetPage(props) {
 
     const presets = {
         "Indoor Dining": {
-            activityBasicInfo: { setting: "Indoors", attendees: null, hours: 1,  minutes: 0 },
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
             distancing: "Less than 6 feet",
             volume: "Speaking normally",
             ownMask: "No Mask",
@@ -564,9 +562,9 @@ function ActivityPage(props) {
     let indoorsChecked = false;
     let outdoorsChecked = false;
 
-    if (props.setting === "Indoors") {
+    if (props.setting === "indoors") {
         indoorsChecked = true;
-    } else if (props.setting === "Outdoors") {
+    } else if (props.setting === "outdoors") {
         outdoorsChecked = true;
     }
 
@@ -590,13 +588,13 @@ function ActivityPage(props) {
                     <legend>Where will the activity be held?</legend>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="setting" value="Indoors" defaultChecked={indoorsChecked}/>{' '}
+                            <Input required type="radio" name="setting" value="indoors" defaultChecked={indoorsChecked}/>{' '}
                             Indoors
                         </Label>
                     </FormGroup>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="setting" value="Outdoors" defaultChecked={outdoorsChecked}/>{' '}
+                            <Input required type="radio" name="setting" value="outdoors" defaultChecked={outdoorsChecked}/>{' '}
                             Outdoors
                         </Label>
                     </FormGroup>
@@ -685,18 +683,18 @@ function SocialDistancePage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} val="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} val="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} val="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={sixFeetImage} val="moreThanNineFeet" desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
