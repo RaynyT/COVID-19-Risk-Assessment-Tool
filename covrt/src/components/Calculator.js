@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
-
 
 
 import locationImage from '../images/space-search.svg';
@@ -131,7 +130,7 @@ export default function Calculator(props) {
     }
 
     // Submit mask page, set survey completed, navigate to /results
-    const handleOthersMaskPageSubmit = (event) => {
+    const HandleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
@@ -210,7 +209,7 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick}
                 selectionCallback={props.updateOthersMaskType} 
                 selection={props.othersMask.type}
-                formSubmitCallback={handleOthersMaskPageSubmit} 
+                formSubmitCallback={HandleOthersMaskPageSubmit} 
                 numWearers={props.othersMask.numWearers} 
                 attendees={props.activityBasicInfo.attendees}
             />;
