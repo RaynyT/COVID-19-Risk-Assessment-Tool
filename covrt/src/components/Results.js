@@ -12,10 +12,30 @@ import { InfoIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import ReactGA from 'react-ga';
+import LocalizedStrings from 'react-localization';
 
+let strings = new LocalizedStrings({
+    en:{
+        indoors: "Indoors",
+        outdoors: "Outdoors",
+        lessThanSixFeet: "Less than 6 feet",
+        sixFeet: "6 feet",
+        nineFeet: "9 feet",
+        moreThanNineFeet: "More than 9 feet",
+        notSpeaking: "Not speaking",
+        normalSpeaking: "Speaking normally",
+        loudSpeaking: "Speaking loudly",
+        cottonMask: "Cotton mask",
+        surgicalMask: "Surgical mask",
+        kn95Mask: "KN95 Mask",
+        noMask: "No mask",
+    }
+   });
 
 export default function Results(props){
     ReactGA.pageview(window.location.pathname + window.location.search);
+
+    console.log(strings[props.ownMask]);
 
     const numericValues = {
         "indoors": 1,
@@ -136,14 +156,6 @@ function ResultsScreen(props) {
         activitySettingIcon = sunIcon;
     }
 
-    // This is the stupidest hacky way to fix the text overflowing from the button
-    // But since this is the only string of text that does it, I'm using this for now
-    // until I have more time to fix the general problem
-    let volumeText = props.speakingVolume;
-    if (props.speakingVolume === "Speaking loudly or shouting") {
-        volumeText = "Speaking loudly";
-    }
-
     // Another stupid edge case I felt like catching
     let attendeesText = props.activityBasicInfo.attendees
     if (attendeesText >= 999999999) {
@@ -188,7 +200,7 @@ function ResultsScreen(props) {
                     <div className="container">
                         <div className="row img-card-row">
                             <div className="col-3">
-                                <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
+                                <ImageCard image={activitySettingIcon} desc={strings[props.activityBasicInfo.setting]} alt="Test" />
                             </div>
                             <div className="col-3">
                                 <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes + "m"} alt="Clock icon" />
@@ -197,18 +209,18 @@ function ResultsScreen(props) {
                                 <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
                             </div>
                             <div className="col-3">
-                                <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
+                                <ImageCard image={rulerIcon} desc={strings[props.distancing]} alt="Ruler icon" />
                             </div>
                         </div>
                         <div className="row img-card-row">
                             <div className="col-3">
-                                <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
+                                <ImageCard image={volumeIcon} desc={strings[props.speakingVolume]} alt="Speaker icon" />
                             </div>
                             <div className="col-3">
-                            <ImageCard noImage desc={"I will wear: " + props.ownMask} alt="none" />
+                            <ImageCard noImage desc={"I will wear: " + strings[props.ownMask]} alt="none" />
                             </div>
                             <div className="col-3">
-                            <ImageCard noImage desc={"Others wear: " + props.othersMask.type} alt="none" />
+                            <ImageCard noImage desc={"Others wear: " + strings[props.othersMask.type]} alt="none" />
                             </div>
                             <div className="col-3">
                             <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
