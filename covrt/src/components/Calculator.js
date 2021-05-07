@@ -1027,44 +1027,6 @@ function OthersMaskPage(props) {
 
 }
 
-// Renders radio button options for the calculator
-// Rendered in this fashion so that they can be checked dynamically based off of props
-// Props: options (array of all options for buttons), selection (value of option to select)
-// legend, and selectionCallback for updating state on selection
-function RadioOptions(props) {
-    let optionsElement = props.options.map((option) => {
-
-        let optionChecked = false;
-
-        if (option.desc === props.selection) {
-            optionChecked = true;
-        }
-
-        return (
-            <FormGroup check key={option.desc} required>
-                <Label check>
-                    <Input
-                        required
-                        type="radio"
-                        name="radio1"
-                        defaultChecked={optionChecked}
-                        onChange={props.selectionCallback}
-                        value={option.desc}
-                    />{' '}
-                    {option.desc}
-                </Label>
-            </FormGroup>
-        )
-    })
-
-    return (
-        <FormGroup tag="fieldset">
-            <legend>{props.legend}</legend>
-            {optionsElement}
-        </FormGroup>
-    )
-}
-
 function ImageButton(props) {
 
     let btnClass = "img-btn";
