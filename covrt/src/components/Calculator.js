@@ -564,9 +564,9 @@ function ActivityPage(props) {
     let indoorsChecked = false;
     let outdoorsChecked = false;
 
-    if (props.radioSelection === "Indoors") {
+    if (props.setting === "Indoors") {
         indoorsChecked = true;
-    } else if (props.radioSelection === "Outdoors") {
+    } else if (props.setting === "Outdoors") {
         outdoorsChecked = true;
     }
 
