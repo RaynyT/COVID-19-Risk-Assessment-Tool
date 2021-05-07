@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
-
+import LocalizedStrings from 'react-localization';
 
 import locationImage from '../images/space-search.svg';
-import sixFeetImage from '../images/six-feet-bed.svg';
-import speakingNormalImage from '../images/speaking-normal.svg';
 import doctorsImage from '../images/doctors.svg'
 
+import lessThanSixFeetImage from "../images/less-than-six-feet.svg"
+import sixFeetImage from '../images/six-feet-bed.svg';
+
+import speakingNormalImage from '../images/speaking-normal.svg';
+import notSpeakingImage from '../images/not-speaking.svg'
+import speakingLoudImage from '../images/speaking-loudly.svg'
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
@@ -31,6 +36,27 @@ import kn95MaskImage from '../images/kn95-mask.svg'
 
 import '../App.css';
 import './Calculator.css';
+
+let strings = new LocalizedStrings({
+    en:{
+        indoors: "Indoors",
+        outdoors: "Outdoors",
+        lessThanSixFeet: "Less than 6 feet",
+        sixFeet: "6 feet",
+        nineFeet: "9 feet",
+        moreThanNineFeet: "More than 9 feet",
+        notSpeaking: "Not speaking",
+        normalSpeaking: "Speaking normally",
+        loudSpeaking: "Speaking loudly",
+        cottonMask: "Cotton mask",
+        surgicalMask: "Surgical mask",
+        kn95Mask: "KN95 Mask",
+        noMask: "No mask",
+        cottonMaskInfo: "cotton mask",
+        surgicalMaskInfo: "surgical mask",
+        kn95MaskInfo: "KN95 Mask",
+    }
+});
 
 export default function Calculator(props) {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -85,8 +111,8 @@ export default function Calculator(props) {
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
-        if (event.target.vaccine.value === "None") {
-            props.updateVaccination({ type: "None", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
+        if (event.target.vaccine.value === "none") {
+            props.updateVaccination({ type: "none", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
         }else {
             let twoWeeks = event.target.weeks.value;
 
@@ -94,13 +120,13 @@ export default function Calculator(props) {
             let effectiveDoseNumber = 1;
             
             // If J&J was selected use defaults, if not check the selections
-            if (event.target.vaccine.value !== "J&J") {
+            if (event.target.vaccine.value !== "johnsonAndJohnson") {
                 doseNumber = event.target.doses.value;
                 effectiveDoseNumber = event.target.doses.value;
             }
 
             // If it hasn't been two weeks since the last dose, don't count it
-            if (twoWeeks === "No") {
+            if (twoWeeks === "no") {
                 effectiveDoseNumber--;
             }
 
@@ -119,13 +145,8 @@ export default function Calculator(props) {
         setUsingPreset(presetUsed);
     }
 
-    const handleActivityPageSubmit = (event) => {
-        event.preventDefault();
-        props.updateActivityBasicInfo(
-            event.target.attendees.value,
-            event.target.hours.value,
-            event.target.minutes.value
-        );
+    const handleActivityPageSubmit = (setting, attendees, hours, minutes) => {
+        props.updateActivityBasicInfo(setting, attendees, hours, minutes);
         handleNextClick();
     }
 
@@ -135,9 +156,7 @@ export default function Calculator(props) {
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
         props.history.push('/results');
-    }
-
-    
+    }    
 
     switch (pageNum) {
         case 1:
@@ -171,8 +190,7 @@ export default function Calculator(props) {
         case 5:
             pageScreen = <ActivityPage
                 backClickCallback={handleBackClick}
-                radioSelectionCallback={props.updateActivitySetting}
-                radioSelection={props.activityBasicInfo.setting}
+                setting={props.activityBasicInfo.setting}
                 attendees={props.activityBasicInfo.attendees}
                 hours={props.activityBasicInfo.hours}
                 minutes={props.activityBasicInfo.minutes}
@@ -354,8 +372,8 @@ function LocationPage(props) {
                 <FormGroup tag="fieldset">
                     <Label>County:</Label>
                         <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}>
-                            <option>King</option>
-                            <option>Pierce</option>
+                            <option value="King">King</option>
+                            <option value="Pierce">Pierce</option>
                         </Input>
             </FormGroup>
             </Form>
@@ -381,25 +399,25 @@ function VaccinePage(props) {
     let yesChecked = false;
     let noChecked = false;
 
-    if (props.selection.twoWeeks === "Yes") {
+    if (props.selection.twoWeeks === "yes") {
         yesChecked = true;
-    } else if (props.selection.twoWeeks === "No") {
+    } else if (props.selection.twoWeeks === "no") {
         noChecked = true;
     }
 
     // Render dose form only if the user has selected that they have been vaccinated
     let doseForm = <div></div>;
-    if (props.selection.type !== "None") {
+    if (props.selection.type !== "none") {
 
         // Don't render doseNumberInput if user selected J&J (1 dose vaccine)
         let doseNumberInput = <div></div>;
-        if (props.selection.type !== "J&J"){
+        if (props.selection.type !== "johnsonAndJohnson"){
             doseNumberInput = (
                 <FormGroup tag="fieldset">
                     <Label>How many doses have you received? </Label>
                     <Input type="select" name="doses" className="w-auto" defaultValue={props.selection.doseNumber}>
-                        <option>1</option>
-                        <option>2</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
                     </Input>
                 </FormGroup>
             );
@@ -412,14 +430,14 @@ function VaccinePage(props) {
                     <legend>Has it been two weeks since your last dose?</legend>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="weeks" value="Yes" defaultChecked={yesChecked}
+                            <Input required type="radio" name="weeks" value="yes" defaultChecked={yesChecked}
                             />{' '}
                     Yes
                 </Label>
                     </FormGroup>
                     <FormGroup check required>
                         <Label>
-                            <Input required type="radio" name="weeks" value="No" defaultChecked={noChecked}
+                            <Input required type="radio" name="weeks" value="no" defaultChecked={noChecked}
                             />{' '}
                     No
                 </Label>
@@ -439,12 +457,12 @@ function VaccinePage(props) {
                 <FormGroup tag="fieldset">
                     <Label>Have you received a COVID-19 vaccine? If so, which type?</Label>
                         <Input type="select" name="vaccine" className="w-auto" defaultValue={props.selection.type} onChange={props.vaccineTypeCallback}>
-                            <option value="None">No</option>
-                            <option value="Pfizer">Yes - Pfizer</option>
-                            <option value="Moderna">Yes - Moderna</option>
-                            <option value="J&J">Yes - Johnson & Johnson</option>
-                            <option value="Astrazeneca">Yes - Astrazeneca</option>
-                            <option value="Other">Yes - Other</option>
+                            <option value="none">No</option>
+                            <option value="pfizer">Yes - Pfizer</option>
+                            <option value="moderna">Yes - Moderna</option>
+                            <option value="johnsonAndJohnson">Yes - Johnson & Johnson</option>
+                            <option value="astrazeneca">Yes - Astrazeneca</option>
+                            <option value="other">Yes - Other</option>
                         </Input>
                 </FormGroup>
                 {doseForm}
@@ -468,12 +486,12 @@ function VaccinePage(props) {
 function PresetPage(props) {
 
     const presets = {
-        "Indoor Dining": {
-            activityBasicInfo: { setting: "Indoor", attendees: null, hours: 1,  minutes: 0 },
-            distancing: "Less than 6 feet",
-            volume: "Speaking normally",
-            ownMask: "No Mask",
-            othersMask: { type: "No Mask", numWearers: null }
+        "indoorDining": {
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
+            distancing: "lessThanSixFeet",
+            volume: "normalSpeaking",
+            ownMask: "noMask",
+            othersMask: { type: "noMask", numWearers: null }
         },
 
         "empty-activity": {
@@ -482,7 +500,17 @@ function PresetPage(props) {
             volume: "none-selected",
             ownMask: "none-selected",
             othersMask: { type: "none-selected", numWearers: null }
-        }
+        },
+
+        "groceryShopping": {
+            activityBasicInfo: { setting: "indoors", attendees: 1, hours: 1,  minutes: 0 },
+            distancing: "sixFeet",
+            volume: "normalSpeaking",
+            ownMask: "none-selected",
+            othersMask: { type: "cottonMask", numWearers: null }
+        },
+
+        
     }
 
     // Checks if the preset buttons description matches one of the preset objects and fills it in
@@ -509,35 +537,35 @@ function PresetPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
+                        <ImageButton image={groceryShoppingImage} value="groceryShopping" desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={goingToWorkImage} desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
+                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
+                        <ImageButton image={visitingFriendImage} value="visitingAFriend" desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={takingTheBusImage} desc={"Taking the Bus"} alt="Person riding a bus" clickCallback={fillSurvey}/>
+                        <ImageButton image={takingTheBusImage} value="takingTheBus" desc={"Taking the Bus"} alt="Person riding a bus" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={indoorDiningImage} desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
+                        <ImageButton image={indoorDiningImage} value="indoorDining" desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={joggingImage} desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
+                        <ImageButton image={joggingImage} value="jogging" desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={partyImage} desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
+                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
+                        <ImageButton image={outdoorGatheringImage} value="outdoorGathering" desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={hikingImage} desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
+                        <ImageButton image={hikingImage} value="hiking" desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
                     </div>
                 </div>
             </div>
@@ -563,15 +591,19 @@ function PresetPage(props) {
 
 function ActivityPage(props) {
 
-    // Default to both unchecked
-    let settingsTypes = [
-        { desc: "Indoor", checked: false },
-        { desc: "Outdoor", checked: false }
-    ];
+    let indoorsChecked = false;
+    let outdoorsChecked = false;
+
+    if (props.setting === "indoors") {
+        indoorsChecked = true;
+    } else if (props.setting === "outdoors") {
+        outdoorsChecked = true;
+    }
 
     let subHeader = (
         <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
-    )
+    );
+
     if(props.usingPreset) {
         subHeader = (
         <h2 className="preset-text">
@@ -580,16 +612,48 @@ function ActivityPage(props) {
         );
     }
 
+    const [durationError, setDurationError] = useState("");
+
+    const verifyAndSubmitForm = (event) => {
+        event.preventDefault();
+        let hours = event.target.hours.value;
+        let minutes = event.target.minutes.value;
+
+        if (hours + minutes <= 0) {
+            setDurationError(<h2 className="duration-error">Error: Estimated duration must be greater than zero</h2>);
+        } else {
+            props.submitCallback(
+                event.target.setting.value,
+                event.target.attendees.value,
+                hours,
+                minutes
+            );
+        }
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Basic information</h1>
             {subHeader}
-            <Form id="activity-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
-                    selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
+            <Form id="activity-form" onSubmit={verifyAndSubmitForm}>
+                <FormGroup tag="fieldset">
+                    <legend>Where will the activity be held?</legend>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="setting" value="indoors" defaultChecked={indoorsChecked}/>{' '}
+                            Indoors
+                        </Label>
+                    </FormGroup>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="setting" value="outdoors" defaultChecked={outdoorsChecked}/>{' '}
+                            Outdoors
+                        </Label>
+                    </FormGroup>
+                </FormGroup>
                 <FormGroup tag="fieldset">
                     <legend>How many people will attend?</legend>
-                    <Input required type="number" name="attendees" id="atendees" min="0" className="w-auto"
+                    <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
                         defaultValue={props.attendees} />
                 </FormGroup>
                 <FormGroup tag="fieldset" className="form-inline">
@@ -603,6 +667,7 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
+            {durationError}
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
@@ -633,16 +698,16 @@ function SocialDistancePage(props) {
     let moreThanNineSelected =false;
 
     switch(props.selection) {
-        case "Less than 6 feet":
+        case "lessThanSixFeet":
             lessThanSixSelected = true;
             break;
-        case "6 feet":
+        case "sixFeet":
             sixSelected = true;
             break;
-        case "9 feet":
+        case "nineFeet":
             nineSelected = true;
             break;
-        case "More than 9 feet":
+        case "moreThanNineFeet":
             moreThanNineSelected = true;
             break;
         case "none-selected":
@@ -671,18 +736,18 @@ function SocialDistancePage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={lessThanSixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} value="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} value="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={sixFeetImage} value="moreThanNineFeet" desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
@@ -719,13 +784,13 @@ function TalkingPage(props) {
     let loudSpeakingSelected = false;
 
     switch(props.selection) {
-        case "Not speaking":
+        case "notSpeaking":
             notSpeakingSelected = true;
             break;
-        case "Speaking normally":
+        case "normalSpeaking":
             normalSpeakingSelected = true;
             break;
-        case "Speaking loudly or shouting":
+        case "loudSpeaking":
             loudSpeakingSelected = true;
             break;
         case "none-selected":
@@ -754,15 +819,15 @@ function TalkingPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={notSpeakingImage} value="notSpeaking" desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingNormalImage} value="normalSpeaking" desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-12 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingLoudImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
             </div>
@@ -807,19 +872,19 @@ function OwnMaskPage(props) {
     let maskInfo = "N/A";
 
     switch(props.selection) {
-        case "No Mask":
+        case "noMask":
             noMaskSelected = true;
             maskInfo = "N/A";
             break;
-        case "Cotton Mask":
+        case "cottonMask":
             cottonMaskSelected = true;
             maskInfo = "The filtration effectiveness of cloth masks is generally lower than that of medical masks and respirators; however, cloth masks may provide some protection if well designed and used correctly."
             break;
-        case "Surgical Mask":
+        case "surgicalMask":
             surgicalMaskSelected = true;
             maskInfo = "Fluid resistant and provides the wearer protection against large droplets or sprays of bodily fluids. Protects others from the wearer’s respiratory emissions."
             break;
-        case "KN95 Mask":
+        case "kn95Mask":
             kn95MaskSelected= true;
             maskInfo = "Reduces wearer’s exposure to particles including small particle aerosols and large droplets. Protects others from the wearer’s respiratory emissions."
             break;
@@ -854,25 +919,25 @@ function OwnMaskPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={noMaskImage} desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={noMaskImage} value="noMask" desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={cottonMaskImage} value="cottonMask" desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={surgicalMaskImage} value="surgicalMask" desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={kn95MaskImage} value="kn95Mask" desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
             <div className={dropdownClass}>
                 <div className="info-dropdown-btn">
                     <button className="btn btn-outline-secondary" onClick={toggleInfo}>
-                        What is a {props.selection}? {infoIsOpen
+                        What is a {strings[props.selection +"Info"]}? {infoIsOpen
                         ? <ChevronUpIcon size={24} />
                         : <ChevronDownIcon size={24} />
                     }
@@ -923,16 +988,16 @@ function OthersMaskPage(props) {
     let kn95MaskSelected = false;
 
     switch(props.selection) {
-        case "No Mask":
+        case "noMask":
             noMaskSelected = true;
             break;
-        case "Cotton Mask":
+        case "cottonMask":
             cottonMaskSelected = true;
             break;
-        case "Surgical Mask":
+        case "surgicalMask":
             surgicalMaskSelected = true;
             break;
-        case "KN95 Mask":
+        case "kn95Mask":
             kn95MaskSelected= true;
             break;
         case "none-selected":
@@ -960,18 +1025,18 @@ function OthersMaskPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={noMaskImage} desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={noMaskImage} value="noMask" desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={cottonMaskImage} value="cottonMask" desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={surgicalMaskImage} value="surgicalMask" desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={kn95MaskImage} value="kn95Mask" desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
@@ -1013,44 +1078,6 @@ function OthersMaskPage(props) {
 
 }
 
-// Renders radio button options for the calculator
-// Rendered in this fashion so that they can be checked dynamically based off of props
-// Props: options (array of all options for buttons), selection (value of option to select)
-// legend, and selectionCallback for updating state on selection
-function RadioOptions(props) {
-    let optionsElement = props.options.map((option) => {
-
-        let optionChecked = false;
-
-        if (option.desc === props.selection) {
-            optionChecked = true;
-        }
-
-        return (
-            <FormGroup check key={option.desc} required>
-                <Label check>
-                    <Input
-                        required
-                        type="radio"
-                        name="radio1"
-                        defaultChecked={optionChecked}
-                        onChange={props.selectionCallback}
-                        value={option.desc}
-                    />{' '}
-                    {option.desc}
-                </Label>
-            </FormGroup>
-        )
-    })
-
-    return (
-        <FormGroup tag="fieldset">
-            <legend>{props.legend}</legend>
-            {optionsElement}
-        </FormGroup>
-    )
-}
-
 function ImageButton(props) {
 
     let btnClass = "img-btn";
@@ -1066,7 +1093,7 @@ function ImageButton(props) {
     }
 
     const handleClick = () => {
-        props.clickCallback(props.desc);
+        props.clickCallback(props.value);
     } 
 
     return(

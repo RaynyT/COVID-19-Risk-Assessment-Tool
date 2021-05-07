@@ -2,7 +2,6 @@ package activities
 
 import (
 	"fmt"
-	"strings"
 )
 
 //Activity represents an activity in the database
@@ -73,6 +72,8 @@ func (na *NewActivity) Validate() error {
     if na.DurationMinutes > 59 {
         return fmt.Errorf("No more than 59 minutes.")
     }
+
+    return nil
 }
 
 //ToActivity converts the NewActivity to Activity
