@@ -12,11 +12,30 @@ import { InfoIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import ReactGA from 'react-ga';
+import LocalizedStrings from 'react-localization';
 
+let strings = new LocalizedStrings({
+    en:{
+        indoors: "Indoors",
+        outdoors: "Outdoors",
+        lessThanSixFeet: "Less than 6 feet",
+        sixFeet: "6 feet",
+        nineFeet: "9 feet",
+        moreThanNineFeet: "More than 9 feet",
+        notSpeaking: "Not speaking",
+        normalSpeaking: "Speaking normally",
+        loudSpeaking: "Speaking loudly",
+        cottonMask: "Cotton mask",
+        surgicalMask: "Surgical mask",
+        kn95Mask: "KN95 Mask",
+        noMask: "No mask",
+    }
+});
 
 export default function Results(props){
     ReactGA.pageview(window.location.pathname + window.location.search);
 
+    
     const numericValues = {
         "indoors": 1,
         "outdoors": .05,
@@ -32,11 +51,11 @@ export default function Results(props){
         "kn95Mask": .3333333333,
         "noMask": 1
     }
-
+    
     const calculateRiskScore = () => {
-
+        
         let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
-
+        
         // Determine vaccine efficacy
         let vaccineEfficacy = 1;
         let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
@@ -49,7 +68,7 @@ export default function Results(props){
                 vaccineEfficacy = .4;
             }
         }
-
+        
         let score = (
             // Activity setting risk coefficient * Number of attendees
             numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
@@ -63,38 +82,38 @@ export default function Results(props){
             numericValues[props.distancing] * numericValues[props.speakingVolume] *
             // * Vaccine efficacy
             vaccineEfficacy
-        );
-
-        // if (isNaN(score)) {
-        //     console.log("Error with calc:")
+            );
+            
+            // if (isNaN(score)) {
+                //     console.log("Error with calc:")
         //     console.log(score);
         //     console.log("Basic info: ", props.activityBasicInfo);
         //     console.log("Distancing: ", props.distancing);
         //     console.log("Volume: ", props.speakingVolume);
         //     console.log("Own Mask: ", props.ownMask);
         //     console.log("Others Mask: ", props.othersMask);
-
+        
         //     console.log("Setting value: ", numericValues[props.activityBasicInfo.setting]);
         //     console.log("Mask values: ",  numericValues[props.ownMask], numericValues[props.othersMask.type]);
         //     console.log("Distancing value: ", numericValues[props.distancing]);
         //     console.log("Volume value: ", numericValues[props.speakingVolume]  )
         // }
-
+        
         return score;
     }
-
+    
     let startingPage = "results";
-        
+    
     // If user has navigated here by coming back from the results page
     // start them on the last screen of the calculator
     if (props.location.fromTipsButton) {
         startingPage = "tips";
     }
-
+    
     const [riskScore, setRiskScore] = useState(calculateRiskScore());
     const [page, setPage] = useState(startingPage);
-
-
+    
+    
     const changePageCallback = (value) => {
         setPage(value)
     }
@@ -136,15 +155,6 @@ function ResultsScreen(props) {
         activitySettingIcon = sunIcon;
     }
 
-    // This is the stupidest hacky way to fix the text overflowing from the button
-    // But since this is the only string of text that does it, I'm using this for now
-    // until I have more time to fix the general problem
-    let volumeText = props.speakingVolume;
-    if (props.speakingVolume === "Speaking loudly or shouting") {
-        volumeText = "Speaking loudly";
-    }
-
-    // Another stupid edge case I felt like catching
     let attendeesText = props.activityBasicInfo.attendees
     if (attendeesText >= 999999999) {
         attendeesText = "100000000+";
@@ -157,6 +167,12 @@ function ResultsScreen(props) {
 
     const switchToReducePage = () => {
         props.setPage("reduce");
+    }
+
+    let summarySubheading = "";
+    if (props.location.fromDashboard) {
+        // Think of better phrasing for this
+        summarySubheading = <h2 className="risk-subheading">of your most recent activity</h2>;
     }
 
     return (
@@ -178,6 +194,7 @@ function ResultsScreen(props) {
                 </div>
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
+                {summarySubheading}
                 <h2 className="risk-level-text">Risk score: {props.riskScore}</h2>
                 <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
             </div>
@@ -188,7 +205,7 @@ function ResultsScreen(props) {
                     <div className="container">
                         <div className="row img-card-row">
                             <div className="col-3">
-                                <ImageCard image={activitySettingIcon} desc={props.activityBasicInfo.setting} alt="Test" />
+                                <ImageCard image={activitySettingIcon} desc={strings[props.activityBasicInfo.setting]} alt="Test" />
                             </div>
                             <div className="col-3">
                                 <ImageCard image={clockIcon} desc={props.activityBasicInfo.hours + "h " + props.activityBasicInfo.minutes + "m"} alt="Clock icon" />
@@ -197,18 +214,18 @@ function ResultsScreen(props) {
                                 <ImageCard image={peopleIcon} desc={attendeesText + " people"} alt="Icon of two people" />
                             </div>
                             <div className="col-3">
-                                <ImageCard image={rulerIcon} desc={props.distancing} alt="Ruler icon" />
+                                <ImageCard image={rulerIcon} desc={strings[props.distancing]} alt="Ruler icon" />
                             </div>
                         </div>
                         <div className="row img-card-row">
                             <div className="col-3">
-                                <ImageCard image={volumeIcon} desc={volumeText} alt="Speaker icon" />
+                                <ImageCard image={volumeIcon} desc={strings[props.speakingVolume]} alt="Speaker icon" />
                             </div>
                             <div className="col-3">
-                            <ImageCard noImage desc={"I will wear: " + props.ownMask} alt="none" />
+                            <ImageCard noImage desc={"I will wear: " + strings[props.ownMask]} alt="none" />
                             </div>
                             <div className="col-3">
-                            <ImageCard noImage desc={"Others wear: " + props.othersMask.type} alt="none" />
+                            <ImageCard noImage desc={"Others wear: " + strings[props.othersMask.type]} alt="none" />
                             </div>
                             <div className="col-3">
                             <ImageCard noImage desc={maskAmountText + " people will wear masks"} alt="none" />
@@ -252,7 +269,7 @@ function ReduceRiskScreen(props) {
                 </div>
             </div>
             <h1 className="risk-title">Tips to Lower Risk</h1>
-            <h2 className="reduce-risk-subheading">Check the suggestions you would like to implement:</h2>
+            <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
                 <TipList />
             </div>

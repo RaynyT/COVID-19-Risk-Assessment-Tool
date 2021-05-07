@@ -22,7 +22,7 @@ export default function Dashboard() {
                 <div className="container">
                     <div className="row img-link-row">
                         <div className="col-12 d-flex justify-content-center">
-                            <RouterImageLink link="/results" image={riskSummaryIcon} desc="Risk Summary" 
+                            <RouterImageLink link={{pathname: "/results", fromDashboard: true}} image={riskSummaryIcon} desc="Risk Summary" 
                             alt="Illustration of a piece of paper with graphs and charts" colorClass="blue-link" />
                         </div>
                     </div>

@@ -5,6 +5,8 @@ import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Toolti
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
+import LocalizedStrings from 'react-localization';
+
 
 import locationImage from '../images/space-search.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
@@ -30,6 +32,27 @@ import kn95MaskImage from '../images/kn95-mask.svg'
 
 import '../App.css';
 import './Calculator.css';
+
+let strings = new LocalizedStrings({
+    en:{
+        indoors: "Indoors",
+        outdoors: "Outdoors",
+        lessThanSixFeet: "Less than 6 feet",
+        sixFeet: "6 feet",
+        nineFeet: "9 feet",
+        moreThanNineFeet: "More than 9 feet",
+        notSpeaking: "Not speaking",
+        normalSpeaking: "Speaking normally",
+        loudSpeaking: "Speaking loudly",
+        cottonMask: "Cotton mask",
+        surgicalMask: "Surgical mask",
+        kn95Mask: "KN95 Mask",
+        noMask: "No mask",
+        cottonMaskInfo: "cotton mask",
+        surgicalMaskInfo: "surgical mask",
+        kn95MaskInfo: "KN95 Mask",
+    }
+});
 
 export default function Calculator(props) {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -885,7 +908,7 @@ function OwnMaskPage(props) {
             <div className={dropdownClass}>
                 <div className="info-dropdown-btn">
                     <button className="btn btn-outline-secondary" onClick={toggleInfo}>
-                        What is a {props.selection}? {infoIsOpen
+                        What is a {strings[props.selection +"Info"]}? {infoIsOpen
                         ? <ChevronUpIcon size={24} />
                         : <ChevronDownIcon size={24} />
                     }
