@@ -82,18 +82,9 @@ function App() {
 		setUserLocation({stateCode: stateCode, county: county});
 	}
 
-	const updateActivitySetting = (event) => {
+	const updateActivityBasicInfo = (setting, attendees, hours, minutes) => {
 		setActivityBasicInfo({
-			setting: event.target.value,
-			attendees: activityBasicInfo.attendees,
-			hours: activityBasicInfo.hours,
-			minutes: activityBasicInfo.minutes
-		});
-	}
-
-	const updateActivityBasicInfo = (attendees, hours, minutes) => {
-		setActivityBasicInfo({
-			setting: activityBasicInfo.setting,
+			setting: setting,
 			attendees: attendees,
 			hours: hours,
 			minutes: minutes
@@ -134,7 +125,6 @@ function App() {
 		setVaccination(vaccination);
 	}
 	
-	
 	let stateAndCallbacks = {
 		userLocation: userLocation,
 		updateLocation: updateLocation,
@@ -143,7 +133,6 @@ function App() {
 		updateVaccineType: updateVaccineType,
 		updateWithPreset: updateWithPreset,
 		activityBasicInfo: activityBasicInfo,
-		updateActivitySetting: updateActivitySetting,
 		updateActivityBasicInfo: updateActivityBasicInfo,
 		distancing: distancing,
 		updateDistancing: updateDistancing,

@@ -24,8 +24,8 @@ export default function Results(props){
     // TODO: Find a way to make fractions work in a JSON object
 
     const numericValues = {
-        "Indoor": 1,
-        "Outdoor": .05,
+        "Indoors": 1,
+        "Outdoors": .05,
         "Less than 6 feet": 1,
         "6 feet": .5,
         "9 feet": .25,
@@ -136,9 +136,9 @@ function ErrorScreen() {
 
 function ResultsScreen(props) {
 
-    // Set outdoor/indoor icon
+    // Set outdoors/indoors icon
     let activitySettingIcon = houseIcon;
-    if (props.activityBasicInfo.setting === "Outdoor") {
+    if (props.activityBasicInfo.setting === "Outdoors") {
         activitySettingIcon = sunIcon;
     }
 

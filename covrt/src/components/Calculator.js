@@ -1,17 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
 
-
-
 import locationImage from '../images/space-search.svg';
 import sixFeetImage from '../images/six-feet-bed.svg';
 import speakingNormalImage from '../images/speaking-normal.svg';
 import doctorsImage from '../images/doctors.svg'
-
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
@@ -123,6 +120,7 @@ export default function Calculator(props) {
     const handleActivityPageSubmit = (event) => {
         event.preventDefault();
         props.updateActivityBasicInfo(
+            event.target.setting.value,
             event.target.attendees.value,
             event.target.hours.value,
             event.target.minutes.value
@@ -172,8 +170,7 @@ export default function Calculator(props) {
         case 5:
             pageScreen = <ActivityPage
                 backClickCallback={handleBackClick}
-                radioSelectionCallback={props.updateActivitySetting}
-                radioSelection={props.activityBasicInfo.setting}
+                setting={props.activityBasicInfo.setting}
                 attendees={props.activityBasicInfo.attendees}
                 hours={props.activityBasicInfo.hours}
                 minutes={props.activityBasicInfo.minutes}
@@ -355,8 +352,8 @@ function LocationPage(props) {
                 <FormGroup tag="fieldset">
                     <Label>County:</Label>
                         <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}>
-                            <option>King</option>
-                            <option>Pierce</option>
+                            <option value="King">King</option>
+                            <option value="Pierce">Pierce</option>
                         </Input>
             </FormGroup>
             </Form>
@@ -399,8 +396,8 @@ function VaccinePage(props) {
                 <FormGroup tag="fieldset">
                     <Label>How many doses have you received? </Label>
                     <Input type="select" name="doses" className="w-auto" defaultValue={props.selection.doseNumber}>
-                        <option>1</option>
-                        <option>2</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
                     </Input>
                 </FormGroup>
             );
@@ -564,11 +561,14 @@ function PresetPage(props) {
 
 function ActivityPage(props) {
 
-    // Default to both unchecked
-    let settingsTypes = [
-        { desc: "Indoor", checked: false },
-        { desc: "Outdoor", checked: false }
-    ];
+    let indoorsChecked = false;
+    let outdoorsChecked = false;
+
+    if (props.radioSelection === "Indoors") {
+        indoorsChecked = true;
+    } else if (props.radioSelection === "Outdoors") {
+        outdoorsChecked = true;
+    }
 
     let subHeader = (
         <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
@@ -586,8 +586,21 @@ function ActivityPage(props) {
             <h1 className="calc-step-title">Basic information</h1>
             {subHeader}
             <Form id="activity-form" onSubmit={props.submitCallback}>
-                <RadioOptions options={settingsTypes} legend="Where will the activity be held?"
-                    selectionCallback={props.radioSelectionCallback} selection={props.radioSelection} />
+                <FormGroup tag="fieldset">
+                    <legend>Where will the activity be held?</legend>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="setting" value="Indoors" defaultChecked={indoorsChecked}/>{' '}
+                            Indoors
+                        </Label>
+                    </FormGroup>
+                    <FormGroup check required>
+                        <Label>
+                            <Input required type="radio" name="setting" value="Outdoors" defaultChecked={outdoorsChecked}/>{' '}
+                            Outdoors
+                        </Label>
+                    </FormGroup>
+                </FormGroup>
                 <FormGroup tag="fieldset">
                     <legend>How many people will attend?</legend>
                     <Input required type="number" name="attendees" id="atendees" min="0" className="w-auto"
