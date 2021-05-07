@@ -11,6 +11,7 @@ import LocalizedStrings from 'react-localization';
 import locationImage from '../images/space-search.svg';
 import doctorsImage from '../images/doctors.svg'
 
+import lessThanSixFeetImage from "../images/less-than-six-feet.svg"
 import sixFeetImage from '../images/six-feet-bed.svg';
 
 import speakingNormalImage from '../images/speaking-normal.svg';
@@ -711,7 +712,7 @@ function SocialDistancePage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={lessThanSixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <ImageButton image={sixFeetImage} value="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
