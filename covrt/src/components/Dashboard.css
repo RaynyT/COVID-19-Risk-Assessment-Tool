@@ -36,7 +36,7 @@
 }
 
 .img-link-image-container {
-    max-width: 5.5rem;
+    max-width: 100%;
     max-height: 5.5rem;
     height: auto;
 }
