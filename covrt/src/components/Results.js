@@ -30,7 +30,7 @@ let strings = new LocalizedStrings({
         kn95Mask: "KN95 Mask",
         noMask: "No mask",
     }
-   });
+});
 
 export default function Results(props){
     ReactGA.pageview(window.location.pathname + window.location.search);

@@ -52,7 +52,7 @@ let strings = new LocalizedStrings({
         surgicalMaskInfo: "surgical mask",
         kn95MaskInfo: "KN95 Mask",
     }
-   });
+});
 
 export default function Calculator(props) {
     ReactGA.pageview(window.location.pathname + window.location.search);
