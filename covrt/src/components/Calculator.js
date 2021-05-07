@@ -464,12 +464,12 @@ function VaccinePage(props) {
 function PresetPage(props) {
 
     const presets = {
-        "Indoor Dining": {
+        "indoorDining": {
             activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
-            distancing: "Less than 6 feet",
-            volume: "Speaking normally",
-            ownMask: "No Mask",
-            othersMask: { type: "No Mask", numWearers: null }
+            distancing: "lessThanSixFeet",
+            volume: "normalSpeaking",
+            ownMask: "noMask",
+            othersMask: { type: "noMask", numWearers: null }
         },
 
         "empty-activity": {
@@ -505,35 +505,35 @@ function PresetPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={groceryShoppingImage} desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
+                        <ImageButton image={groceryShoppingImage} value="groceryShopping" desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={goingToWorkImage} desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
+                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={visitingFriendImage} desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
+                        <ImageButton image={visitingFriendImage} value="visitingAFriend" desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={takingTheBusImage} desc={"Taking the Bus"} alt="Person riding a bus" clickCallback={fillSurvey}/>
+                        <ImageButton image={takingTheBusImage} value="takingTheBus" desc={"Taking the Bus"} alt="Person riding a bus" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={indoorDiningImage} desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
+                        <ImageButton image={indoorDiningImage} value="indoorDining" desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={joggingImage} desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
+                        <ImageButton image={joggingImage} value="jogging" desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={partyImage} desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
+                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={outdoorGatheringImage} desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
+                        <ImageButton image={outdoorGatheringImage} value="outdoorGathering" desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={hikingImage} desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
+                        <ImageButton image={hikingImage} value="hiking" desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
                     </div>
                 </div>
             </div>
@@ -645,16 +645,16 @@ function SocialDistancePage(props) {
     let moreThanNineSelected =false;
 
     switch(props.selection) {
-        case "Less than 6 feet":
+        case "lessThanSixFeet":
             lessThanSixSelected = true;
             break;
-        case "6 feet":
+        case "sixFeet":
             sixSelected = true;
             break;
-        case "9 feet":
+        case "nineFeet":
             nineSelected = true;
             break;
-        case "More than 9 feet":
+        case "moreThanNineFeet":
             moreThanNineSelected = true;
             break;
         case "none-selected":
@@ -683,18 +683,18 @@ function SocialDistancePage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} val="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} val="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} value="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} val="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={sixFeetImage} value="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} val="moreThanNineFeet" desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={sixFeetImage} value="moreThanNineFeet" desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
@@ -731,13 +731,13 @@ function TalkingPage(props) {
     let loudSpeakingSelected = false;
 
     switch(props.selection) {
-        case "Not speaking":
+        case "notSpeaking":
             notSpeakingSelected = true;
             break;
-        case "Speaking normally":
+        case "normalSpeaking":
             normalSpeakingSelected = true;
             break;
-        case "Speaking loudly or shouting":
+        case "loudSpeaking":
             loudSpeakingSelected = true;
             break;
         case "none-selected":
@@ -766,15 +766,15 @@ function TalkingPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingNormalImage} value="notSpeaking" desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingNormalImage} value="normalSpeaking" desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-12 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingNormalImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
             </div>
@@ -819,19 +819,19 @@ function OwnMaskPage(props) {
     let maskInfo = "N/A";
 
     switch(props.selection) {
-        case "No Mask":
+        case "noMask":
             noMaskSelected = true;
             maskInfo = "N/A";
             break;
-        case "Cotton Mask":
+        case "cottonMask":
             cottonMaskSelected = true;
             maskInfo = "The filtration effectiveness of cloth masks is generally lower than that of medical masks and respirators; however, cloth masks may provide some protection if well designed and used correctly."
             break;
-        case "Surgical Mask":
+        case "surgicalMask":
             surgicalMaskSelected = true;
             maskInfo = "Fluid resistant and provides the wearer protection against large droplets or sprays of bodily fluids. Protects others from the wearer’s respiratory emissions."
             break;
-        case "KN95 Mask":
+        case "kn95Mask":
             kn95MaskSelected= true;
             maskInfo = "Reduces wearer’s exposure to particles including small particle aerosols and large droplets. Protects others from the wearer’s respiratory emissions."
             break;
@@ -866,18 +866,18 @@ function OwnMaskPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={noMaskImage} desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={noMaskImage} value="noMask" desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={cottonMaskImage} value="cottonMask" desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={surgicalMaskImage} value="surgicalMask" desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={kn95MaskImage} value="kn95Mask" desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
@@ -935,16 +935,16 @@ function OthersMaskPage(props) {
     let kn95MaskSelected = false;
 
     switch(props.selection) {
-        case "No Mask":
+        case "noMask":
             noMaskSelected = true;
             break;
-        case "Cotton Mask":
+        case "cottonMask":
             cottonMaskSelected = true;
             break;
-        case "Surgical Mask":
+        case "surgicalMask":
             surgicalMaskSelected = true;
             break;
-        case "KN95 Mask":
+        case "kn95Mask":
             kn95MaskSelected= true;
             break;
         case "none-selected":
@@ -972,18 +972,18 @@ function OthersMaskPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={noMaskImage} desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={noMaskImage} value="noMask" desc="No Mask" alt="Person with no mask" large selected={noMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={cottonMaskImage} desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={cottonMaskImage} value="cottonMask" desc="Cotton Mask" alt="Cotton mask" large selected={cottonMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={surgicalMaskImage} desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={surgicalMaskImage} value="surgicalMask" desc="Surgical Mask" alt="Surgical mask" large selected={surgicalMaskSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={kn95MaskImage} desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={kn95MaskImage} value="kn95Mask" desc="KN95 Mask" alt="KN95 mask" large selected={kn95MaskSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
@@ -1040,7 +1040,7 @@ function ImageButton(props) {
     }
 
     const handleClick = () => {
-        props.clickCallback(props.desc);
+        props.clickCallback(props.value);
     } 
 
     return(
