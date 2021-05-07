@@ -20,13 +20,11 @@ import speakingLoudImage from '../images/speaking-loudly.svg'
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
 import goingToWorkImage from '../images/going-to-work.svg';
-import visitingFriendImage from '../images/visiting-a-friend.svg';
 import takingTheBusImage from '../images/taking-the-bus.svg';
 import indoorDiningImage from '../images/going-to-dinner.svg';
 import joggingImage from '../images/jogging.svg';
 import partyImage from '../images/party.svg';
-import outdoorGatheringImage from '../images/outdoor-gathering.svg'
-import hikingImage from '../images/hiking.svg'
+import barImage from '../images/going-to-bar.svg';
 
 // Mask images
 import noMaskImage from '../images/no-mask.svg'
@@ -540,10 +538,10 @@ function PresetPage(props) {
                         <ImageButton image={groceryShoppingImage} value="groceryShopping" desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
+                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Working at an Office"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={visitingFriendImage} value="visitingAFriend" desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
+                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
@@ -554,18 +552,7 @@ function PresetPage(props) {
                         <ImageButton image={indoorDiningImage} value="indoorDining" desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={joggingImage} value="jogging" desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
-                    </div>
-                </div>
-                <div className="row img-btn-row">
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
-                    </div>
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={outdoorGatheringImage} value="outdoorGathering" desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
-                     </div>
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={hikingImage} value="hiking" desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
+                        <ImageButton image={barImage} value="goingToABar" desc={"Going to a Bar"} alt="Person at a bar" clickCallback={fillSurvey}/>
                     </div>
                 </div>
             </div>
