@@ -467,7 +467,7 @@ function PresetPage(props) {
 
     const presets = {
         "Indoor Dining": {
-            activityBasicInfo: { setting: "Indoor", attendees: null, hours: 1,  minutes: 0 },
+            activityBasicInfo: { setting: "Indoors", attendees: null, hours: 1,  minutes: 0 },
             distancing: "Less than 6 feet",
             volume: "Speaking normally",
             ownMask: "No Mask",
