@@ -1081,10 +1081,16 @@ function OthersMaskPage(props) {
 function ImageButton(props) {
 
     let btnClass = "img-btn";
+    let contentClass = "img-btn-content";
+    let containerClass = "img-btn-image-container";
+    let imageClass = "img-btn-image";
     let textClass = "img-btn-text";
 
     if(props.large) {
         btnClass += " img-btn-large";
+        contentClass = "img-btn-large-content";
+        containerClass = "img-btn-large-image-container";
+        imageClass = "img-btn-large-image";
         textClass = "img-btn-text-large";
     }
 
@@ -1098,9 +1104,9 @@ function ImageButton(props) {
 
     return(
         <button className={btnClass} aria-pressed="false" onClick={handleClick}>
-            <div className="img-btn-content">
-                <div className="img-btn-image-container">
-                    <img className="img-btn-image" src={props.image} alt={props.alt} />
+            <div className={contentClass}>
+                <div className={containerClass}>
+                    <img className={imageClass} src={props.image} alt={props.alt} />
                 </div>
                 <div className={textClass}>
                     {props.desc}
