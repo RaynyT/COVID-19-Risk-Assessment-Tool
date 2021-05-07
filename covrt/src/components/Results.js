@@ -17,26 +17,20 @@ import ReactGA from 'react-ga';
 export default function Results(props){
     ReactGA.pageview(window.location.pathname + window.location.search);
 
-    // TODO
-    // Should find a way to make these not dependent on the names of the selections
-    // That way it will be easier to change if the wording of the questions change
-
-    // TODO: Find a way to make fractions work in a JSON object
-
     const numericValues = {
-        "Indoor": 1,
-        "Outdoor": .05,
-        "Less than 6 feet": 1,
-        "6 feet": .5,
-        "9 feet": .25,
-        "More than 9 feet": .125,
-        "Not speaking": .20,
-        "Speaking normally": 1,
-        "Speaking loudly or shouting": 5,
-        "Cotton Mask": .6666666666,
-        "Surgical Mask": .5,
-        "KN95 Mask": .3333333333,
-        "No Mask": 1
+        "indoors": 1,
+        "outdoors": .05,
+        "lessThanSixFeet": 1,
+        "sixFeet": .5,
+        "nineFeet": .25,
+        "moreThanNineFeet": .125,
+        "notSpeaking": .20,
+        "normalSpeaking": 1,
+        "loudSpeaking": 5,
+        "cottonMask": .6666666666,
+        "surgicalMask": .5,
+        "kn95Mask": .3333333333,
+        "noMask": 1
     }
 
     const calculateRiskScore = () => {
@@ -49,7 +43,7 @@ export default function Results(props){
         if (doseInt === 1) {
             vaccineEfficacy = .56;
         } else if (doseInt === 2) {
-            if (props.vaccination.type === "Pfizer" || props.vaccination.type === "Moderna") {
+            if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
                 vaccineEfficacy = .1;
             } else {
                 vaccineEfficacy = .4;
@@ -136,9 +130,9 @@ function ErrorScreen() {
 
 function ResultsScreen(props) {
 
-    // Set outdoor/indoor icon
+    // Set outdoors/indoors icon
     let activitySettingIcon = houseIcon;
-    if (props.activityBasicInfo.setting === "Outdoor") {
+    if (props.activityBasicInfo.setting === "outdoors") {
         activitySettingIcon = sunIcon;
     }
 
