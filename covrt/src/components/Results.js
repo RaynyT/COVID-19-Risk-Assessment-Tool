@@ -99,6 +99,7 @@ export default function Results(props){
         //     console.log("Volume value: ", numericValues[props.speakingVolume]  )
         // }
         
+        console.log(score);
         return score;
     }
     
@@ -195,7 +196,6 @@ function ResultsScreen(props) {
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 {summarySubheading}
-                <h2 className="risk-level-text">Risk score: {props.riskScore}</h2>
                 <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
             </div>
             <div className="horizontal-center">
