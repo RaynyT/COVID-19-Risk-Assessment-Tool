@@ -2,7 +2,6 @@ package volumes
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrVolumeNotFound is returned when the volume can't be found

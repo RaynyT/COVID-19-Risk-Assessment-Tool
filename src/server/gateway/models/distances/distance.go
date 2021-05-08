@@ -1,9 +1,5 @@
 package distances
 
-import (
-	"strings"
-)
-
 //Distance represents the distance options in the database
 type Distance struct {
 	DistanceID 		int64 	`json:"distanceID"`

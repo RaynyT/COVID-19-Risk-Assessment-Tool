@@ -1,9 +1,5 @@
 package activitytypes
 
-import (
-	"strings"
-)
-
 //ActivityType represents an activity type in the database
 type ActivityType struct {
     ActivityTypeID   	int64   `json:"activityTypeID"`

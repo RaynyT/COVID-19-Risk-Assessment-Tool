@@ -2,7 +2,6 @@ package vaccinetypes
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -65,7 +64,7 @@ func (ms *MySQLStore) GetByName(name string) (*VaccineType, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all vaccineTypes based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllVaccineTypes(rc float64) (*[]VaccineType, error) {
 	sel := string("SELECT VaccineTypeID, RiskCoefficient, VaccineTypeName FROM TblVaccineType WHERE RiskCoefficient = ?")
@@ -80,7 +79,7 @@ func (ms *MySQLStore) AllVaccineTypes(rc float64) (*[]VaccineType, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(vaccineTypes, vaccineType)
+		vaccineTypes = append(vaccineTypes, vaccineType)
 	}
 
 	return &vaccineTypes, nil

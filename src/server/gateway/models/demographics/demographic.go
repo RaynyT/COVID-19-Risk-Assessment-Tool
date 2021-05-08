@@ -2,7 +2,6 @@ package demographics
 
 import (
 	"fmt"
-	"strings"
     "time"
 )
 
@@ -37,6 +36,8 @@ func (nd *NewDemographic) Validate() error {
     if nd.VaccineTypeID > 6 {
         return fmt.Errorf("Vaccine type is invalid.")
     }
+
+    return nil
 }
 
 //ToDemographic converts the NewDemographic to Demographic
@@ -45,7 +46,7 @@ func (nd *NewDemographic) ToDemographic() (*Demographic, error) {
     if validationErr != nil {
         return nil, validationErr
     }
-    t = time.Now().Format("01-02-2006")
+    t := time.Now().Format("01-02-2006")
     newDemographic := &Demographic {
 		UserID:           nd.UserID,
 		StateCountyID:    nd.StateCountyID,
@@ -58,16 +59,16 @@ func (nd *NewDemographic) ToDemographic() (*Demographic, error) {
 
 //ApplyUpdates updates the vaccine and location information associated with a user
 func (d *Demographic) ApplyUpdates(up *UpdateDemographics) error {
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
     
-    if up.StateCountyID != nil {
+    if up.StateCountyID > 0 {
 		if up.StateCountyID <= 3216 {
 			d.StateCountyID = up.StateCountyID
 			d.UserUpdateDate = t
 		}
 	}
 
-	if up.VaccineTypeID != nil {
+	if up.VaccineTypeID > 0 {
 		if up.VaccineTypeID <= 6 {
 			d.VaccineTypeID = up.VaccineTypeID
 			d.UserUpdateDate = t

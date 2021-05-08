@@ -1,9 +1,5 @@
 package inouts
 
-import (
-	"strings"
-)
-
 //InOut represents the inOut options in the database
 type InOut struct {
 	InOutID 		int64 	`json:"inOutID"`

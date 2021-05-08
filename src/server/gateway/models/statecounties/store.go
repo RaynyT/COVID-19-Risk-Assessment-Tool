@@ -2,7 +2,6 @@ package statecounties
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrStateCountyNotFound is returned when the stateCounty can't be found

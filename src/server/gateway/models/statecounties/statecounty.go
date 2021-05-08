@@ -1,9 +1,5 @@
 package statecounties
 
-import (
-	"strings"
-)
-
 //StateCounty represents the distance options in the database
 type StateCounty struct {
 	StateCountyID 		int64 	`json:"stateCountyID"`

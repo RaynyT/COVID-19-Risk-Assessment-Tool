@@ -2,7 +2,6 @@ package vaccinetypes
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrVaccineTypeNotFound is returned when the vaccineType can't be found

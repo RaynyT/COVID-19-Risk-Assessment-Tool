@@ -2,7 +2,6 @@ package inouts
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrInOutNotFound is returned when the inOut can't be found

@@ -2,8 +2,6 @@ package users
 
 import (
 	"fmt"
-	"strings"
-    "time"
 )
 
 //User represents a user in the database
@@ -14,14 +12,16 @@ type User struct {
 
 //NewUser represents a new user in the database
 type NewUser struct {
-    CookieHash       int64   `json:"cookieHash"`
+    CookieHash       string  `json:"cookieHash"`
 }
 
 //Validate validates the new user and returns an error if it violates any of these rules
 func (nu *NewUser) Validate() error {
-    if nu.CookieHash == nil  {
+    if len(nu.CookieHash) <= 0  {
         return fmt.Errorf("No cookie has been hashed.")
     }
+
+    return nil
 }
 
 //ToUser converts the NewUser to User

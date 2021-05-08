@@ -2,7 +2,6 @@ package users
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -48,10 +47,7 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*User, er
 	rows.Next()
 	if err := rows.Scan(
 		&user.UserID,
-		&user.UserID,
-		&user.StateCountyID,
-		&user.VaccineTypeID,
-		&user.UserUpdateDate); err != nil {
+		&user.CookieHash); err != nil {
 		return nil, err
 	}
 	return user, nil

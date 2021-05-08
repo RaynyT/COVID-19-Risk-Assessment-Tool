@@ -2,7 +2,6 @@ package states
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrActivityNotFound is returned when the state can't be found

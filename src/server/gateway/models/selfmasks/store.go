@@ -2,7 +2,6 @@ package selfmasks
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrSelfMaskNotFound is returned when the selfMask can't be found

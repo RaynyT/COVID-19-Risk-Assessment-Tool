@@ -2,7 +2,6 @@ package counties
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrActivityNotFound is returned when the county can't be found

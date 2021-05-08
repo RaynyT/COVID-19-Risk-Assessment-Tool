@@ -66,7 +66,7 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 //the newly-inserted StateCounty_Rate, complete with the DBMS-assigned StateCounty_RateID
 func (ms *MySQLStore) Insert(stateCounty_Rate *StateCounty_Rate) (*StateCounty_Rate, error) {
 	ins := string("INSERT INTO TblStateCounty_Rate(StateCountyID, Uploaded, PosTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek) VALUES(?,?,?,?,?)")
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
 	res, err := ms.Database.Exec(ins, stateCounty_Rate.StateCountyID, t, stateCounty_Rate.PosTestRateCounty, stateCounty_Rate.NumNewCasesLastWeek, stateCounty_Rate.NumNewCasesPrevToLastWeek)
 	if err != nil {
 		return nil, err

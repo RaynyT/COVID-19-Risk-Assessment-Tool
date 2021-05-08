@@ -2,7 +2,6 @@ package volumes
 
 import (
 	"database/sql"
-	"time"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -65,7 +64,7 @@ func (ms *MySQLStore) GetByName(name string) (*Volume, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all volumes based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllVolumes(rc float64) (*[]Volume, error) {
 	sel := string("SELECT VolumeID, RiskCoefficient, VolumeName FROM TblVolume WHERE RiskCoefficient = ?")
@@ -80,7 +79,7 @@ func (ms *MySQLStore) AllVolumes(rc float64) (*[]Volume, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(volumes, volume)
+		volumes = append(volumes, volume)
 	}
 
 	return &volumes, nil

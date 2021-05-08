@@ -2,7 +2,6 @@ package othersmasks
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrOtherMasksNotFound is returned when the otherMasks can't be found

@@ -1,9 +1,5 @@
 package vaccinetypes
 
-import (
-	"strings"
-)
-
 //VaccineType represents the vaccineType options in the database
 type VaccineType struct {
 	VaccineTypeID 		int64 	`json:"vaccineTypeID"`

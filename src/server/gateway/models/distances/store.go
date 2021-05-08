@@ -2,7 +2,6 @@ package distances
 
 import (
 	"errors"
-	"strings"
 )
 
 //ErrDistanceNotFound is returned when the distance can't be found

@@ -1,10 +1,6 @@
 package states
 
-import (
-	"strings"
-)
-
-type County struct {
+type State struct {
 	StateID	      int64	  `json:"stateID"`
 	StateAbbr	  string  `json:"stateAbbr"`
 }

@@ -1,6 +1,6 @@
 package handlers
 
-import "net/http"
+//import "net/http"
 
 /*
   Access-Control-Allow-Origin: *
@@ -9,7 +9,7 @@ import "net/http"
   Access-Control-Expose-Headers: Authorization
   Access-Control-Max-Age: 600
 */
-
+/*
 // CORS struct
 type CORS struct {
 	Handler http.Handler
@@ -27,3 +27,4 @@ func (c *CORS) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	c.Handler.ServeHTTP(w, r)
 }
+*/

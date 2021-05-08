@@ -2,7 +2,7 @@ package statecounty_rates
 
 import (
 	"fmt"
-	"strings"
+    "time"
 )
 
 //StateCounty_Rate represents an stateCounty_Rate in the database
@@ -29,17 +29,15 @@ func (nscr *NewStateCounty_Rate) Validate() error {
         return fmt.Errorf("StateCounty relationship is invalid.")
     }
 
-    if nscr.PosTestRateCounty == nil {
-        return fmt.Errorf("PosTestRateCounty cannot be null.")
-    }
-
-	if nscr.NumNewCasesLastWeek == nil {
+	if nscr.NumNewCasesLastWeek < 0 {
         return fmt.Errorf("NumNewCasesLastWeek cannot be null.")
     }
 
-    if nscr.NumNewCasesPrevToLastWeek == nil {
+    if nscr.NumNewCasesPrevToLastWeek < 0 {
         return fmt.Errorf("NumNewCasesPrevToLastWeek cannot be null.")
     }
+
+    return nil
 }
 
 //ToStateCounty_Rate converts the NewStateCounty_Rate to StateCounty_Rate
@@ -48,7 +46,7 @@ func (nscr *NewStateCounty_Rate) ToStateCounty_Rate() (*StateCounty_Rate, error)
     if validationErr != nil {
         return nil, validationErr
     }
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
     newStateCounty_Rate := &StateCounty_Rate {
 		StateCountyID :            nscr.StateCountyID, 
 		Uploaded:                  t,

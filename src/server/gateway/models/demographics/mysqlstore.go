@@ -71,7 +71,7 @@ func (ms *MySQLStore) GetByName(userid int64) (*Demographic, error) {
 //the newly-inserted Demographic, complete with the DBMS-assigned DemographicID
 func (ms *MySQLStore) Insert(demographic *Demographic) (*Demographic, error) {
 	ins := string("INSERT INTO TblDemographic(UserID, StateCountyID, VaccineTypeID, UserUpdateDate) VALUES(?,?,?,?)")
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
 	res, err := ms.Database.Exec(ins, demographic.UserID, demographic.StateCountyID, demographic.VaccineTypeID, t)
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (ms *MySQLStore) AllDemographics(id int64, column string) (*[]Demographic, 
 
 	for rows.Next() {
 		var demographic Demographic
-		err = rows.Scan(&demographic.DemographicID, &demographic.DemographicTypeID, &demographic.VolumeID, &demographic.InOutID, &demographic.DistanceID, &demographic.SelfMaskID, &demographic.OtherMasksID, &demographic.DemographicName, &demographic.NumPeople, &demographic.NumPeopleMasks, &demographic.DurationHours, &demographic.DurationMinutes)
+		err = rows.Scan(&demographic.DemographicID, &demographic.UserID, &demographic.StateCountyID, &demographic.VaccineTypeID, &demographic.UserUpdateDate)
 		
 		if err != nil {
 			return nil, err

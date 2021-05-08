@@ -2,7 +2,6 @@ package inouts
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -65,7 +64,7 @@ func (ms *MySQLStore) GetByName(name string) (*InOut, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all inOuts based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllInOuts(rc float64) (*[]InOut, error) {
 	sel := string("SELECT InOutID, RiskCoefficient, InOutName FROM TblInOut WHERE RiskCoefficient = ?")
@@ -80,7 +79,7 @@ func (ms *MySQLStore) AllInOuts(rc float64) (*[]InOut, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(inOuts, inOut)
+		inOuts = append(inOuts, inOut)
 	}
 
 	return &inOuts, nil

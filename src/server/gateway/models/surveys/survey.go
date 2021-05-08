@@ -2,7 +2,6 @@ package surveys
 
 import (
 	"fmt"
-	"strings"
 	"time"
 )
 
@@ -28,17 +27,19 @@ type NewSurvey struct {
 
 //Validate validates the new survey and returns an error if it violates any of these rules
 func (ns *NewSurvey) Validate() error {
-    if ns.DemographicID == nil {
+    if ns.DemographicID < 0 {
         return fmt.Errorf("Demographic info cannot be null.")
     }
 
-	if ns.ActivityID == nil {
+	if ns.ActivityID < 0 {
         return fmt.Errorf("Activity info cannot be null.")
     }
 
-	if ns.OverallScore == nil {
+	if ns.OverallScore < 0 {
 		return fmt.Errorf("Risk score cannot be null.")
 	}
+
+    return nil
 }
 
 //ToSurvey converts the NewSurvey to Survey
@@ -47,7 +48,7 @@ func (ns *NewSurvey) ToSurvey() (*Survey, error) {
     if validationErr != nil {
         return nil, validationErr
     }
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
 
     newSurvey := &Survey {
         DemographicID:   ns.DemographicID,

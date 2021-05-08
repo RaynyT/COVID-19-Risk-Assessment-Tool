@@ -47,10 +47,12 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Survey, 
 	rows.Next()
 	if err := rows.Scan(
 		&survey.SurveyID,
-		&survey.UserID,
-		&survey.StateCountyID,
-		&survey.VaccineTypeID,
-		&survey.UserUpdateDate); err != nil {
+		&survey.DemographicID,
+		&survey.ActivityID,
+		&survey.GivenName,
+		&survey.CreationDate,
+		&survey.OverallScore,
+		&survey.LastSurveyID); err != nil {
 		return nil, err
 	}
 	return survey, nil
@@ -65,7 +67,7 @@ func (ms *MySQLStore) GetByID(id int64) (*Survey, error) {
 //the newly-inserted Survey, complete with the DBMS-assigned SurveyID
 func (ms *MySQLStore) Insert(survey *Survey) (*Survey, error) {
 	ins := string("INSERT INTO TblSurvey(DemographicID, ActivityID, GivenName, CreationDate, OverallScore, LastSurveyID) VALUES(?,?,?,?,?,?)")
-	t = time.Now().Format("01-02-2006")
+	t := time.Now().Format("01-02-2006")
 	res, err := ms.Database.Exec(ins, survey.DemographicID, survey.ActivityID, survey.GivenName, t, survey.OverallScore, survey.LastSurveyID)
 	if err != nil {
 		return nil, err

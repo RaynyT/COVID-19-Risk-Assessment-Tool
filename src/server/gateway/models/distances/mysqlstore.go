@@ -2,7 +2,6 @@ package distances
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -65,7 +64,7 @@ func (ms *MySQLStore) GetByName(name string) (*Distance, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all distances based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllDistances(rc float64) (*[]Distance, error) {
 	sel := string("SELECT DistanceID, RiskCoefficient, DistanceName FROM TblDistance WHERE RiskCoefficient = ?")
@@ -80,7 +79,7 @@ func (ms *MySQLStore) AllDistances(rc float64) (*[]Distance, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(distances, distance)
+		distances = append(distances, distance)
 	}
 
 	return &distances, nil

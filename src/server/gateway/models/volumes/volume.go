@@ -1,9 +1,5 @@
 package volumes
 
-import (
-	"strings"
-)
-
 //Volume represents the volume options in the database
 type Volume struct {
 	VolumeID 		int64 	`json:"volumeID"`

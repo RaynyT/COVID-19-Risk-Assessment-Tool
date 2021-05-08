@@ -2,7 +2,6 @@ package selfmasks
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -65,7 +64,7 @@ func (ms *MySQLStore) GetByName(name string) (*SelfMask, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all selfMasks based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllSelfMasks(rc float64) (*[]SelfMask, error) {
 	sel := string("SELECT SelfMaskID, RiskCoefficient, SelfMaskName FROM TblSelfMask WHERE RiskCoefficient = ?")
@@ -80,7 +79,7 @@ func (ms *MySQLStore) AllSelfMasks(rc float64) (*[]SelfMask, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(selfMasks, selfMask)
+		selfMasks = append(selfMasks, selfMask)
 	}
 
 	return &selfMasks, nil

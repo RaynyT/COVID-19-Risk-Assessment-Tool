@@ -1,9 +1,5 @@
 package selfmasks
 
-import (
-	"strings"
-)
-
 //SelfMask represents the selfMask options in the database
 type SelfMask struct {
 	SelfMaskID 		int64 	`json:"selfMaskID"`

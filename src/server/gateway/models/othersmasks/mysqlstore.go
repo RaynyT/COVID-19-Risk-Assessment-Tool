@@ -2,7 +2,6 @@ package othersmasks
 
 import (
 	"database/sql"
-	"strings"
 )
 
 
@@ -66,7 +65,7 @@ func (ms *MySQLStore) GetByName(name string) (*OtherMasks, error) {
 	return ms.getByProvidedType(Name, name)
 }
 
-// Gets all surveys based on a given:
+// Gets all othersMasks based on a given:
 // Risk Coefficient
 func (ms *MySQLStore) AllOthersMasks(rc float64) (*[]OtherMasks, error) {
 	sel := string("SELECT OtherMasksID, RiskCoefficient, OtherMasksName FROM TblOtherMasks WHERE RiskCoefficient = ?")
@@ -81,7 +80,7 @@ func (ms *MySQLStore) AllOthersMasks(rc float64) (*[]OtherMasks, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(othersMasks, otherMasks)
+		othersMasks = append(othersMasks, otherMasks)
 	}
 
 	return &othersMasks, nil

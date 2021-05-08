@@ -2,7 +2,6 @@ package statecounties
 
 import (
 	"database/sql"
-	"strings"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -67,7 +66,7 @@ func (ms *MySQLStore) GetByFIPS(fips string) (*StateCounty, error) {
 	return ms.getByProvidedType(FIPS, fips)
 }
 
-// Gets all surveys based on a given:
+// Gets all stateCounties based on a given:
 // StateID and CountyID
 func (ms *MySQLStore) StateCounty(s_id int64, c_id int64) (*StateCounty, error) {
 	sel := string("SELECT StateCountyID, StateID, CountyID, Pop, FIPS FROM TblStateCounty WHERE StateID = ? AND CountyID = ?")
@@ -98,7 +97,7 @@ func (ms *MySQLStore) StateCounty(s_id int64, c_id int64) (*StateCounty, error) 
 func (ms *MySQLStore) AllStateCounties(s_id int64) (*[]StateCounty, error) {
 	sel := string("SELECT StateCountyID, StateID, CountyID, Pop, FIPS FROM TblStateCounty WHERE StateID = ?")
 
-	rows, err := ms.Database.Query(sel, rc)
+	rows, err := ms.Database.Query(sel, s_id)
 	var stateCounties []StateCounty
 
 	for rows.Next() {
@@ -108,7 +107,7 @@ func (ms *MySQLStore) AllStateCounties(s_id int64) (*[]StateCounty, error) {
 		if err != nil {
 			return nil, err
 		}
-		surveys = append(stateCounties, stateCounty)
+		stateCounties = append(stateCounties, stateCounty)
 	}
 
 	return &stateCounties, nil
