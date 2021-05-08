@@ -1,6 +1,7 @@
 import './App.css';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation,} from 'react-router-dom';
 import ReactGA from 'react-ga';
 
 import Landing from './components/Landing.js';
@@ -14,9 +15,19 @@ import Dashboard from './components/Dashboard.js';
 import About from './components/About.js';
 import Update from './components/Update.js'
 
+ReactGA.initialize("G-KM183KX3SB");
+
 function App() {
 
-	ReactGA.initialize("G-KM183KX3SB");
+	// Google Analytics
+
+	const location = useLocation();
+
+	// Fired on every route change
+	useEffect(() => {
+	  ReactGA.pageview(location.pathname + location.search);
+	}, [location]);
+
 
 	// Hook from https://usehooks.com/useLocalStorage/
 	function useLocalStorage(key, initialValue) {
