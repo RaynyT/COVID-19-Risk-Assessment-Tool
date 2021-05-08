@@ -7,9 +7,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import ReactGA from 'react-ga';
-
-ReactGA.initialize("G-KM183KX3SB");
 
 
 ReactDOM.render(
