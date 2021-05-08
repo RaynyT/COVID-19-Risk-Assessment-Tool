@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { InfoIcon } from '@primer/octicons-react';
 import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import ReactGA from 'react-ga';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
@@ -33,8 +32,6 @@ let strings = new LocalizedStrings({
 });
 
 export default function Results(props){
-    ReactGA.pageview(window.location.pathname + window.location.search);
-
     
     const numericValues = {
         "indoors": 1,
