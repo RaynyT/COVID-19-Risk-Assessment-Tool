@@ -1,7 +1,6 @@
 import './App.css';
 
 import { useState } from 'react';
-import ReactGA from 'react-ga';
 
 import Landing from './components/Landing.js';
 import { Route } from 'react-router-dom';
@@ -15,8 +14,6 @@ import About from './components/About.js';
 import Update from './components/Update.js'
 
 function App() {
-
-	ReactGA.initialize("G-KM183KX3SB");
 
 	// Hook from https://usehooks.com/useLocalStorage/
 	function useLocalStorage(key, initialValue) {
