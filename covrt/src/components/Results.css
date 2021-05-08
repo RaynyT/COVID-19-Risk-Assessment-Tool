@@ -63,8 +63,6 @@
 .img-card {
     background-color: #EAECF4;
     border-color: #EAECF4;
-    border-style: solid;
-    border-width: medium;
     border-radius: 20%;
 
     box-sizing: border-box;
