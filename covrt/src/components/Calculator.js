@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Tooltip } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
-import ReactGA from 'react-ga';
 import LocalizedStrings from 'react-localization';
 
 import locationImage from '../images/space-search.svg';
@@ -22,7 +21,6 @@ import groceryShoppingImage from '../images/grocery-shopping.svg';
 import goingToWorkImage from '../images/going-to-work.svg';
 import takingTheBusImage from '../images/taking-the-bus.svg';
 import indoorDiningImage from '../images/going-to-dinner.svg';
-import joggingImage from '../images/jogging.svg';
 import partyImage from '../images/party.svg';
 import barImage from '../images/going-to-bar.svg';
 
@@ -57,8 +55,7 @@ let strings = new LocalizedStrings({
 });
 
 export default function Calculator(props) {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-
+    
     let startingPageNum = 1;
         
     // If user has navigated here by coming back from the results page
@@ -149,7 +146,7 @@ export default function Calculator(props) {
     }
 
     // Submit mask page, set survey completed, navigate to /results
-    const HandleOthersMaskPageSubmit = (event) => {
+    const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
@@ -225,7 +222,7 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick}
                 selectionCallback={props.updateOthersMaskType} 
                 selection={props.othersMask.type}
-                formSubmitCallback={HandleOthersMaskPageSubmit} 
+                formSubmitCallback={handleOthersMaskPageSubmit} 
                 numWearers={props.othersMask.numWearers} 
                 attendees={props.activityBasicInfo.attendees}
             />;

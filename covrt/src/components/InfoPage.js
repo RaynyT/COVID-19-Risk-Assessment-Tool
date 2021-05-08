@@ -5,11 +5,9 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from './NavBar.js'
-import ReactGA from 'react-ga';
 
 
 export default function InfoPage() {
-    ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
         <div className="info-outer">
