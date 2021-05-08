@@ -7,22 +7,24 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import ReactGA from 'react-ga';
 import LocalizedStrings from 'react-localization';
 
-
 import locationImage from '../images/space-search.svg';
-import sixFeetImage from '../images/six-feet-bed.svg';
-import speakingNormalImage from '../images/speaking-normal.svg';
 import doctorsImage from '../images/doctors.svg'
+
+import lessThanSixFeetImage from "../images/less-than-six-feet.svg"
+import sixFeetImage from '../images/six-feet-bed.svg';
+
+import speakingNormalImage from '../images/speaking-normal.svg';
+import notSpeakingImage from '../images/not-speaking.svg'
+import speakingLoudImage from '../images/speaking-loudly.svg'
 
 // Activity preset images
 import groceryShoppingImage from '../images/grocery-shopping.svg';
 import goingToWorkImage from '../images/going-to-work.svg';
-import visitingFriendImage from '../images/visiting-a-friend.svg';
 import takingTheBusImage from '../images/taking-the-bus.svg';
 import indoorDiningImage from '../images/going-to-dinner.svg';
 import joggingImage from '../images/jogging.svg';
 import partyImage from '../images/party.svg';
-import outdoorGatheringImage from '../images/outdoor-gathering.svg'
-import hikingImage from '../images/hiking.svg'
+import barImage from '../images/going-to-bar.svg';
 
 // Mask images
 import noMaskImage from '../images/no-mask.svg'
@@ -141,19 +143,13 @@ export default function Calculator(props) {
         setUsingPreset(presetUsed);
     }
 
-    const handleActivityPageSubmit = (event) => {
-        event.preventDefault();
-        props.updateActivityBasicInfo(
-            event.target.setting.value,
-            event.target.attendees.value,
-            event.target.hours.value,
-            event.target.minutes.value
-        );
+    const handleActivityPageSubmit = (setting, attendees, hours, minutes) => {
+        props.updateActivityBasicInfo(setting, attendees, hours, minutes);
         handleNextClick();
     }
 
     // Submit mask page, set survey completed, navigate to /results
-    const handleOthersMaskPageSubmit = (event) => {
+    const HandleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
         props.updateOthersMaskNumWearers(event.target.portion.value);
         props.updateSurveryCompleted(true);
@@ -229,7 +225,7 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick}
                 selectionCallback={props.updateOthersMaskType} 
                 selection={props.othersMask.type}
-                formSubmitCallback={handleOthersMaskPageSubmit} 
+                formSubmitCallback={HandleOthersMaskPageSubmit} 
                 numWearers={props.othersMask.numWearers} 
                 attendees={props.activityBasicInfo.attendees}
             />;
@@ -502,7 +498,17 @@ function PresetPage(props) {
             volume: "none-selected",
             ownMask: "none-selected",
             othersMask: { type: "none-selected", numWearers: null }
-        }
+        },
+
+        "groceryShopping": {
+            activityBasicInfo: { setting: "indoors", attendees: 1, hours: 1,  minutes: 0 },
+            distancing: "sixFeet",
+            volume: "normalSpeaking",
+            ownMask: "none-selected",
+            othersMask: { type: "cottonMask", numWearers: null }
+        },
+
+        
     }
 
     // Checks if the preset buttons description matches one of the preset objects and fills it in
@@ -532,10 +538,10 @@ function PresetPage(props) {
                         <ImageButton image={groceryShoppingImage} value="groceryShopping" desc={"Grocery Shopping"} alt="Person grocery shopping" clickCallback={fillSurvey}/>
                     </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Going to Work"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
+                        <ImageButton image={goingToWorkImage} value="goingToWork" desc={"Working at an Office"} alt="Person in a suit walking" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={visitingFriendImage} value="visitingAFriend" desc={"Visiting a Friend"} alt="Two people sitting outdoors" clickCallback={fillSurvey}/>
+                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
                     </div>
                 </div>
                 <div className="row img-btn-row">
@@ -546,18 +552,7 @@ function PresetPage(props) {
                         <ImageButton image={indoorDiningImage} value="indoorDining" desc={"Indoor Dining"} alt="Two people at a restaurant table" clickCallback={fillSurvey}/>
                      </div>
                     <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={joggingImage} value="jogging" desc={"Jogging"} alt="Person jogging on a trail" clickCallback={fillSurvey}/>
-                    </div>
-                </div>
-                <div className="row img-btn-row">
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={partyImage} value="goingToAParty" desc={"Going to a Party"} alt="Group of people doing a toast" clickCallback={fillSurvey}/>
-                    </div>
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={outdoorGatheringImage} value="outdoorGathering" desc={"Outdoor Gathering"} alt="Group of people having an outdoor barbeque" clickCallback={fillSurvey}/>
-                     </div>
-                    <div className="col-4 d-flex justify-content-center">
-                        <ImageButton image={hikingImage} value="hiking" desc={"Hiking"} alt="Person hiking" clickCallback={fillSurvey}/>
+                        <ImageButton image={barImage} value="goingToABar" desc={"Going to a Bar"} alt="Person at a bar" clickCallback={fillSurvey}/>
                     </div>
                 </div>
             </div>
@@ -594,7 +589,8 @@ function ActivityPage(props) {
 
     let subHeader = (
         <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
-    )
+    );
+
     if(props.usingPreset) {
         subHeader = (
         <h2 className="preset-text">
@@ -603,11 +599,30 @@ function ActivityPage(props) {
         );
     }
 
+    const [durationError, setDurationError] = useState("");
+
+    const verifyAndSubmitForm = (event) => {
+        event.preventDefault();
+        let hours = event.target.hours.value;
+        let minutes = event.target.minutes.value;
+
+        if (hours + minutes <= 0) {
+            setDurationError(<h2 className="duration-error">Error: Estimated duration must be greater than zero</h2>);
+        } else {
+            props.submitCallback(
+                event.target.setting.value,
+                event.target.attendees.value,
+                hours,
+                minutes
+            );
+        }
+    }
+
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">Basic information</h1>
             {subHeader}
-            <Form id="activity-form" onSubmit={props.submitCallback}>
+            <Form id="activity-form" onSubmit={verifyAndSubmitForm}>
                 <FormGroup tag="fieldset">
                     <legend>Where will the activity be held?</legend>
                     <FormGroup check required>
@@ -625,7 +640,7 @@ function ActivityPage(props) {
                 </FormGroup>
                 <FormGroup tag="fieldset">
                     <legend>How many people will attend?</legend>
-                    <Input required type="number" name="attendees" id="atendees" min="0" className="w-auto"
+                    <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
                         defaultValue={props.attendees} />
                 </FormGroup>
                 <FormGroup tag="fieldset" className="form-inline">
@@ -639,6 +654,7 @@ function ActivityPage(props) {
                     </Label>
                 </FormGroup>
             </Form>
+            {durationError}
             <div className="calc-nav-controls">
                 <div className="prev-next-btns">
                     <button className="btn prev-btn" onClick={props.backClickCallback} aria-label="Previous step">
@@ -707,7 +723,7 @@ function SocialDistancePage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={lessThanSixFeetImage} value="lessThanSixFeet" desc="Less than 6 feet" alt="Cartoon of bed with a six foot label" large selected={lessThanSixSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <ImageButton image={sixFeetImage} value="sixFeet" desc="6 feet" alt="Cartoon of bed with a six foot label" large selected={sixSelected} clickCallback={props.selectionCallback}/>
@@ -790,7 +806,7 @@ function TalkingPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} value="notSpeaking" desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={notSpeakingImage} value="notSpeaking" desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <ImageButton image={speakingNormalImage} value="normalSpeaking" desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>
@@ -798,7 +814,7 @@ function TalkingPage(props) {
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-12 d-flex justify-content-center">
-                        <ImageButton image={speakingNormalImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={speakingLoudImage} value="loudSpeaking" desc="Speaking loudly or shouting" alt="Two people outdoors speaking" large selected={loudSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                 </div>
             </div>
@@ -1052,10 +1068,16 @@ function OthersMaskPage(props) {
 function ImageButton(props) {
 
     let btnClass = "img-btn";
+    let contentClass = "img-btn-content";
+    let containerClass = "img-btn-image-container";
+    let imageClass = "img-btn-image";
     let textClass = "img-btn-text";
 
     if(props.large) {
         btnClass += " img-btn-large";
+        contentClass = "img-btn-large-content";
+        containerClass = "img-btn-large-image-container";
+        imageClass = "img-btn-large-image";
         textClass = "img-btn-text-large";
     }
 
@@ -1069,9 +1091,9 @@ function ImageButton(props) {
 
     return(
         <button className={btnClass} aria-pressed="false" onClick={handleClick}>
-            <div className="img-btn-content">
-                <div className="img-btn-image-container">
-                    <img className="img-btn-image" src={props.image} alt={props.alt} />
+            <div className={contentClass}>
+                <div className={containerClass}>
+                    <img className={imageClass} src={props.image} alt={props.alt} />
                 </div>
                 <div className={textClass}>
                     {props.desc}
