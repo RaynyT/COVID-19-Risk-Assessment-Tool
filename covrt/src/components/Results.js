@@ -32,73 +32,9 @@ let strings = new LocalizedStrings({
 });
 
 export default function Results(props){
-    
-    const numericValues = {
-        "indoors": 1,
-        "outdoors": .05,
-        "lessThanSixFeet": 1,
-        "sixFeet": .5,
-        "nineFeet": .25,
-        "moreThanNineFeet": .125,
-        "notSpeaking": .20,
-        "normalSpeaking": 1,
-        "loudSpeaking": 5,
-        "cottonMask": .6666666666,
-        "surgicalMask": .5,
-        "kn95Mask": .3333333333,
-        "noMask": 1
-    }
-    
-    const calculateRiskScore = () => {
-        
-        let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
-        
-        // Determine vaccine efficacy
-        let vaccineEfficacy = 1;
-        let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
-        if (doseInt === 1) {
-            vaccineEfficacy = .56;
-        } else if (doseInt === 2) {
-            if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
-                vaccineEfficacy = .1;
-            } else {
-                vaccineEfficacy = .4;
-            }
-        }
-        
-        let score = (
-            // Activity setting risk coefficient * Number of attendees
-            numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
-            // * Duration in hours
-            (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
-            // * Own mask type risk coefficent
-            numericValues[props.ownMask] * 
-            // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
-            (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
-            // * Distancing risk * Volume risk
-            numericValues[props.distancing] * numericValues[props.speakingVolume] *
-            // * Vaccine efficacy
-            vaccineEfficacy
-            );
-            
-            // if (isNaN(score)) {
-                //     console.log("Error with calc:")
-        //     console.log(score);
-        //     console.log("Basic info: ", props.activityBasicInfo);
-        //     console.log("Distancing: ", props.distancing);
-        //     console.log("Volume: ", props.speakingVolume);
-        //     console.log("Own Mask: ", props.ownMask);
-        //     console.log("Others Mask: ", props.othersMask);
-        
-        //     console.log("Setting value: ", numericValues[props.activityBasicInfo.setting]);
-        //     console.log("Mask values: ",  numericValues[props.ownMask], numericValues[props.othersMask.type]);
-        //     console.log("Distancing value: ", numericValues[props.distancing]);
-        //     console.log("Volume value: ", numericValues[props.speakingVolume]  )
-        // }
-        
-        console.log(score);
-        return score;
-    }
+
+    console.log("Risk score:", props.riskScore);
+
     
     let startingPage = "results";
     
@@ -108,7 +44,6 @@ export default function Results(props){
         startingPage = "tips";
     }
     
-    const [riskScore, setRiskScore] = useState(calculateRiskScore());
     const [page, setPage] = useState(startingPage);
     
     
@@ -116,14 +51,14 @@ export default function Results(props){
         setPage(value)
     }
 
-    let screen = <ResultsScreen {...props} riskScore={riskScore} setPage={changePageCallback} />;
+    let screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />;
     
     if (!props.surveyCompleted) {
         screen = <ErrorScreen />
     } else if (page === "results") {
-        screen = <ResultsScreen {...props} riskScore={riskScore} setPage={changePageCallback} />
+        screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />
     } else {
-        screen = <ReduceRiskScreen {...props} riskScore={riskScore} setPage={changePageCallback} />
+        screen = <ReduceRiskScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />
     }
 
     return (
