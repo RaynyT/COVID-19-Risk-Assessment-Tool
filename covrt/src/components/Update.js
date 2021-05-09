@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FormGroup, Label, Input, Form } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import axios from 'axios'
 
 
 import locationImage from '../images/space-search.svg';
@@ -66,6 +67,80 @@ export default function Update(props) {
             });
 
         }
+        completeSurvey();
+    }
+
+    const calculateRiskScore = () => {
+        
+        const numericValues = {
+            "indoors": 1,
+            "outdoors": .05,
+            "lessThanSixFeet": 1,
+            "sixFeet": .5,
+            "nineFeet": .25,
+            "moreThanNineFeet": .125,
+            "notSpeaking": .20,
+            "normalSpeaking": 1,
+            "loudSpeaking": 5,
+            "cottonMask": .6666666666,
+            "surgicalMask": .5,
+            "kn95Mask": .3333333333,
+            "noMask": 1
+        }
+        let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
+        
+        // Determine vaccine efficacy
+        let vaccineEfficacy = 1;
+        let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
+        if (doseInt === 1) {
+            vaccineEfficacy = .56;
+        } else if (doseInt === 2) {
+            if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
+                vaccineEfficacy = .1;
+            } else {
+                vaccineEfficacy = .4;
+            }
+        }
+        
+        let score = (
+            // Activity setting risk coefficient * Number of attendees
+            numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
+            // * Duration in hours
+            (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
+            // * Own mask type risk coefficent
+            numericValues[props.ownMask] * 
+            // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
+            (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
+            // * Distancing risk * Volume risk
+            numericValues[props.distancing] * numericValues[props.speakingVolume] *
+            // * Vaccine efficacy
+            vaccineEfficacy
+            );
+        
+        return score;
+    }
+
+    const completeSurvey = () => {
+
+        props.updateRiskScore(calculateRiskScore());
+        
+        let surveyData = {
+            userID: props.userID,
+            userLocation: props.userLocation,
+            vaccination: props.vaccination,
+            activityBasicInfo: props.activityBasicInfo,
+            distancing: props.distancing,
+            speakingVolume: props.speakingVolume,
+            ownMask: props.ownMask,
+            othersMask: props.othersMask,
+            riskScore: props.riskScore,
+            surveyCompleted: props.surveyCompleted,
+        }
+
+        axios.post('http://riskaware.ischool.uw.edu/insert_survey', surveyData)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+
         props.history.push('/dashboard');
     }
 
