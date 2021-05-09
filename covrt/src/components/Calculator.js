@@ -92,6 +92,11 @@ export default function Calculator(props) {
             event.target.state.value,
             event.target.county.value
         );
+
+        axios.post('http://riskaware.ischool.uw.edu/retrieve_county_rates', props.userLocation)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+
         handleNextClick();
     }
 
