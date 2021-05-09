@@ -9,9 +9,10 @@ import volumeIcon from '../images/volume-vector.svg'
 import "./Results.css"
 import { Link } from 'react-router-dom';
 import { InfoIcon } from '@primer/octicons-react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import LocalizedStrings from 'react-localization';
+import axios from 'axios'
 
 let strings = new LocalizedStrings({
     en:{
@@ -186,6 +187,29 @@ function ReduceRiskScreen(props) {
     const switchToResultsPage = () => {
         props.setPage("results")
     }
+
+    
+    let surveyData = {
+        userID: props.userID,
+        userLocation: props.userLocation,
+        vaccination: props.vaccination,
+        activityBasicInfo: props.activityBasicInfo,
+        distancing: props.distancing,
+        speakingVolume: props.speakingVolume,
+        ownMask: props.ownMask,
+        othersMask: props.othersMask,
+        riskScore: props.riskScore,
+        surveyCompleted: props.surveyCompleted,
+    }
+
+    useEffect(() => {
+        // POST request using axios inside useEffect React hook
+        axios.post('http://riskaware.ischool.uw.edu/reccomendations', surveyData)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+    
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
 
     return (
         <div>
