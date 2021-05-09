@@ -61,7 +61,22 @@ export default function InfoPage() {
                                 </div>
                             }
                         />
-                        <Dropdown title="How does the algorithm work?" body="Test"/>
+                        <Dropdown 
+                            title="How does the algorithm work?" 
+                            body= {
+                                <div>
+                                    <p>
+                                        The total risk of a given activity is determined by three major factors: activity risk, person risk, and vaccination status. 
+                                    </p>
+                                    <p>
+                                        "Activity risk" is the chance of COVID infection through the activity, if any of the other paricipants were to have COVID. It is calculated based on several factors about the activity such as duration or mask usage. "Person risk" is the likelihood that other participants have COVID based on county data. Vaccination status changes COVID risk because vaccinated people are less likely to catch and transmit COVID.
+                                    </p>
+                                    <p>
+                                        Fore a more in-depth description, check out our full wrie-up <a href="https://github.com/RaynyT/COVID-19-Risk-Assessment-Tool/blob/main/data/Algorithm.md">here</a>
+                                    </p>
+                                </div>
+                            }
+                        />
                         <Dropdown
                             title="Why aren't other factors like health included in the survey algorithm?" 
                             body={
