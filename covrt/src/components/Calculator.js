@@ -212,9 +212,23 @@ export default function Calculator(props) {
         props.updateRiskScore(calculateRiskScore());
 
         props.updateSurveryCompleted(true);
-                
-        axios.post('http://riskaware.ischool.uw.edu/insert_survey')
-        .then(response => console.log(response));
+        
+        let surveyData = {
+            userID: props.userID,
+            userLocation: props.userLocation,
+            vaccination: props.vaccination,
+            activityBasicInfo: props.activityBasicInfo,
+            distancing: props.distancing,
+            speakingVolume: props.speakingVolume,
+            ownMask: props.ownMask,
+            othersMask: props.othersMask,
+            riskScore: props.riskScore,
+            surveyCompleted: props.surveyCompleted,
+        }
+
+        axios.post('http://riskaware.ischool.uw.edu/insert_survey', surveyData)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
 
         props.history.push('/results');
     }
