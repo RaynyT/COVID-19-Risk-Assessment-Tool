@@ -42,8 +42,9 @@ func main() {
 
 	//myUserStore := users.NewUserStore(db)
 
-	//fs := http.FileServer(http.Dir("build"))
-	fs := http.FileServer(http.Dir("../../../covrt/build"))
+	fs := http.FileServer(http.Dir("build"))
+	// Debugging
+	//fs := http.FileServer(http.Dir("../../../covrt/build"))
 
 	// main page
 	http.Handle("/", fs)

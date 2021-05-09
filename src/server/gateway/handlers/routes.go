@@ -18,7 +18,8 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! About handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! About handler works!")
 		return
 	}
 }
@@ -33,7 +34,8 @@ func FAQHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! FAQ handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! FAQ handler works!")
 		return
 	}
 }
@@ -48,7 +50,8 @@ func ContactHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Contact-Us handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Contact-Us handler works!")
 		return
 	}
 }
@@ -63,7 +66,8 @@ func TutorialHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Get-Started handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Get-Started handler works!")
 		return
 	}
 }
@@ -78,7 +82,8 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Dashboard handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Dashboard handler works!")
 		return
 	}
 }
@@ -93,7 +98,8 @@ func CalculatorHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Calculator handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Calculator handler works!")
 		return
 	}
 }
@@ -108,7 +114,8 @@ func ResultsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Results handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Results handler works!")
 		return
 	}
 }
@@ -123,7 +130,8 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Update handler works!")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Update handler works!")
 		return
 	}
 }
@@ -169,7 +177,9 @@ func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Insert Survey handler works!")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		http.ServeFile(w, r, "build/index.html")
+		//fmt.Fprintf(w, "Congrats! Insert Survey handler works!")
 		return
 	}
 }
