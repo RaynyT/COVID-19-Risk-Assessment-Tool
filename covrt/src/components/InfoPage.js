@@ -43,7 +43,7 @@ export default function InfoPage() {
                                         All information that is entered into the risk calculator is kept anonymous and no identifying information is stored.
                                     </p> 
                                     <p>
-                                        High level summaries of the data gained from the project will be shared with our partners at the University of Washington Information School and the City of Seattle Innovation & Perfomance team, but individual calculator submissions will not be shared.
+                                        High level summaries of the data gained from the project will be shared with our partners at the University of Washington and the City of Seattle Innovation & Perfomance team, but individual calculator submissions will not be shared.
                                     </p>
                                 </div>
                             }
