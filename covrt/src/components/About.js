@@ -29,7 +29,7 @@ export default function About() {
                     body={
                         <div>
                             <p>
-                                CovidAware is your go-to COVID-19 risk assessment tool that calculates the probability of contracting the virus given the type of social activity and the county the activity takes place in."
+                                CovidAware is your go-to COVID-19 risk assessment tool that calculates the probability of contracting the virus given the type of social activity and the county the activity takes place in.
                             </p>
                             <p>
                                 The website was designed and built by four Informatics students from the University of Washington as part of their senior capstone project, while the risk algorithm was created by a graduate student from the University of Washington School of Public Health. You can read more about our team below.
