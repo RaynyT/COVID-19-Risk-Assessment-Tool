@@ -2,6 +2,37 @@
     padding-top: 1.5rem;
 }
 
+.about-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #4a7ce2;
+    text-align: center;
+}
+
+.team-row {
+    margin-top: 1rem;
+}
+
+.team-member-name {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #3A405A;
+    margin-top: .5rem;
+}
+
+.team-member-role {
+    font-family: 'Open Sans', sans-serif;
+    font-size: .75rem;
+    color: #3A405A;
+    margin: 0;
+}
+
+.team-image {
+    height: 8rem;
+}
+
 
 
 @media (min-width: 768px) {
