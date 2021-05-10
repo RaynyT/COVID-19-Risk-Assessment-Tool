@@ -10,7 +10,7 @@
     text-align: center;
 }
 
-.team-row {
+.about-row {
     margin-top: 1rem;
 }
 
@@ -31,6 +31,12 @@
 
 .team-image {
     height: 8rem;
+}
+
+.sponsor-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: rgba(234, 236, 244, 0.40)
 }
 
 

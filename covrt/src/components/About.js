@@ -1,11 +1,15 @@
-import './About.css'
+import './About.css';
 
-import NavBar from './NavBar.js'
+import NavBar from './NavBar.js';
 
-import chrisImage from '../images/chris.svg'
-import dorisImage from '../images/doris.svg'
-import raynaImage from '../images/rayna.svg'
-import sandyImage from '../images/sandy.svg'
+import chrisImage from '../images/chris.svg';
+import dorisImage from '../images/doris.svg';
+import raynaImage from '../images/rayna.svg';
+import sandyImage from '../images/sandy.svg';
+
+import publicHealthLogo from '../images/public-health-logo.svg';
+import informaticsLogo from '../images/informatics-logo.svg';
+import seattleLogo from '../images/seattle-logo.svg'
 
 
 export default function About() {
@@ -17,7 +21,7 @@ export default function About() {
                 <div className="team-container">
                     <h1 className="about-title">Meet the Team</h1>
                     <div className="container">
-                        <div className="row team-row">
+                        <div className="row about-row">
                             <div className="col-6 d-flex justify-content-center">
                                 <div>
                                     <img className="team-image" src={raynaImage} alt="Rayna"/>
@@ -34,7 +38,7 @@ export default function About() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row team-row">
+                        <div className="row about-row">
                             <div className="col-6 d-flex justify-content-center">
                                 <div >
                                     <img className="team-image" src={sandyImage} alt="Sandy"/>
@@ -55,7 +59,22 @@ export default function About() {
                     </div>
                 </div>
                 <div className="sponsor-container">
-
+                    <h1 className="about-title">Our Sponsors</h1>
+                    <div className="container">
+                        <div className="row about-row">
+                            <div className="col-6 d-flex justify-content-center">
+                                <img src={informaticsLogo} alt="University of Washington Informatics Logo" />
+                            </div>
+                            <div className="col-6 d-flex justify-content-center">
+                                <img src={seattleLogo} alt="City of Seattle Logo" />
+                            </div>
+                        </div>
+                        <div className="row about-row bottom-row">
+                            <div className="col-12 d-flex justify-content-center">
+                                <img src={publicHealthLogo} alt="University of Washington Public Health Logo" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
