@@ -3,11 +3,28 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
+	"encoding/json"
+	"strconv"
+
+	"server/gateway/models/activities"
+	"server/gateway/models/activitytypes"
+	"server/gateway/models/counties"
+	"server/gateway/models/demographics"
+	"server/gateway/models/distances"
+	"server/gateway/models/inouts"
+	"server/gateway/models/othersmasks"
+	"server/gateway/models/selfmasks"
+	"server/gateway/models/statecounties"
+	"server/gateway/models/statecounty_rates"
+	"server/gateway/models/states"
+	"server/gateway/models/surveys"
+	"server/gateway/models/users"
+	"server/gateway/models/vaccinetypes"
+	"server/gateway/models/volumes"
 )
 
-// Bare min functions defined, need to discuss more
-
-// GET ROUTES -- Chris figure out states
+// GET ROUTES - DONE
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/about" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -137,8 +154,8 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // POST ROUTES -- Chris what data are you sending me in each json?
-func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/recommendations" {
+func RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/retrieve_county_rates" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
 	}
@@ -147,23 +164,13 @@ func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
-		return
-	}
-}
+		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
+			return
+		}
 
-func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/register" {
-		http.Error(w, "405, Page Not Found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "POST" {
-		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
-		return
-	} else {
-		fmt.Fprintf(w, "Congrats! Register handler works!")
-		return
+		//fmt.Fprintf(w, "Congrats! Retrieve County Rates handler works!")
+		//return
 	}
 }
 
@@ -184,8 +191,8 @@ func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func RetrieveSurveyHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/retrieve_survey" {
+func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/recommendations" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
 	}
@@ -194,7 +201,22 @@ func RetrieveSurveyHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Retrieve Survey handler works!")
+		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
+		return
+	}
+}
+
+func InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/insert_updated_survey" {
+		http.Error(w, "405, Page Not Found", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "POST" {
+		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
+		return
+	} else {
+		fmt.Fprintf(w, "Congrats! Insert Updated Survey handler works!")
 		return
 	}
 }
@@ -210,21 +232,6 @@ func UpdateDemographicsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		fmt.Fprintf(w, "Congrats! Update Demographics handler works!")
-		return
-	}
-}
-
-func Retrieve_SuggestionsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/retrieve_suggestions" {
-		http.Error(w, "405, Page Not Found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "POST" {
-		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
-		return
-	} else {
-		fmt.Fprintf(w, "Congrats! Retrieve Suggestions handler works!")
 		return
 	}
 }

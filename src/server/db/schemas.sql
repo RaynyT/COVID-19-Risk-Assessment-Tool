@@ -1074,12 +1074,13 @@ CREATE TABLE IF NOT EXISTS TblStateCounty_Rate (
     StateCountyRateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     StateCountyID INT,
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
-    Uploaded VARCHAR(25) NOT NULL, -- DATE
+    Uploaded DATE NOT NULL,
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
     NumNewCasesLastWeek INT NOT NULL,
     NumNewCasesPrevToLastWeek INT NOT NULL
 );
 
+-- Still need to figure out if this is the best way to store the hash
 CREATE TABLE IF NOT EXISTS TblUser (
     UserID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     CookieHash VARCHAR(128) NOT NULL UNIQUE
@@ -1088,12 +1089,14 @@ CREATE TABLE IF NOT EXISTS TblUser (
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblVaccineType (
     VaccineTypeID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10) NOT NULL,
-    VaccineTypeName VARCHAR(50)
+    RiskCoefficient DECIMAL(3, 2) NOT NULL,
+    VaccineTypeName VARCHAR(25)
 );
 
 INSERT INTO TblVaccineType(RiskCoefficient, VaccineTypeName)
-VALUES(0.1, "Pfizer 2"), (0.1, "Moderna 2"), (0.56, "Pfizer 1"), (0.56, "Moderna 1"), (0.33, "Johnson"), (1.0, "No Vaccine");
+VALUES(0.56, "Pfizer 1"), (0.1, "Pfizer 2"), (0.56, "Moderna 1"), (0.1, "Moderna 2"), 
+      (0.56, "AstraZeneca 1"), (0.4, "AstraZeneca 2"), (0.33, "Johnson & Johnson 1"), 
+      (0.56, "Other 1"), (0.4, "Other 2"), (1.0, "No Vaccine");
 
 -- Unique User - only one entry per user and this will require updates
 CREATE TABLE IF NOT EXISTS TblDemographic (
@@ -1104,14 +1107,14 @@ CREATE TABLE IF NOT EXISTS TblDemographic (
     FOREIGN KEY (UserID) REFERENCES TblUser(UserID),
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
     FOREIGN KEY (VaccineTypeID) REFERENCES TblVaccineType(VaccineTypeID),
-    UserUpdateDate VARCHAR(25) NOT NULL -- DATE
+    UserUpdateDate DATETIME NOT NULL
 );
 
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblActivityType (
     ActivityTypeID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ActivityTypeName VARCHAR(50) NOT NULL,
-    ActivityTypeDescr VARCHAR(500) NULL,
+    ActivityTypeName VARCHAR(10) NOT NULL,
+    ActivityTypeDescr VARCHAR(100) NULL,
     InitialActivity BOOLEAN NOT NULL
 );
 
@@ -1124,8 +1127,8 @@ VALUES("Preset", "Predefined activity with default values; initial survey.", TRU
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblVolume (
     VolumeID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    VolumeName VARCHAR(50) NOT NULL UNIQUE
+    RiskCoefficient DECIMAL(2, 1) NOT NULL,
+    VolumeName VARCHAR(30) NOT NULL UNIQUE
 );
 
 INSERT INTO TblVolume(RiskCoefficient, VolumeName)
@@ -1134,8 +1137,8 @@ VALUES(0.2, "Speaking Minimally"), (1.0, "Speaking Normally"), (5.0, "Speaking L
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblInOut (
     InOutID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    InOutName VARCHAR(50) NOT NULL UNIQUE
+    RiskCoefficient DECIMAL(3, 2) NOT NULL,
+    InOutName VARCHAR(10) NOT NULL UNIQUE
 );
 
 INSERT INTO TblInOut(RiskCoefficient, InOutName)
@@ -1144,8 +1147,8 @@ VALUES(0.05, "Outdoors"), (1.0, "Indoors");
 -- For survey taker / Inserts Done
 CREATE TABLE IF NOT EXISTS TblSelfMask (
     SelfMaskID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    SelfMaskName VARCHAR(50) NOT NULL UNIQUE
+    RiskCoefficient DECIMAL(11, 10) NOT NULL,
+    SelfMaskName VARCHAR(15) NOT NULL UNIQUE
 );
 
 INSERT INTO TblSelfMask(RiskCoefficient, SelfMaskName)
@@ -1154,8 +1157,8 @@ VALUES(0.3333333333, "KN95 Mask"), (0.5, "Surgical Mask"), (1.0, "Cotton Mask"),
 -- For other people attending activity / Inserts Done
 CREATE TABLE IF NOT EXISTS TblOtherMasks (
     OtherMasksID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10) NOT NULL,
-    OtherMasksName VARCHAR(50) NOT NULL UNIQUE
+    RiskCoefficient DECIMAL(11, 10) NOT NULL,
+    OtherMasksName VARCHAR(15) NOT NULL UNIQUE
 );
 
 INSERT INTO TblOtherMasks(RiskCoefficient, OtherMasksName)
@@ -1164,8 +1167,8 @@ VALUES(0.1666666666, "KN95 Mask"), (0.25, "Surgical Mask"), (0.5, "Cotton Mask")
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblDistance (
     DistanceID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    RiskCoefficient DECIMAL(20, 10 )NOT NULL,
-    DistanceName VARCHAR(50) NOT NULL UNIQUE
+    RiskCoefficient DECIMAL(4, 3) NOT NULL,
+    DistanceName VARCHAR(10) NOT NULL UNIQUE
 );
 
 INSERT INTO TblDistance(RiskCoefficient, DistanceName)
@@ -1201,7 +1204,7 @@ CREATE TABLE IF NOT EXISTS TblSurvey (
     FOREIGN KEY (DemographicID) REFERENCES TblDemographic(DemographicID),
     FOREIGN KEY (ActivityID) REFERENCES TblActivity(ActivityID),
     GivenName VARCHAR(50) NULL,
-    CreationDate VARCHAR(25) NOT NULL, -- DATETIME
-    OverallScore DECIMAL(20, 10),
+    CreationDate DATETIME NOT NULL,
+    OverallScore DECIMAL(20, 10) NOT NULL,
     LastSurveyID INT NULL
 );

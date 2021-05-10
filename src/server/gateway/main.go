@@ -49,7 +49,7 @@ func main() {
 	// main page
 	http.Handle("/", fs)
 
-	// get requests -- Need Chris's input
+	// get requests
 	http.HandleFunc("/about", handlers.AboutHandler)
 	http.HandleFunc("/faq", handlers.FAQHandler)
 	http.HandleFunc("/contact-us", handlers.ContactHandler)
@@ -61,11 +61,10 @@ func main() {
 
 	// post requests
 	http.HandleFunc("/recommendations", handlers.RecommendationsHandler)
-	http.HandleFunc("/register", handlers.RegisterHandler)
 	http.HandleFunc("/insert_survey", handlers.InsertSurveyHandler)
-	http.HandleFunc("/retrieve_survey", handlers.RetrieveSurveyHandler)
+	http.HandleFunc("/insert_updated_survey", handlers.InsertUpdatedSurveyHandler)
 	http.HandleFunc("/update_demographics", handlers.UpdateDemographicsHandler)
-	http.HandleFunc("/retrieve_suggestions", handlers.Retrieve_SuggestionsHandler)
+	http.HandleFunc("/retrieve_county_rates", handlers.RetrieveCountyRatesHandler)
 
 	log.Printf("Server is listening at %s", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
