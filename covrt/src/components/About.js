@@ -1,6 +1,11 @@
 import './About.css';
 
 import NavBar from './NavBar.js';
+import { Collapse, Card, CardBody} from 'reactstrap'
+import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 import chrisImage from '../images/chris.svg';
 import dorisImage from '../images/doris.svg';
@@ -18,6 +23,32 @@ export default function About() {
         <div className="about-outer">
             <div className="about-main-container">
                 <NavBar />
+                <div className="info-container">
+                <Dropdown 
+                    title="About CovidAware" 
+                    body={
+                        <div>
+                            <p>
+                                CovidAware is your go-to COVID-19 risk assessment tool that calculates the probability of contracting the virus given the type of social activity and the county the activity takes place in."
+                            </p>
+                            <p>
+                                The website was designed and built by four Informatics students from the University of Washington as part of their senior capstone project, while the risk algorithm was created by a graduate student from the University of Washington School of Public Health. You can read more about our team below.
+                            </p>
+                        </div>
+                    }
+                />
+                <Dropdown 
+                    title="Our Mission" 
+                    body=
+                    {
+                        <div>
+                            <p>
+                                Our mission is to help users make informed decisions when planning social activities and hopefully reduce the spread of COVID by providing our users with safer alternatives and adjustments to those activites.
+                            </p>
+                        </div>
+                    }
+                />
+                </div>
                 <div className="team-container">
                     <h1 className="about-title">Meet the Team</h1>
                     <div className="container">
@@ -77,6 +108,37 @@ export default function About() {
                     </div>
                 </div>
             </div>
+        </div>
+    )
+}
+
+function Dropdown(props) {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    }
+
+    return (
+        <div>
+            <button className="dropdown-btn" onClick={toggle}>
+                <div className="chevron-container">
+                    {isOpen
+                        ? <ChevronUpIcon size={24} />
+                        : <ChevronDownIcon size={24} />
+                    }
+                </div>
+                {props.title}
+            </button>
+            <Collapse isOpen={isOpen}>
+                <Card className="border-0">
+                    <CardBody>
+                        {props.body}
+                    </CardBody>
+                </Card>
+            </Collapse>
+            <hr className="info-hr" />
         </div>
     )
 }
