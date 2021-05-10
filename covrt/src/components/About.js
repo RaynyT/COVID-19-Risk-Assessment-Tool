@@ -4,8 +4,6 @@ import NavBar from './NavBar.js';
 import { Collapse, Card, CardBody} from 'reactstrap'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
 
 import chrisImage from '../images/chris.svg';
 import dorisImage from '../images/doris.svg';
@@ -29,10 +27,10 @@ export default function About() {
                     body={
                         <div>
                             <p>
-                                CovidAware is your go-to COVID-19 risk assessment tool that calculates the probability of contracting the virus given the type of social activity and the county the activity takes place in."
+                                CovidAware is your go-to COVID-19 risk assessment tool that calculates the probability of contracting the virus given the type of in-person social activity and the county the activity takes place in.
                             </p>
                             <p>
-                                The website was designed and built by four Informatics students from the University of Washington as part of their senior capstone project, while the risk algorithm was created by a graduate student from the University of Washington School of Public Health. You can read more about our team below.
+                                The application was designed and built by four Informatics students from the University of Washington as part of their senior capstone project, while the COVID-19 risk algorithm was created by a graduate student from the University of Washington School of Public Health. You can read more about our team below.
                             </p>
                         </div>
                     }
@@ -90,6 +88,15 @@ export default function About() {
                                 </div>
                             </div>
                         </div>
+                        <div className="row about-row">
+                                <div className="col-12 d-flex justify-content-center">
+                                    <div>
+                                        <h2 className="team-member-name">Iris Jia</h2>
+                                        <p className="team-member-role">Algorithm Designer</p>
+                                        <p className="team-member-role">Public Health Liason</p>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
                 <div className="sponsor-container">
@@ -103,7 +110,7 @@ export default function About() {
                                 <img src={seattleLogo} alt="City of Seattle Logo" />
                             </div>
                         </div>
-                        <div className="row about-row bottom-row">
+                        <div className="row about-row">
                             <div className="col-12 d-flex justify-content-center">
                                 <img src={publicHealthLogo} alt="University of Washington Public Health Logo" />
                             </div>

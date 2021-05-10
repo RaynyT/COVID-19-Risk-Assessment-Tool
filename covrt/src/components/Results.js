@@ -21,7 +21,7 @@ let strings = new LocalizedStrings({
         lessThanSixFeet: "Less than 6 feet",
         sixFeet: "6 feet",
         nineFeet: "9 feet",
-        moreThanNineFeet: "More than 9 feet",
+        twelveFeetOrMore: "12 feet or more",
         notSpeaking: "Not speaking",
         normalSpeaking: "Speaking normally",
         loudSpeaking: "Speaking loudly",
