@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"server/gateway/models/activities"
-	"server/gateway/models/activitytypes"
 	"server/gateway/models/counties"
 	"server/gateway/models/demographics"
 	"server/gateway/models/distances"
@@ -24,7 +23,6 @@ import (
 //globals
 type HandlerContext struct {
 	ActivitiesStore         activities.Store
-	ActivityTypesStore      activitytypes.Store
 	CountiesStore           counties.Store
 	DemographicsStore       demographics.Store
 	DistancesStore          distances.Store

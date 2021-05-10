@@ -21,7 +21,4 @@ type Store interface {
 
 	//Delete deletes the activity with the given ID
 	Delete(id int64) error
-
-	//AllActivities returns all the activities given an activity type
-	AllActivities(id int64) (*[]Activity, error)
 }

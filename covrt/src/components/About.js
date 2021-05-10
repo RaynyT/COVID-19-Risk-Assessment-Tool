@@ -57,15 +57,18 @@ export default function About() {
                                 <div>
                                     <img className="team-image" src={raynaImage} alt="Rayna"/>
                                     <h2 className="team-member-name">Rayna Tilley</h2>
-                                    <p className="team-member-role">Product Manager</p>
-                                    <p className="team-member-role">Back-end Developer</p>
+                                    <p className="team-member-role">Technical Lead</p>
+                                    <p className="team-member-role">Backend Developer</p>
+                                    <p className="team-member-role">Database Administrator</p>
                                 </div>
                             </div>
                             <div className="col-6 d-flex justify-content-center">
                                 <div>
                                     <img className="team-image" src={chrisImage} alt="Chris"/>
                                     <h2 className="team-member-name">Chris Hogan</h2>
-                                    <p className="team-member-role">Front-end Developer</p>
+                                    <p className="team-member-role">Frontend Developer</p>
+                                    <p className="team-member-role">UI/UX Consultant</p>
+                                    <p className="team-member-role">Technical Consultant</p>
                                 </div>
                             </div>
                         </div>
@@ -82,8 +85,8 @@ export default function About() {
                                 <div>
                                     <img className="team-image" src={dorisImage} alt="Doris"/>
                                     <h2 className="team-member-name">Doris Liu</h2>
-                                    <p className="team-member-role">Data Engineer</p>
-                                    <p className="team-member-role">Back-end Developer</p>
+                                    <p className="team-member-role">Data Scientist</p>
+                                    <p className="team-member-role">Database Administrator</p>
                                 </div>
                             </div>
                         </div>
