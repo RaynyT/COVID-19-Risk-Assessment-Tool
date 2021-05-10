@@ -64,6 +64,7 @@ export default function About() {
                                     <img className="team-image" src={chrisImage} alt="Chris"/>
                                     <h2 className="team-member-name">Chris Hogan</h2>
                                     <p className="team-member-role">Front-end Developer</p>
+                                    <p className="team-member-role">Technical Consultant</p>
                                 </div>
                             </div>
                         </div>
