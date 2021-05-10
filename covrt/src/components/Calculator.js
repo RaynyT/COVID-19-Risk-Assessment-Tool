@@ -40,7 +40,7 @@ let strings = new LocalizedStrings({
         lessThanSixFeet: "Less than 6 feet",
         sixFeet: "6 feet",
         nineFeet: "9 feet",
-        moreThanNineFeet: "More than 9 feet",
+        twelveFeetOrMore: "12 feet or more",
         notSpeaking: "Not speaking",
         normalSpeaking: "Speaking normally",
         loudSpeaking: "Speaking loudly",
@@ -164,7 +164,7 @@ export default function Calculator(props) {
             "lessThanSixFeet": 1,
             "sixFeet": .5,
             "nineFeet": .25,
-            "moreThanNineFeet": .125,
+            "twelveFeetOrMore": .125,
             "notSpeaking": .20,
             "normalSpeaking": 1,
             "loudSpeaking": 5,
@@ -776,7 +776,7 @@ function SocialDistancePage(props) {
         case "nineFeet":
             nineSelected = true;
             break;
-        case "moreThanNineFeet":
+        case "twelveFeetOrMore":
             moreThanNineSelected = true;
             break;
         case "none-selected":
@@ -816,7 +816,7 @@ function SocialDistancePage(props) {
                         <ImageButton image={sixFeetImage} value="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} value="moreThanNineFeet" desc="More than 9 feet" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={sixFeetImage} value="twelveFeetOrMore" desc="12 feet or more" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>
