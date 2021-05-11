@@ -33,7 +33,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 // getByProvidedType gets a specific activity given the provided type.
 // This requires the GetByType to be "unique" in the database - hence ActivityID and ActivityName
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Activity, error) {
-	sel := string("SELECT ActivityID, ActivityTypeID, VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes FROM TblActivity WHERE " + t + " = ?")
+	sel := string("SELECT ActivityID, VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes FROM TblActivity WHERE " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
 	if err != nil {
@@ -47,7 +47,6 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*Activity
 	rows.Next()
 	if err := rows.Scan(
 		&activity.ActivityID,
-		&activity.ActivityTypeID,
 		&activity.VolumeID,
 		&activity.InOutID,
 		&activity.DistanceID,
@@ -76,8 +75,8 @@ func (ms *MySQLStore) GetByName(name string) (*Activity, error) {
 //Insert inserts the activity into the database, and returns
 //the newly-inserted Activity, complete with the DBMS-assigned ActivityID
 func (ms *MySQLStore) Insert(activity *Activity) (*Activity, error) {
-	ins := string("INSERT INTO TblActivity(ActivityTypeID, VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
-	res, err := ms.Database.Exec(ins, activity.ActivityTypeID, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.ActivityName, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
+	ins := string("INSERT INTO TblActivity( VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
+	res, err := ms.Database.Exec(ins, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.ActivityName, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
 	if err != nil {
 		return nil, err
 	}
@@ -109,24 +108,4 @@ func (ms *MySQLStore) Delete(id int64) error {
 	}
 
 	return nil
-}
-
-// Gets all activities based on a given activity type
-func (ms *MySQLStore) AllActivities(id int64) (*[]Activity, error) {
-	sel := string("SELECT ActivityID, ActivityTypeID, VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes FROM TblActivity WHERE ActivityTypeID = ?")
-
-	rows, err := ms.Database.Query(sel, id)
-	var activities []Activity
-
-	for rows.Next() {
-		var activity Activity
-		err = rows.Scan(&activity.ActivityID, &activity.ActivityTypeID, &activity.VolumeID, &activity.InOutID, &activity.DistanceID, &activity.SelfMaskID, &activity.OtherMasksID, &activity.ActivityName, &activity.NumPeople, &activity.NumPeopleMasks, &activity.DurationHours, &activity.DurationMinutes)
-		
-		if err != nil {
-			return nil, err
-		}
-		activities = append(activities, activity)
-	}
-
-	return &activities, nil
 }

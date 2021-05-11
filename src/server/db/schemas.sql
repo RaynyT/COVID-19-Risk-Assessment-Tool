@@ -1110,6 +1110,7 @@ CREATE TABLE IF NOT EXISTS TblDemographic (
     UserUpdateDate DATETIME NOT NULL
 );
 
+/*
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblActivityType (
     ActivityTypeID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -1123,6 +1124,7 @@ VALUES("Preset", "Predefined activity with default values; initial survey.", TRU
       ("Preset", "Predefined activity with default values; not initial survey.", FALSE),
       ("Created", "Activity was created by user, it is unique; initial survey.", TRUE),
       ("Created", "Activity was created by user, it is unique; not initial survey.", FALSE);
+*/
 
 -- Inserts Done
 CREATE TABLE IF NOT EXISTS TblVolume (
@@ -1178,13 +1180,13 @@ VALUES(0.125, "12+ Feet"), (0.25, "9+ Feet"), (0.5, "6+ Feet"), (1.0, "<6 Feet")
 -- AcitivtyName is unique and is only present when the activity is a preset activity
 CREATE TABLE IF NOT EXISTS TblActivity (
     ActivityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ActivityTypeID INT,
+    -- ActivityTypeID INT,
     VolumeID INT,
     InOutID INT,
     DistanceID INT,
     SelfMaskID INT,
     OtherMasksID INT,
-    FOREIGN KEY (ActivityTypeID) REFERENCES TblActivityType(ActivityTypeID),
+    -- FOREIGN KEY (ActivityTypeID) REFERENCES TblActivityType(ActivityTypeID),
     FOREIGN KEY (VolumeID) REFERENCES TblVolume(VolumeID),
     FOREIGN KEY (InOutID) REFERENCES TblInOut(InOutID),
     FOREIGN KEY (DistanceID) REFERENCES TblDistance(DistanceID),

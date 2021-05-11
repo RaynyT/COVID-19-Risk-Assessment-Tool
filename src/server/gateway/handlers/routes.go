@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	/*
 	"encoding/json"
 	"strconv"
 
 	"server/gateway/models/activities"
-	"server/gateway/models/activitytypes"
 	"server/gateway/models/counties"
 	"server/gateway/models/demographics"
 	"server/gateway/models/distances"
@@ -22,9 +22,11 @@ import (
 	"server/gateway/models/users"
 	"server/gateway/models/vaccinetypes"
 	"server/gateway/models/volumes"
+	*/
 )
 
 // GET ROUTES - DONE
+
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/about" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -153,7 +155,13 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// POST ROUTES -- Chris what data are you sending me in each json?
+// POST ROUTES -- IP
+
+// Receives: State and County
+// Returns: Product Of (NumOfNewCasesRatio, PositiveTestRate, Population)
+// Functions:
+// 	SELECT statement returning product of three variables for StateCounty_Rates
+//  SELECT statement for obtaining StateID and CountyID for given StateAbbr and CountyName
 func RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/retrieve_county_rates" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -168,12 +176,30 @@ func RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
 			return
 		}
+		/*
+		rec := {}
+		decoder := json.NewDecoder(r.Body)
+		if err := decoder.Decode(rec); err != nil {
+			http.Error(w, "error decoding JSON in repsonse body", http.StatusBadRequest)
+			return
+		}
+		*/
+		return
+
 
 		//fmt.Fprintf(w, "Congrats! Retrieve County Rates handler works!")
 		//return
 	}
 }
 
+// Receives: Local storage
+// Returns: Nothing
+// Functions:
+//	SELECT statements from all tables to get ids for values
+//  IF statement checking if new user
+//		IF new user --> INSERT into TblUser and INSERT into TblDemographics
+//	INSERT into TblActivity
+//  INSERT into TblSurvey
 func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/insert_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -184,28 +210,19 @@ func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		http.ServeFile(w, r, "build/index.html")
 		//fmt.Fprintf(w, "Congrats! Insert Survey handler works!")
 		return
 	}
 }
 
-func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/recommendations" {
-		http.Error(w, "405, Page Not Found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "POST" {
-		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
-		return
-	} else {
-		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
-		return
-	}
-}
-
+// Receives: Local storage
+// Returns: Nothing
+// Functions:
+// 	SELECT statements from all tables to get ids for values
+//	SELECT statement that gets last survey id for that user id/hash
+//	INSERT into TblActivity
+//  INSERT into TblSurvey
 func InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/insert_updated_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -221,8 +238,10 @@ func InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UpdateDemographicsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/update_demographics" {
+// Receives: Local storage
+// Returns: Recommendations based on survey
+func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/recommendations" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
 	}
@@ -231,7 +250,7 @@ func UpdateDemographicsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Update Demographics handler works!")
+		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
 		return
 	}
 }

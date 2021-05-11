@@ -63,7 +63,6 @@ func main() {
 	http.HandleFunc("/recommendations", handlers.RecommendationsHandler)
 	http.HandleFunc("/insert_survey", handlers.InsertSurveyHandler)
 	http.HandleFunc("/insert_updated_survey", handlers.InsertUpdatedSurveyHandler)
-	http.HandleFunc("/update_demographics", handlers.UpdateDemographicsHandler)
 	http.HandleFunc("/retrieve_county_rates", handlers.RetrieveCountyRatesHandler)
 
 	log.Printf("Server is listening at %s", addr)
