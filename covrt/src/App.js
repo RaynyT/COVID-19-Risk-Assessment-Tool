@@ -97,6 +97,10 @@ function App() {
 		setOthersMask(preset.othersMask);
 	}
 
+	const updateStateSelection = (stateCode) => {
+		setUserLocation({stateCode: stateCode, county: userLocation.county});
+	}
+
 	const updateLocation = (stateCode, county) => {
 		setUserLocation({stateCode: stateCode, county: county});
 	}
@@ -152,6 +156,7 @@ function App() {
 		userID: userID,
 		updateUserID: updateUserID,
 		userLocation: userLocation,
+		updateStateSelection: updateStateSelection,
 		updateLocation: updateLocation,
 		vaccination: vaccination,
 		updateVaccination: updateVaccination,
