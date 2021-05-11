@@ -582,10 +582,10 @@ function PresetPage(props) {
         },
 
         "groceryShopping": {
-            activityBasicInfo: { setting: "indoors", attendees: 1, hours: 1,  minutes: 0 },
+            activityBasicInfo: { setting: "indoors", attendees: 5, hours: 1,  minutes: 0 },
             distancing: "sixFeet",
             volume: "normalSpeaking",
-            ownMask: "none-selected",
+            ownMask: "cotton-mask",
             othersMask: { type: "cottonMask", numWearers: null }
         },
 
@@ -758,10 +758,11 @@ function ActivityPage(props) {
                     </FormGroup>
                 </FormGroup>
                 <FormGroup tag="fieldset">
-                    <legend>How many people will attend?</legend>
+                    <legend>How many other people will attend?</legend>
+                    <p>Include anybody who [placeholder metric] </p>
                     <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
                         defaultValue={props.attendees} />
-                </FormGroup>
+                </FormGroup> 
                 <FormGroup tag="fieldset" className="form-inline">
                     <legend>Estimated duration:</legend>
                     <Label>Hours
