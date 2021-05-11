@@ -36,15 +36,14 @@ export default function Results(props){
 
     console.log("Risk score:", props.riskScore);
 
-    
-    let startingPage = "results";
-    
-    const [page, setPage] = useState(startingPage);
-    
+        
+    const [page, setPage] = useState("results");    
     
     const changePageCallback = (value) => {
         setPage(value)
     }
+
+    let backButtonPath = "/calculator"
 
     let screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />;
     
@@ -103,23 +102,46 @@ function ResultsScreen(props) {
         summarySubheading = <h2 className="risk-subheading">of your most recent activity</h2>;
     }
 
+    // If results page is accessed by URL or from dashboard
+    let resultsNav = (
+        <div className="results-nav">
+            <button className="btn" aria-label="Previous step">
+                <Link to={{ pathname: "/dashboard", fromResults: true }} aria-label="Link to last page of">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </Link>
+            </button>
+            <div className="hidden">
+                <Link to="/dashboard" className="dashboard-link-btn" aria-label="Link to dashboard">
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </Link>
+            </div>
+        </div>
+    );
+    
+    // If results page is accessed from calculator back button should go to calc
+    if (props.location.fromCalculator) {
+        resultsNav = (
+            <div className="results-nav">
+            <button className="btn" aria-label="Previous step">
+                <Link to={{ pathname: "/calculator", fromResults: true }} aria-label="Link to dashboard">
+                    <ChevronLeftIcon size={48} fill="#4A7CE2" />
+                </Link>
+            </button>
+            <div>
+                <Link to="/dashboard" className="dashboard-link-btn" aria-label="Link to dashboard">
+                    <p className="to-dashboard-text">To Risk Dashboard</p>
+                    <ChevronRightIcon size={48} fill="#4A7CE2" />
+                </Link>
+            </div>
+        </div>
+        )
+    }
+
     return (
         <div>
             <div>
-                <div className="results-nav">
-                        <button className="btn" aria-label="Previous step">
-                            <Link to={{pathname: "/calculator", fromResults: true}} aria-label="Link to dashboard">
-                                <ChevronLeftIcon size={48} fill="#4A7CE2" />
-                            </Link>
-                        </button>
-                        <div>
-                            <Link to="/dashboard" className="dashboard-link-btn" aria-label="Link to dashboard">
-                                <p className="to-dashboard-text">To Risk Dashboard</p>
-                                <ChevronRightIcon size={48} fill="#4A7CE2" />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                {resultsNav}
+            </div>
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 {summarySubheading}

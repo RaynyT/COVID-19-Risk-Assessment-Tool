@@ -235,7 +235,10 @@ export default function Calculator(props) {
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
-        props.history.push('/results');
+        props.history.push({
+            pathname: '/results',
+            fromCalculator: true
+        });
     }
 
     switch (pageNum) {
