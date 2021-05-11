@@ -538,7 +538,7 @@ function VaccinePage(props) {
     return (
         <div className="calc-step-container">
             <h1 className="calc-step-title">What is your vaccination status?</h1>
-            <h2 className="calc-step-desc">Description placeholder</h2>
+            <h2 className="calc-step-desc">The COVID-19 vaccine drastically reduces your chance of catching and spreading the virus</h2>
             <img className="calc-img" src={doctorsImage} alt="Illustration of two doctors" />
             <Form id="vaccine-form" onSubmit={props.submitCallback}>
                 <FormGroup tag="fieldset">
