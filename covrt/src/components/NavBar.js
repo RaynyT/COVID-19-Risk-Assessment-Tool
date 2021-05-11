@@ -10,7 +10,7 @@ export default function NavBar(props) {
                 Risk Dashboard
             </NavLink>
             <NavLink to="/about" className="nav-link-inactive" activeClassName="nav-link-active">
-                About Us
+                About
             </NavLink>
             <NavLink to="/faq" className="nav-link-inactive" activeClassName="nav-link-active">
                 FAQ
