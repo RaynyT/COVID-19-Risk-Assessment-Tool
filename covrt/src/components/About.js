@@ -102,15 +102,15 @@ export default function About() {
                     <div className="container">
                         <div className="row about-row">
                             <div className="col-6 d-flex justify-content-center">
-                                <img src={informaticsLogo} alt="University of Washington Informatics Logo" />
+                                <img className="sponsor-image" src={informaticsLogo} alt="University of Washington Informatics Logo" />
                             </div>
                             <div className="col-6 d-flex justify-content-center">
-                                <img src={seattleLogo} alt="City of Seattle Logo" />
+                                <img className="sponsor-image" src={seattleLogo} alt="City of Seattle Logo" />
                             </div>
                         </div>
                         <div className="row about-row">
                             <div className="col-12 d-flex justify-content-center">
-                                <img src={publicHealthLogo} alt="University of Washington Public Health Logo" />
+                                <img className="sponsor-image" src={publicHealthLogo} alt="University of Washington Public Health Logo" />
                             </div>
                         </div>
                     </div>

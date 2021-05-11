@@ -37,6 +37,10 @@
     height: 8rem;
 }
 
+.sponsor-image {
+    width: 10rem;
+}
+
 .sponsor-container {
     margin-top: 1rem;
     padding: 1rem;
