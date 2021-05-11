@@ -39,6 +39,7 @@
 
 .sponsor-image {
     width: 10rem;
+    max-height: 3rem;
 }
 
 .sponsor-container {
