@@ -444,6 +444,7 @@ function LocationPage(props) {
                             <option value="OK">OK</option>
                             <option value="OR">OR</option>
                             <option value="PA">PA</option>
+                            <option value="PR">PR</option>
                             <option value="RI">RI</option>
                             <option value="SC">SC</option>
                             <option value="SD">SD</option>
