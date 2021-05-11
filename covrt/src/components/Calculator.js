@@ -573,14 +573,6 @@ function VaccinePage(props) {
 function PresetPage(props) {
 
     const presets = {
-        "indoorDining": {
-            activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
-            distancing: "lessThanSixFeet",
-            volume: "normalSpeaking",
-            ownMask: "noMask",
-            othersMask: { type: "noMask", numWearers: null }
-        },
-
         "empty-activity": {
             activityBasicInfo: { setting: "none-selected", attendees: null, hours: null,  minutes: null },
             distancing: "none-selected",
@@ -597,7 +589,45 @@ function PresetPage(props) {
             othersMask: { type: "cottonMask", numWearers: null }
         },
 
-        
+        "goingToWork": {
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: null,  minutes: null },
+            distancing: "sixFeet",
+            volume: "normalSpeaking",
+            ownMask: "none-selected",
+            othersMask: { type: "none-selected", numWearers: null }
+        },
+
+        "goingToAParty": {
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: null,  minutes: null },
+            distancing: "lessThanSixFeet",
+            volume: "loudSpeaking",
+            ownMask: "none-selected",
+            othersMask: { type: "none-selected", numWearers: null }
+        },
+
+        "takingTheBus": {
+            activityBasicInfo: { setting: "indoors", attendees: 15, hours: null,  minutes: null },
+            distancing: "sixFeet",
+            volume: "notSpeaking",
+            ownMask: "cotton-mask",
+            othersMask: { type: "cotton-mask", numWearers: 15 }
+        },
+
+        "indoorDining": {
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
+            distancing: "lessThanSixFeet",
+            volume: "normalSpeaking",
+            ownMask: "noMask",
+            othersMask: { type: "noMask", numWearers: null }
+        },
+
+        "goingToABar": {
+            activityBasicInfo: { setting: "indoors", attendees: null, hours: 1,  minutes: 0 },
+            distancing: "lessThanSixFeet",
+            volume: "normalSpeaking",
+            ownMask: "noMask",
+            othersMask: { type: "noMask", numWearers: null }
+        },        
     }
 
     // Checks if the preset buttons description matches one of the preset objects and fills it in
