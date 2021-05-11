@@ -315,14 +315,5 @@ export default function CountyList(props) {
         )
     }
     
-    let countyOptions = <h1>ERROR</h1>;
-    if (list.hasOwnProperty(props.stateCode)) {
-        countyOptions = list[props.stateCode];
-    } else {
-        countyOptions = list["TEST"];
-    }
-    
-    return (
-        {countyOptions}
-        );
-    }
+    return list[props.stateCode];
+}

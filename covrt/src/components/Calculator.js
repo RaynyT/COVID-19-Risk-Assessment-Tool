@@ -32,6 +32,7 @@ import kn95MaskImage from '../images/kn95-mask.svg'
 
 import '../App.css';
 import './Calculator.css';
+import CountyList from './CountyList';
 
 let strings = new LocalizedStrings({
     en:{
@@ -84,6 +85,10 @@ export default function Calculator(props) {
 
     const handleBackClick = () => {
         setPageNum(pageNum - 1);
+    }
+
+    const handleStateCodeChange = (event) => {
+        props.updateStateSelection(event.target.value);
     }
 
     const handleLocationPageSubmit = (event) => {
@@ -249,7 +254,8 @@ export default function Calculator(props) {
         case 2:
             pageScreen = <LocationPage 
                 nextClickCallback={handleNextClick} 
-                backClickCallback={handleBackClick} 
+                backClickCallback={handleBackClick}
+                stateSelectionCallback={handleStateCodeChange} 
                 submitCallback={handleLocationPageSubmit}
                 selection={props.userLocation} 
             />;
@@ -398,7 +404,7 @@ function LocationPage(props) {
             <Form id="location-form" onSubmit={props.submitCallback}>
                 <FormGroup tag="fieldset">
                     <Label>State:</Label>
-                        <Input type="select" name="state" className="w-auto" defaultValue={props.selection.stateCode}>
+                        <Input type="select" name="state" className="w-auto" defaultValue={props.selection.stateCode} onChange={props.stateSelectionCallback}>
                             <option value="AL">AL</option>
                             <option value="AK">AK</option>
                             <option value="AZ">AZ</option>
@@ -454,11 +460,8 @@ function LocationPage(props) {
                 </FormGroup>
                 <FormGroup tag="fieldset">
                     <Label>County:</Label>
-                        <Input type="select" name="county" className="w-auto" defaultValue={props.selection.county}>
-                            <option value="King">King</option>
-                            <option value="Pierce">Pierce</option>
-                        </Input>
-            </FormGroup>
+                        <CountyList stateCode={props.selection.stateCode} selection={props.selection.county} />
+                </FormGroup>
             </Form>
             <img className="calc-img" src={locationImage} alt="Illustration of two doctors" />
 
