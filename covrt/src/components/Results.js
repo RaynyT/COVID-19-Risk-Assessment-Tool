@@ -39,12 +39,6 @@ export default function Results(props){
     
     let startingPage = "results";
     
-    // If user has navigated here by coming back from the results page
-    // start them on the last screen of the calculator
-    if (props.location.fromTipsButton) {
-        startingPage = "tips";
-    }
-    
     const [page, setPage] = useState(startingPage);
     
     
