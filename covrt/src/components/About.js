@@ -101,7 +101,6 @@ export default function About() {
                 </div>
                 <div className="sponsor-container">
                     <h1 className="about-title">Our Sponsors</h1>
-                    <h1 className="about-title">TESTING</h1>
                     <div className="container">
                         <div className="row about-row">
                             <div className="col-6 d-flex justify-content-center">
