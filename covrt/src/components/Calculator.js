@@ -759,7 +759,7 @@ function ActivityPage(props) {
                 </FormGroup>
                 <FormGroup tag="fieldset">
                     <legend>How many other people will attend?</legend>
-                    <p>Include anybody who you might come within 15 feet of </p>
+                    <p>Include anybody who you might come within 15 feet of</p>
                     <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
                         defaultValue={props.attendees} />
                 </FormGroup> 
