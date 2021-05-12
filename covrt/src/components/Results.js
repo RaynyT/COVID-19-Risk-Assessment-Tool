@@ -184,7 +184,7 @@ function ResultsScreen(props) {
                     <h3 className="list-title">Demographic</h3>
                     <ul className="selection-list">
                         <li className="selection-list-item">{props.userLocation.stateCode} state</li>
-                        <li className="selection-list-item">{props.userLocation.county} county</li>
+                        <li className="selection-list-item">{props.userLocation.county}</li>
                     </ul>
                 </div>
             </div>
