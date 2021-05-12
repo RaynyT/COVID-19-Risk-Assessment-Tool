@@ -67,7 +67,7 @@ function HomePage(props) {
             <div className="landing-main-container vertical-center horizontal-center">
                 <div>
                     <img src={logoImage} alt="Covid Aware logo" className="logo-img"/>
-                    <h1 className="landing-text">COVID Aware</h1>
+                    <h1 className="landing-text">CovidAware</h1>
                     <p className="subheading-text">Your go-to COVID-19 risk calculator for planning activities</p>
                     <div>
                         <div className="horizontal-center">
