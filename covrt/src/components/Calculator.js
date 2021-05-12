@@ -648,7 +648,7 @@ function PresetPage(props) {
 
     return (
         <div className="calc-step-container">
-            <h1 className="calc-step-title">What activity are you planning to do?</h1>
+            <h1 className="calc-step-title">What social activity are you planning to do?</h1>
             <h2 className="calc-step-desc">Select an activity <span className="blue">or </span> build your own</h2>
 
             <div className="container">
@@ -707,7 +707,7 @@ function ActivityPage(props) {
     }
 
     let subHeader = (
-        <h2 className="calc-step-desc">Calculate the risk for your planned activity</h2>
+        <h2 className="calc-step-desc">Calculate the risk for your planned social activity</h2>
     );
 
     if(props.usingPreset) {
