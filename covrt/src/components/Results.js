@@ -240,6 +240,7 @@ function ReduceRiskScreen(props) {
                     </Link>
                 </div>
             </div>
+            <h1>WORK IN PROGRESS</h1>
             <h1 className="risk-title">Tips to Lower Risk</h1>
             <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
