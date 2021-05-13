@@ -11,16 +11,14 @@ type StateCounty_Rate struct {
     StateCountyID             int64     `json:"stateCountyID"`
     Uploaded                  string    `json:"uploaded"`
     PosTestRateCounty         float64   `json:"posTestRateCounty"`
-    NumNewCasesLastWeek       int64     `json:"numNewCasesLastWeek"`
-    NumNewCasesPrevToLastWeek int64     `json:"numNewCasesPrevToLastWeek"`
+    NumNewCases               int64     `json:"numNewCases"`
 }
 
 //NewStateCounty_Rate represents a new stateCounty_Rate in the database (mostly for preset funcitonality)
 type NewStateCounty_Rate struct {
     StateCountyID             int64     `json:"stateCountyID"`
     PosTestRateCounty         float64   `json:"posTestRateCounty"`
-    NumNewCasesLastWeek       int64     `json:"numNewCasesLastWeek"`
-    NumNewCasesPrevToLastWeek int64     `json:"numNewCasesPrevToLastWeek"`
+    NumNewCases               int64     `json:"numNewCasesLastWeek"`
 }
 
 //Validate validates the new stateCounty_Rate and returns an error if it violates any of these rules
@@ -29,12 +27,8 @@ func (nscr *NewStateCounty_Rate) Validate() error {
         return fmt.Errorf("StateCounty relationship is invalid.")
     }
 
-	if nscr.NumNewCasesLastWeek < 0 {
+	if nscr.NumNewCases < 0 {
         return fmt.Errorf("NumNewCasesLastWeek cannot be null.")
-    }
-
-    if nscr.NumNewCasesPrevToLastWeek < 0 {
-        return fmt.Errorf("NumNewCasesPrevToLastWeek cannot be null.")
     }
 
     return nil
@@ -51,8 +45,7 @@ func (nscr *NewStateCounty_Rate) ToStateCounty_Rate() (*StateCounty_Rate, error)
 		StateCountyID :            nscr.StateCountyID, 
 		Uploaded:                  t,
 		PosTestRateCounty:         nscr.PosTestRateCounty,
-		NumNewCasesLastWeek:       nscr.NumNewCasesLastWeek,
-		NumNewCasesPrevToLastWeek: nscr.NumNewCasesPrevToLastWeek,
+		NumNewCases:               nscr.NumNewCases,
     }
 
     return newStateCounty_Rate, nil

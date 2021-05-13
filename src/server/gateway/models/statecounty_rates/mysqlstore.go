@@ -33,7 +33,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 // getByProvidedType gets a specific stateCounty_Rate given the provided type.
 // This requires the GetByType to be "unique" in the database - hence StateCounty_RateID and UserID
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*StateCounty_Rate, error) {
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek FROM TblStateCounty_Rate WHERE " + t + " = ?")
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
 	if err != nil {
@@ -50,8 +50,7 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*StateCou
 		&stateCounty_Rate.StateCountyID,
 		&stateCounty_Rate.Uploaded,
 		&stateCounty_Rate.PosTestRateCounty,
-		&stateCounty_Rate.NumNewCasesLastWeek,
-		&stateCounty_Rate.NumNewCasesPrevToLastWeek); err != nil {
+		&stateCounty_Rate.NumNewCases); err != nil {
 		return nil, err
 	}
 	return stateCounty_Rate, nil
@@ -65,9 +64,9 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 //Insert inserts the stateCounty_Rate into the database, and returns
 //the newly-inserted StateCounty_Rate, complete with the DBMS-assigned StateCounty_RateID
 func (ms *MySQLStore) Insert(stateCounty_Rate *StateCounty_Rate) (*StateCounty_Rate, error) {
-	ins := string("INSERT INTO TblStateCounty_Rate(StateCountyID, Uploaded, PosTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek) VALUES(?,?,?,?,?)")
+	ins := string("INSERT INTO TblStateCounty_Rate(StateCountyID, Uploaded, PosTestRateCounty, NumNewCases) VALUES(?,?,?,?,?)")
 	t := time.Now().Format("01-02-2006")
-	res, err := ms.Database.Exec(ins, stateCounty_Rate.StateCountyID, t, stateCounty_Rate.PosTestRateCounty, stateCounty_Rate.NumNewCasesLastWeek, stateCounty_Rate.NumNewCasesPrevToLastWeek)
+	res, err := ms.Database.Exec(ins, stateCounty_Rate.StateCountyID, t, stateCounty_Rate.PosTestRateCounty, stateCounty_Rate.NumNewCases)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +103,7 @@ func (ms *MySQLStore) Delete(id int64) error {
 // Gets the most recent stateCounty_Rate based on a given:
 // StateCountyID
 func (ms *MySQLStore) AllStateCounty_Rates(id int64) (*StateCounty_Rate, error) {
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PostTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek FROM TblStateCounty_Rate WHERE StateCountyID = ? ORDER BY STR_TO_DATE(Uploaded, '%d-%m-%Y') DESC LIMIT 1")
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PostTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? ORDER BY STR_TO_DATE(Uploaded, '%d-%m-%Y') DESC LIMIT 1")
 
 	rows, err := ms.Database.Query(sel, id)
 	if err != nil {
@@ -120,8 +119,7 @@ func (ms *MySQLStore) AllStateCounty_Rates(id int64) (*StateCounty_Rate, error) 
 		&stateCounty_Rate.StateCountyID,
 		&stateCounty_Rate.Uploaded,
 		&stateCounty_Rate.PosTestRateCounty,
-		&stateCounty_Rate.NumNewCasesLastWeek,
-		&stateCounty_Rate.NumNewCasesPrevToLastWeek); err != nil {
+		&stateCounty_Rate.NumNewCases); err != nil {
 		return nil, err
 	}
 	return stateCounty_Rate, nil

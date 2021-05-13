@@ -162,7 +162,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 // Functions:
 // 	SELECT statement returning product of three variables for StateCounty_Rates
 //  SELECT statement for obtaining StateID and CountyID for given StateAbbr and CountyName
-func RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
+func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/retrieve_county_rates" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
@@ -200,7 +200,7 @@ func RetrieveCountyRatesHandler(w http.ResponseWriter, r *http.Request) {
 //		IF new user --> INSERT into TblUser and INSERT into TblDemographics
 //	INSERT into TblActivity
 //  INSERT into TblSurvey
-func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
+func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/insert_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
@@ -223,7 +223,7 @@ func InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
 //	SELECT statement that gets last survey id for that user id/hash
 //	INSERT into TblActivity
 //  INSERT into TblSurvey
-func InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
+func (ctx *HandlerContext) InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/insert_updated_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
@@ -240,7 +240,7 @@ func InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
 
 // Receives: Local storage
 // Returns: Recommendations based on survey
-func RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
+func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/recommendations" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return

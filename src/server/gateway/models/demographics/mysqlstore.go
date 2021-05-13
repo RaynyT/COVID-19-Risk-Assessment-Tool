@@ -63,7 +63,7 @@ func (ms *MySQLStore) GetByID(id int64) (*Demographic, error) {
 }
 
 //GetByUser returns the Demographic with the given UserID
-func (ms *MySQLStore) GetByName(userid int64) (*Demographic, error) {
+func (ms *MySQLStore) GetByUser(userid int64) (*Demographic, error) {
 	return ms.getByProvidedType(UserID, userid)
 }
 
