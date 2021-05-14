@@ -4,26 +4,27 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	/*
 	"encoding/json"
-	"strconv"
+	"io/ioutil"
+	//"strconv"
 
-	"server/gateway/models/activities"
-	"server/gateway/models/counties"
-	"server/gateway/models/demographics"
-	"server/gateway/models/distances"
-	"server/gateway/models/inouts"
-	"server/gateway/models/othersmasks"
-	"server/gateway/models/selfmasks"
-	"server/gateway/models/statecounties"
-	"server/gateway/models/statecounty_rates"
-	"server/gateway/models/states"
-	"server/gateway/models/surveys"
-	"server/gateway/models/users"
-	"server/gateway/models/vaccinetypes"
-	"server/gateway/models/volumes"
-	*/
+	//"server/gateway/models/activities"
+	//"server/gateway/models/counties"
+	//"server/gateway/models/demographics"
+	//"server/gateway/models/distances"
+	//"server/gateway/models/inouts"
+	//"server/gateway/models/othersmasks"
+	//"server/gateway/models/selfmasks"
+	//"server/gateway/models/statecounties"
+	//"server/gateway/models/statecounty_rates"
+	//"server/gateway/models/states"
+	//"server/gateway/models/surveys"
+	//"server/gateway/models/users"
+	//"server/gateway/models/vaccinetypes"
+	//"server/gateway/models/volumes"
 )
+
+// FILL IN ERROR TYPES LATER
 
 // GET ROUTES - DONE
 
@@ -157,6 +158,44 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 
 // POST ROUTES -- IP
 
+type req_loc struct {
+	StateCode string
+	County    string
+}
+
+type req_vac struct {
+	T                   string
+	DoseNumber          int64
+	EffectiveDoseNumber int64
+	TwoWeeks            string
+}
+
+type req_act struct {
+	Setting   string
+	Attendees string
+	Hours     string
+	Minutes   string
+}
+
+type req_om struct {
+	T          string
+	NumWearers string
+}
+
+
+type req_data struct {
+	UserID            float64
+	UserLocation      req_loc
+	Vaccination       req_vac
+	ActivityBasicInfo req_act
+	Distancing        string
+	SpeakingVolume    string
+	OwnMask           string
+	OthersMask        req_om
+	RiskScore         float64
+	SurveyCompleted   bool
+}
+
 // Receives: State and County
 // Returns: Product Of (NumOfNewCasesRatio, PositiveTestRate, Population)
 // Functions:
@@ -172,21 +211,71 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
+		// Make sure received data is in JSON form
 		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
 			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
 			return
 		}
-		/*
-		rec := {}
-		decoder := json.NewDecoder(r.Body)
-		if err := decoder.Decode(rec); err != nil {
-			http.Error(w, "error decoding JSON in repsonse body", http.StatusBadRequest)
+		var data req_data
+		body, _ := ioutil.ReadAll(r.Body)
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
 			return
 		}
-		*/
-		return
+		// Debugging
+		fmt.Fprintf(w, "request data: %v", data)
+		// Get StateID
+		state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+		if err != nil {
+			http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Get CountyID
+		county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+		if err != nil {
+			http.Error(w, "405, error getting county info.", http.StatusNotFound)
+			return
+		}
+		// With StateID and CountyID get StateCountyID
+		stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
+		if err != nil {
+			http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
+			return
+		}
+		// Extract the StateCounty population
+		population := stateCounty.Pop
+		fmt.Fprintf(w, "extracted data: %v", population)
+		// Get the positive test rate and aggregated number of new cases
+		posTestRateRet, delayFactor, err := ctx.StateCounty_RatesStore.AggregatedStateCounty_Rates(stateCounty.StateCountyID)
+		if err != nil {
+			http.Error(w, "405, error getting aggregated stateCounty_Rate value. Err: " + err.Error(), http.StatusNotFound)
+			return
+		}
 
+		if posTestRateRet <= 0 {
+			posTestRateRet = 1
+		}
+		// Last aggregation to return to web client
+		// DelayFactor / Population in millions
+		delayPopQuotientRet := delayFactor / float64(population / 1000000)
 
+		// Respond to the client with:
+		// A response Content-Type header set to application/json to indicate that the
+		// response body is encoded as JSON.
+		w.Header().Set("Content-Type", "application/json")
+		// A status code of http.StatusCreated (201) to indicate that a new resource was created.
+		w.WriteHeader(201)
+		// The new user profile in the response body, encoded as a JSON object.
+		ret, _ := json.Marshal(struct {
+			posTestRate      float64 
+			delayPopQuotient float64
+		}{
+			posTestRate:      float64(posTestRateRet),
+			delayPopQuotient: float64(delayPopQuotientRet),
+		})
+		w.Write([]byte(ret))
+		
 		//fmt.Fprintf(w, "Congrats! Retrieve County Rates handler works!")
 		//return
 	}

@@ -1076,8 +1076,7 @@ CREATE TABLE IF NOT EXISTS TblStateCounty_Rate (
     FOREIGN KEY (StateCountyID) REFERENCES TblStateCounty(StateCountyID),
     Uploaded DATE NOT NULL,
     PosTestRateCounty DECIMAL(20, 10) NOT NULL,
-    NumNewCasesLastWeek INT NOT NULL,
-    NumNewCasesPrevToLastWeek INT NOT NULL
+    NumNewCases INT NOT NULL
 );
 
 -- Still need to figure out if this is the best way to store the hash
