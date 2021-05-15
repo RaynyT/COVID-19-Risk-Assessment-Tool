@@ -98,6 +98,11 @@ func (ms *MySQLStore) AllStateCounties(s_id int64) (*[]StateCounty, error) {
 	sel := string("SELECT StateCountyID, StateID, CountyID, Pop, FIPS FROM TblStateCounty WHERE StateID = ?")
 
 	rows, err := ms.Database.Query(sel, s_id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	
 	var stateCounties []StateCounty
 
 	for rows.Next() {

@@ -29,3 +29,10 @@ func (c *CORS) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	*/
 	c.Handler.ServeHTTP(w, r)
 }
+
+// NewCORSMiddleware returns a CORSMiddlware structure.
+func NewCORS(handler http.Handler) *CORS {
+	return &CORS{
+		Handler: handler,
+	}
+}

@@ -2,7 +2,7 @@ package statecounty_rates
 
 import (
 	"database/sql"
-	"time"
+	"errors"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -33,7 +33,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 // getByProvidedType gets a specific stateCounty_Rate given the provided type.
 // This requires the GetByType to be "unique" in the database - hence StateCounty_RateID and UserID
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*StateCounty_Rate, error) {
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek FROM TblStateCounty_Rate WHERE " + t + " = ?")
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
 	if err != nil {
@@ -50,8 +50,7 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*StateCou
 		&stateCounty_Rate.StateCountyID,
 		&stateCounty_Rate.Uploaded,
 		&stateCounty_Rate.PosTestRateCounty,
-		&stateCounty_Rate.NumNewCasesLastWeek,
-		&stateCounty_Rate.NumNewCasesPrevToLastWeek); err != nil {
+		&stateCounty_Rate.NumNewCases); err != nil {
 		return nil, err
 	}
 	return stateCounty_Rate, nil
@@ -62,67 +61,95 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 	return ms.getByProvidedType(ID, id)
 }
 
-//Insert inserts the stateCounty_Rate into the database, and returns
-//the newly-inserted StateCounty_Rate, complete with the DBMS-assigned StateCounty_RateID
-func (ms *MySQLStore) Insert(stateCounty_Rate *StateCounty_Rate) (*StateCounty_Rate, error) {
-	ins := string("INSERT INTO TblStateCounty_Rate(StateCountyID, Uploaded, PosTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek) VALUES(?,?,?,?,?)")
-	t := time.Now().Format("01-02-2006")
-	res, err := ms.Database.Exec(ins, stateCounty_Rate.StateCountyID, t, stateCounty_Rate.PosTestRateCounty, stateCounty_Rate.NumNewCasesLastWeek, stateCounty_Rate.NumNewCasesPrevToLastWeek)
-	if err != nil {
-		return nil, err
-	}
-
-	lid, lidErr := res.LastInsertId()
-	if lidErr != nil {
-		return nil, lidErr
-	}
-
-	stateCounty_Rate.StateCountyRateID = lid
-	return stateCounty_Rate, nil
-}
-
-//Delete deletes the stateCounty_Rate with the given ID
-func (ms *MySQLStore) Delete(id int64) error {
-	del := string("DELETE FROM TblStateCounty_Rate WHERE StateCountyRateID = ?")
-	res, err := ms.Database.Exec(del, id)
-	if err != nil {
-		return err
-	}
-
-	rowsAffected, rowsAffectedErr := res.RowsAffected()
-	if rowsAffectedErr != nil {
-		return rowsAffectedErr
-	}
-
-	if rowsAffected != 1 {
-		return ErrStateCounty_RateNotFound
-	}
-
-	return nil
-}
-
 // Gets the most recent stateCounty_Rate based on a given:
+// For front end we will return aggregated total num of cases for last week divided by
+// total num of cases for week before last week, and the positive test rate for yesterday
 // StateCountyID
-func (ms *MySQLStore) AllStateCounty_Rates(id int64) (*StateCounty_Rate, error) {
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PostTestRateCounty, NumNewCasesLastWeek, NumNewCasesPrevToLastWeek FROM TblStateCounty_Rate WHERE StateCountyID = ? ORDER BY STR_TO_DATE(Uploaded, '%d-%m-%Y') DESC LIMIT 1")
+// float64 = (num new cases last week / num new cases prev to last week) * posTestRate
+func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, error) {
+	// Query should get positive test rate for yesterday
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(NOW(),1)")
 
 	rows, err := ms.Database.Query(sel, id)
+
+	if err == sql.ErrNoRows {
+		return -1, -1, errors.New("No rows returned for PosTestRateCounty.")
+	}
+	
 	if err != nil {
-		return nil, err
+		return -1, -1, err
 	}
 	defer rows.Close()
 
 	stateCounty_Rate := &StateCounty_Rate{}
 
 	rows.Next()
-	if err:= rows.Scan(
+	if err := rows.Scan(
 		&stateCounty_Rate.StateCountyRateID,
 		&stateCounty_Rate.StateCountyID,
 		&stateCounty_Rate.Uploaded,
 		&stateCounty_Rate.PosTestRateCounty,
-		&stateCounty_Rate.NumNewCasesLastWeek,
-		&stateCounty_Rate.NumNewCasesPrevToLastWeek); err != nil {
-		return nil, err
+		&stateCounty_Rate.NumNewCases); err != nil {
+		return -1, -1, err
 	}
-	return stateCounty_Rate, nil
+	
+
+	// Query should get total new cases for last week from yesterday
+	last, err := ms.HelperAggregator(id, "last")
+	if err != nil {
+		return -1, -1, err
+	}
+	// Query should get total new cases for week before last week from yesterday
+	prevToLast, err := ms.HelperAggregator(id, "prevToLast")
+	if err != nil {
+		return -1, -1, err
+	}
+
+	// Compute quotient, if quotient is less than 2, the min is now 2
+	delayFactor := last / prevToLast
+	if delayFactor < 2 {
+		delayFactor = 2
+	}
+	// Return positive test rate and delay factor
+	return float64(stateCounty_Rate.PosTestRateCounty), float64(delayFactor), nil
+}
+
+// Function that aggregates total number of new cases
+func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
+	var sel string
+	if week == "last" {
+		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(NOW(),8) AND SUBDATE(NOW(),14)")
+	} else if week == "prevToLast" {
+		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(NOW(),15) AND SUBDATE(NOW(),21)")
+	}
+
+	rows, err := ms.Database.Query(sel, id)
+
+	if err == sql.ErrNoRows {
+		return -1, errors.New("No rows for that week.")
+	}
+
+	if err != nil {
+		return -1, err
+	}
+	defer rows.Close()
+
+	var total int64
+
+	for rows.Next() {
+		var stateCounty_Rate StateCounty_Rate
+		err := rows.Scan(&stateCounty_Rate.StateCountyRateID, &stateCounty_Rate.StateCountyID, 
+						 &stateCounty_Rate.Uploaded, &stateCounty_Rate.PosTestRateCounty, &stateCounty_Rate.NumNewCases)
+		
+		if err != nil {
+			return -1, err
+		}
+
+		total = total + stateCounty_Rate.NumNewCases
+	}
+	if total == 0 {
+		return 1, nil
+	} else {
+		return total, nil
+	}
 }

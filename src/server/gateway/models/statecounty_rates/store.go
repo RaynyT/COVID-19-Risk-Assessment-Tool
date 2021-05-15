@@ -12,13 +12,9 @@ type Store interface {
 	//GetByID returns the StateCounty_Rate with the given ID
 	GetByID(id int64) (*StateCounty_Rate, error)
 
-	//Insert inserts the stateCounty_Rate into the database, and returns
-	//the newly-inserted StateCounty_Rate, complete with the DBMS-assigned ID
-	Insert(stateCounty_Rate *StateCounty_Rate) (*StateCounty_Rate, error)
+	//AggregatedStateCounty_Rates returns all the stateCounty_Rates given an stateCounty_Rate type
+	AggregatedStateCounty_Rates(id int64) (float64, float64, error)
 
-	//Delete deletes the stateCounty_Rate with the given ID
-	Delete(id int64) error
-
-	//AllStateCounty_Rates returns all the stateCounty_Rates given an stateCounty_Rate type
-	AllStateCounty_Rates(id int64) (*StateCounty_Rate, error)
+	//HelperAggregator aggregates number of new cases for given week
+	HelperAggregator(id int64, week string) (int64, error)
 }
