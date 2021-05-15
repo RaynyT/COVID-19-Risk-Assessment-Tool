@@ -27,7 +27,7 @@ export default function InfoPage() {
                                 <div>
                                     <p>
                                         To use CovidAware, simply complete the <Link to="/calculator">risk survey </Link>
-                                        by giving a few details about an activity you are planning, or select an activity from one of our presets. Once the survey is completed you will recieve a risk score for your activity.
+                                        by giving a few details about an activity you are planning, or select an activity from one of our presets. Once the survey is completed you will receive a risk score for your activity.
                                     </p>
                                     <p>
                                         For more help, check out our <Link to="/get-started">tutorial </Link>
@@ -72,7 +72,7 @@ export default function InfoPage() {
                                         "Activity risk" is the chance of COVID infection through the activity, if any of the other paricipants were to have COVID. It is calculated based on several factors about the activity such as duration or mask usage. "Person risk" is the likelihood that other participants have COVID based on county data. Vaccination status changes COVID risk because vaccinated people are less likely to catch and transmit COVID.
                                     </p>
                                     <p>
-                                        Fore a more in-depth description, check out our full wrie-up <a href="https://github.com/RaynyT/COVID-19-Risk-Assessment-Tool/blob/main/data/Algorithm.md">here</a>
+                                        For a more in-depth description, check out our full write-up <a href="https://github.com/RaynyT/COVID-19-Risk-Assessment-Tool/blob/main/data/Algorithm.md">here</a>
                                     </p>
                                 </div>
                             }
