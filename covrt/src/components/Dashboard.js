@@ -16,7 +16,7 @@ export default function Dashboard() {
             <div className="dashboard-main-container">
                 <NavBar />
                 <h1 className="dashboard-title">Risk Dashboard</h1>
-                <div className="container">
+                <div className="container dashboard-btn-container">
                     <div className="row img-link-row">
                         <div className="col-6 d-flex justify-content-center">
                             <RouterImageLink link={{pathname: "/results", fromDashboard: true}} image={riskSummaryIcon} desc="Risk Summary" 
