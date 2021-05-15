@@ -220,7 +220,7 @@ function ReduceRiskScreen(props) {
 
     useEffect(() => {
         // POST request using axios inside useEffect React hook
-        axios.post('http://riskaware.ischool.uw.edu/reccomendations', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/reccomendations', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
     

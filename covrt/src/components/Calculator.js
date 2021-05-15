@@ -98,7 +98,7 @@ export default function Calculator(props) {
             event.target.county.value
         );
 
-        axios.post('http://riskaware.ischool.uw.edu/retrieve_county_rates', props.userLocation)
+        axios.post('https://cobidaware.ischool.uw.edu/retrieve_county_rates', props.userLocation)
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
@@ -236,7 +236,7 @@ export default function Calculator(props) {
             surveyCompleted: props.surveyCompleted,
         }
 
-        axios.post('http://riskaware.ischool.uw.edu/insert_survey', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
