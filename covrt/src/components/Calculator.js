@@ -700,11 +700,37 @@ function ActivityPage(props) {
     let indoorsChecked = false;
     let outdoorsChecked = false;
 
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [zeroAttendees, setZeroAttendees] = useState(false);
+
+    const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+    let toolTip = ""
+
+    const attendeesHandler = (event) => {
+        if (event.target.value === "0" || event.target.value === 0) {
+            setZeroAttendees(true);
+        } else {
+            setZeroAttendees(false);
+        }
+    }
+
+    if (zeroAttendees) {
+        toolTip = (
+            <Tooltip placement="bottom" isOpen={true} target="attendees" toggle={toggleTooltip}>
+            If you are interacting with zero other people, then the activity poses no risk
+            </Tooltip>
+        );
+    }
+
+
+
+
     if (props.setting === "indoors") {
         indoorsChecked = true;
     } else if (props.setting === "outdoors") {
         outdoorsChecked = true;
     }
+
 
     let subHeader = (
         <h2 className="calc-step-desc">Calculate the risk for your planned social activity</h2>
@@ -760,8 +786,9 @@ function ActivityPage(props) {
                 <FormGroup tag="fieldset">
                     <legend>How many other people will attend?</legend>
                     <p>Include anybody who you might come within 15 feet of</p>
-                    <Input required type="number" name="attendees" id="atendees" min="1" className="w-auto"
-                        defaultValue={props.attendees} />
+                    <Input required type="number" name="attendees" id="attendees" min="1" className="w-auto"
+                        defaultValue={props.attendees} onChange={attendeesHandler} />
+                    {toolTip}
                 </FormGroup> 
                 <FormGroup tag="fieldset" className="form-inline">
                     <legend>Estimated duration:</legend>
