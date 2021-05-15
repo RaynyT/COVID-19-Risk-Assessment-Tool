@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import NavBar from './NavBar.js'
 
 import riskSummaryIcon from '../images/risk-summary-icon.svg'
-import tipsIcon from '../images/tips-icon.svg'
 import updateIcon from '../images/update-icon.svg'
 import vaccineIcon from '../images/vaccine-icon.svg'
 import startNewIcon from '../images/start-new-icon.svg'
