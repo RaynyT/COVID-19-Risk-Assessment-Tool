@@ -70,6 +70,10 @@
     background-color: #F9D153;
 }
 
+.dashboard-btn-container {
+    margin-bottom: 2rem;
+}
+
 @media (min-width: 768px) {
 
     .dashboard-outer {
@@ -82,7 +86,7 @@
     }
 
     .dashboard-main-container{
-        min-width: 51vh;
+        min-width: 45vw;
         max-width: 70vh;
         min-height: 90vh;
         border-style: solid;

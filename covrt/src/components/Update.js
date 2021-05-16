@@ -139,7 +139,7 @@ export default function Update(props) {
             surveyCompleted: props.surveyCompleted,
         }
 
-        axios.post('http://riskaware.ischool.uw.edu/insert_survey', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
