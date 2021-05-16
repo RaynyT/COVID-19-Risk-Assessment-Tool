@@ -68,23 +68,13 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 // float64 = (num new cases last week / num new cases prev to last week) * posTestRate
 func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, error) {
 	// Query should get positive test rate for yesterday
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(NOW(),1)")
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),1)")
 
-	rows, err := ms.Database.Query(sel, id)
-
-	if err == sql.ErrNoRows {
-		return -1, -1, errors.New("No rows returned for PosTestRateCounty.")
-	}
-	
-	if err != nil {
-		return -1, -1, err
-	}
-	defer rows.Close()
+	row := ms.Database.QueryRow(sel, id)
 
 	stateCounty_Rate := &StateCounty_Rate{}
 
-	rows.Next()
-	if err := rows.Scan(
+	if err := row.Scan(
 		&stateCounty_Rate.StateCountyRateID,
 		&stateCounty_Rate.StateCountyID,
 		&stateCounty_Rate.Uploaded,
@@ -92,7 +82,6 @@ func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, e
 		&stateCounty_Rate.NumNewCases); err != nil {
 		return -1, -1, err
 	}
-	
 
 	// Query should get total new cases for last week from yesterday
 	last, err := ms.HelperAggregator(id, "last")
@@ -118,9 +107,9 @@ func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, e
 func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 	var sel string
 	if week == "last" {
-		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(NOW(),8) AND SUBDATE(NOW(),14)")
+		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(CURDATE(),8) AND SUBDATE(CURDATE(),14)")
 	} else if week == "prevToLast" {
-		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(NOW(),15) AND SUBDATE(NOW(),21)")
+		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(CURDATE(),15) AND SUBDATE(CURDATE(),21)")
 	}
 
 	rows, err := ms.Database.Query(sel, id)
@@ -130,7 +119,7 @@ func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 	}
 
 	if err != nil {
-		return -1, err
+		return -1, errors.New("Error getting rows for that week.")
 	}
 	defer rows.Close()
 
@@ -142,7 +131,7 @@ func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 						 &stateCounty_Rate.Uploaded, &stateCounty_Rate.PosTestRateCounty, &stateCounty_Rate.NumNewCases)
 		
 		if err != nil {
-			return -1, err
+			return -1, errors.New("Error parsing rows for that week.")
 		}
 
 		total = total + stateCounty_Rate.NumNewCases

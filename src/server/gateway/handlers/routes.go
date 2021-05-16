@@ -256,9 +256,11 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		if posTestRateRet <= 0 {
 			posTestRateRet = 1
 		}
+		fmt.Fprintf(w, "pTR: %v", posTestRateRet)
 		// Last aggregation to return to web client
 		// DelayFactor / Population in millions
 		delayPopQuotientRet := delayFactor / float64(population / 1000000)
+		fmt.Fprintf(w, "quotient: %v", delayPopQuotientRet)
 
 		// Respond to the client with:
 		// A response Content-Type header set to application/json to indicate that the
@@ -267,14 +269,16 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		// A status code of http.StatusCreated (201) to indicate that a new resource was created.
 		w.WriteHeader(201)
 		// The new user profile in the response body, encoded as a JSON object.
-		ret, _ := json.Marshal(struct {
+		retData := struct {
 			posTestRate      float64 
 			delayPopQuotient float64
 		}{
-			posTestRate:      float64(posTestRateRet),
-			delayPopQuotient: float64(delayPopQuotientRet),
-		})
+			posTestRate:      posTestRateRet,
+			delayPopQuotient: delayPopQuotientRet,
+		}
+		ret, _ := json.Marshal(&retData)
 		w.Write([]byte(ret))
+		fmt.Fprintf(w, "returns: %v", retData)
 		
 		//fmt.Fprintf(w, "Congrats! Retrieve County Rates handler works!")
 		//return
