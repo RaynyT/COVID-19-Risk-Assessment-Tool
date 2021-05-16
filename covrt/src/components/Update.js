@@ -56,26 +56,26 @@ export default function Update(props) {
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
-        if (event.target.vaccine.value === "None") {
-            props.updateVaccination({ type: "None", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null });
-        } else {
+        if (event.target.vaccine.value === "none") {
+            props.updateVaccination({ type: "none", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
+        }else {
             let twoWeeks = event.target.weeks.value;
 
             let doseNumber = 0;
             let effectiveDoseNumber = 1;
-
+            
             // If J&J was selected use defaults, if not check the selections
-            if (event.target.vaccine.value !== "J&J") {
+            if (event.target.vaccine.value !== "johnsonAndJohnson") {
                 doseNumber = event.target.doses.value;
                 effectiveDoseNumber = event.target.doses.value;
             }
 
             // If it hasn't been two weeks since the last dose, don't count it
-            if (twoWeeks === "No") {
+            if (twoWeeks === "no") {
                 effectiveDoseNumber--;
             }
 
-            props.updateVaccination({
+            props.updateVaccination({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
                 effectiveDoseNumber: effectiveDoseNumber,
@@ -83,6 +83,7 @@ export default function Update(props) {
             });
 
         }
+        
         completeSurvey();
     }
 
