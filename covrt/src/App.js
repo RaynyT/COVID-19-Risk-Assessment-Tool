@@ -71,7 +71,7 @@ function App() {
 	// Selections on the risk survey are saved as site-wide state variables as they are relevant
 	// to both the risk calculator and the results screen and should be saved when navigating to other pages
 	// Some default to certain selections, others like radio buttons default to none selected
-	const [userLocation, setUserLocation] = useLocalStorage("userLocation", { stateCode: "WA", county: "Pierce" });
+	const [userLocation, setUserLocation] = useLocalStorage("userLocation", { stateCode: "WA", county: "King County" });
 	const [vaccination, setVaccination] = useLocalStorage("vaccination", { type: "none", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
 	const [activityBasicInfo, setActivityBasicInfo] = useLocalStorage("activityBasicInfo", { setting: "none-selected", attendees: null, hours: null,  minutes: null});
 	const [distancing, setDistancing] = useLocalStorage("distancing", "none-selected");
