@@ -161,6 +161,11 @@ export default function Update(props) {
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
+        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', surveyData)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+
+
         props.history.push('/dashboard');
     }
 
