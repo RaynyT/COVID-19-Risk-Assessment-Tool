@@ -30,6 +30,24 @@ export default function Update(props) {
         setPageNum(pageNum - 1);
     }
 
+    const handleStateCodeChange = (event) => {
+        props.updateStateSelection(event.target.value);
+    }
+
+    const handleLocationPageSubmit = (event) => {
+        event.preventDefault();
+        props.updateLocation(
+            event.target.state.value,
+            event.target.county.value
+        );
+
+        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', props.userLocation)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+
+        handleNextClick();
+    }
+
     // The vaccine selection is handled separate from the vaccine page submission
     // so that the state will change and re-render the form based on vaccine type
     const handleVaccineTypeChange = (event) => {
@@ -150,9 +168,9 @@ export default function Update(props) {
         case 1:
             pageScreen = <LocationPage 
                 nextClickCallback={handleNextClick} 
-                backClickCallback={handleBackClick} 
-                stateSelectionCallback={props.updateStateSelection} 
-                countySelectionCallback={props.updateCountySelection} 
+                backClickCallback={handleBackClick}
+                stateSelectionCallback={handleStateCodeChange} 
+                submitCallback={handleLocationPageSubmit}
                 selection={props.userLocation} 
             />;
         break;
@@ -167,11 +185,12 @@ export default function Update(props) {
         default:
             pageScreen = <LocationPage 
                 nextClickCallback={handleNextClick} 
-                backClickCallback={handleBackClick} 
-                stateSelectionCallback={props.updateStateSelection} 
-                countySelectionCallback={props.updateCountySelection} 
+                backClickCallback={handleBackClick}
+                stateSelectionCallback={handleStateCodeChange} 
+                submitCallback={handleLocationPageSubmit}
                 selection={props.userLocation} 
-            />;    }
+            />;  
+        }
 
     return (
         <div className="calc-outer">
