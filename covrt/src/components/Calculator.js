@@ -237,7 +237,7 @@ export default function Calculator(props) {
         .catch(error => console.log(error));
 
         axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', surveyData)
-        .then(response => console.log(response))
+        .then(response => console.log(response.data))
         .catch(error => console.log(error));
 
         props.history.push({
