@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { FormGroup, Label, Input, Form } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import axios from 'axios'
+import axios from 'axios';
+import moment from 'moment';
 import CountyList from './CountyList';
 
 
@@ -131,7 +132,9 @@ export default function Update(props) {
             // * Distancing risk * Volume risk
             numericValues[props.distancing] * numericValues[props.speakingVolume] *
             // * Vaccine efficacy
-            vaccineEfficacy
+            vaccineEfficacy *
+            // * Person Risk
+            props.personRisk
         );
 
         return score;
@@ -153,14 +156,30 @@ export default function Update(props) {
             riskScore: props.riskScore,
             surveyCompleted: props.surveyCompleted,
         }
+        
+        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', surveyData)
+            .then(response => {
+                console.log(response.data)
+                // TODO: MULTIPLY BY REPORTED CASES ONCE WE FIND OUT WHICH NUMBER TO USE
+
+                const startDate = moment("02-12-2020", "MM-DD-YYYY");
+                const today = moment();
+
+                const daysSince = today.diff(startDate, "days");
+
+                let positiveTestRate = response.data.posTestRate;
+
+                let underReportingFactor = 1000 / (daysSince + 10) * (positiveTestRate ** 0.5) + 2;
+
+                let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
+
+                props.setPersonRisk(personRisk);
+            }).catch(error => console.log(error));
 
         axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
             .then(response => console.log(response))
             .catch(error => console.log(error));
 
-        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', surveyData)
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error));
 
 
         props.history.push('/dashboard');
