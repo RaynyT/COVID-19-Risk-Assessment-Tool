@@ -137,7 +137,7 @@
     }
 
     .tutorial-main-container{
-        min-width: 45vw;
+        width: 45vw;
         min-height: 90vh;
         border-style: solid;
         border-color: #ACB0BC;
