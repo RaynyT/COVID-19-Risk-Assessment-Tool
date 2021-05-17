@@ -122,6 +122,7 @@ export default function Calculator(props) {
             let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
             
             props.setPersonRisk(personRisk);
+            console.log(personRisk);
         })
         .catch(error => console.log(error));
 
@@ -265,6 +266,7 @@ export default function Calculator(props) {
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
+        console.log("Risk Score: ", props.riskScore);
 
         props.history.push({
             pathname: '/results',
