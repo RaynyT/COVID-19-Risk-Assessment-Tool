@@ -99,6 +99,32 @@ export default function Calculator(props) {
             event.target.county.value
         );
 
+        let requestData = {
+            StateCode: event.target.state.value,
+            County: event.target.county.value
+        }
+
+        // Fetch Covid rates for selected county
+        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', requestData)
+        .then(response => {
+            console.log(response.data)
+            // TODO: MULTIPLY BY REPORTED CASES ONCE WE FIND OUT WHICH NUMBER TO USE
+            
+            const startDate = moment("02-12-2020", "MM-DD-YYYY");
+            const today = moment();
+        
+            const daysSince = today.diff(startDate, "days");
+
+            let positiveTestRate = response.data.posTestRate;
+
+            let underReportingFactor = 1000 / (daysSince + 10) * (positiveTestRate ** 0.5) + 2;
+
+            let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
+            
+            props.setPersonRisk(personRisk);
+        })
+        .catch(error => console.log(error));
+
         handleNextClick();
     }
 
@@ -234,28 +260,7 @@ export default function Calculator(props) {
             riskScore: props.riskScore,
             surveyCompleted: props.surveyCompleted,
         }
-        
-        // Fetch Covid rates for selected county
-        axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', surveyData)
-        .then(response => {
-            console.log(response.data)
-            // TODO: MULTIPLY BY REPORTED CASES ONCE WE FIND OUT WHICH NUMBER TO USE
-            
-            const startDate = moment("02-12-2020", "MM-DD-YYYY");
-            const today = moment();
-        
-            const daysSince = today.diff(startDate, "days");
 
-            let positiveTestRate = response.data.posTestRate;
-
-            let underReportingFactor = 1000 / (daysSince + 10) * (positiveTestRate ** 0.5) + 2;
-
-            let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
-            
-            props.setPersonRisk(personRisk);
-        })
-        .catch(error => console.log(error));
-        
         axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
