@@ -78,6 +78,8 @@ function App() {
 	const [speakingVolume, setSpeakingVolume] = useLocalStorage("speakingVolume", "none-selected");
 	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "none-selected");
 	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: 100 });
+
+	const [personRisk, setPersonRisk] = useLocalStorage(null);
 	const [riskScore, setRiskScore] = useLocalStorage(null);
 
 	
@@ -148,6 +150,10 @@ function App() {
 		setVaccination(vaccination);
 	}
 
+	const updatePersonRisk = (personRisk) => {
+		setPersonRisk(personRisk);
+	}
+
 	const updateRiskScore = (riskScore) => {
 		setRiskScore(riskScore);
 	}
@@ -173,6 +179,8 @@ function App() {
 		othersMask: othersMask,
 		updateOthersMaskType: updateOthersMaskType,
 		updateOthersMaskNumWearers: updateOthersMaskNumWearers,
+		personRisk: personRisk,
+		setPersonRisk: updatePersonRisk,
 		riskScore: riskScore,
 		updateRiskScore: updateRiskScore,
 		surveyCompleted: surveyCompleted,
