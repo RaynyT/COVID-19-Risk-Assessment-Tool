@@ -43,8 +43,6 @@ export default function Results(props){
         setPage(value)
     }
 
-    let backButtonPath = "/calculator"
-
     let screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />;
     
     if (!props.surveyCompleted) {
