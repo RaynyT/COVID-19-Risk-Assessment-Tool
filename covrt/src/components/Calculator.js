@@ -10,9 +10,13 @@ import LocalizedStrings from 'react-localization';
 import locationImage from '../images/space-search.svg';
 import doctorsImage from '../images/doctors.svg'
 
+// Distance images
 import lessThanSixFeetImage from "../images/less-than-six-feet.svg"
-import sixFeetImage from '../images/six-feet-bed.svg';
+import sixFeetImage from '../images/six-feet.svg';
+import nineFeetImage from '../images/nine-feet.svg';
+import moreThanNineFeetImage from '../images/more-than-nine-feet.svg';
 
+// Speaking images
 import speakingNormalImage from '../images/speaking-normal.svg';
 import notSpeakingImage from '../images/not-speaking.svg'
 import speakingLoudImage from '../images/speaking-loudly.svg'
@@ -265,8 +269,6 @@ export default function Calculator(props) {
         axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
-
-        console.log("Risk Score: ", props.riskScore);
 
         props.history.push({
             pathname: '/results',
@@ -906,10 +908,10 @@ function SocialDistancePage(props) {
                 </div>
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} value="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={nineFeetImage} value="nineFeet" desc="9 feet" alt="Cartoon of bed with a six foot label" large selected={nineSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={sixFeetImage} value="twelveFeetOrMore" desc="12 feet or more" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
+                        <ImageButton image={moreThanNineFeetImage} value="twelveFeetOrMore" desc="12 feet or more" alt="Cartoon of bed with a six foot label" large selected={moreThanNineSelected} clickCallback={props.selectionCallback} />
                     </div>
                 </div>
             </div>

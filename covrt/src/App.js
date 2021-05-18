@@ -25,7 +25,8 @@ function App() {
 
 	// Fired on every route change
 	useEffect(() => {
-	  ReactGA.pageview(location.pathname + location.search);
+		console.log(location.pathname + location.search)
+	  	ReactGA.pageview(location.pathname + location.search);
 	}, [location]);
 
 
