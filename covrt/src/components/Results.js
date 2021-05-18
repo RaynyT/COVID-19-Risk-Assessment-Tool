@@ -1,4 +1,8 @@
-import riskMeterImage from '../images/risk-meter.svg'
+import highRiskMeter from '../images/high-risk-meter.svg';
+import mediumRiskMeter from '../images/medium-risk-meter.svg';
+import lowRiskMeter from '../images/low-risk-meter.svg';
+
+
 import houseIcon from '../images/house-vector.svg'
 import sunIcon from '../images/sun-vector.svg'
 import clockIcon from '../images/clock-vector.svg'
@@ -143,7 +147,7 @@ function ResultsScreen(props) {
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 {summarySubheading}
-                <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
+                <img className="risk-level-img" alt="Risk meter" src={highRiskMeter} />
             </div>
             <div className="horizontal-center">
                 <div>
