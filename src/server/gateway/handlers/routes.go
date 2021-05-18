@@ -252,7 +252,6 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 			PosTestRate      float64 `json:"posTestRate"`
 			DelayPopQuotient float64 `json:"delayPopQuotient"`
 			ReportedCases    int64   `json:"reportedCases"`
-
 		}{
 			PosTestRate:      posTestRateRet,
 			DelayPopQuotient: delayPopQuotientRet,
