@@ -19,6 +19,9 @@ type Store interface {
 	//the newly-inserted Demographic, complete with the DBMS-assigned ID
 	Insert(demographic *Demographic) (*Demographic, error)
 
+	//Update updates user's demographic
+	Update(column string, id int64, userid int64) (error)
+
 	//Delete deletes the demographic with the given ID
 	Delete(id int64) error
 

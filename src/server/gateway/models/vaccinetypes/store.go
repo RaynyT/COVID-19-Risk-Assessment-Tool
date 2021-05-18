@@ -17,4 +17,7 @@ type Store interface {
 
 	//AllVaccineTypes returns all VaccineTypes with the given risk coefficient
 	AllVaccineTypes(rc float64) (*[]VaccineType, error)
+
+	//GetByTypeDose uses a vaccine type and dose to send back the vaccine primary key
+	GetByTypeDose(t string, dose int64) (int64, error)
 }

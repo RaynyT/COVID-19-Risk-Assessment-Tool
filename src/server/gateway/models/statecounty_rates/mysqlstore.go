@@ -2,7 +2,6 @@ package statecounty_rates
 
 import (
 	"database/sql"
-	"errors"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -66,7 +65,7 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 // total num of cases for week before last week, and the positive test rate for yesterday
 // StateCountyID
 // float64 = (num new cases last week / num new cases prev to last week) * posTestRate
-func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, error) {
+func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, int64, error) {
 	// Query should get positive test rate for yesterday
 	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),1)")
 
@@ -80,65 +79,54 @@ func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, e
 		&stateCounty_Rate.Uploaded,
 		&stateCounty_Rate.PosTestRateCounty,
 		&stateCounty_Rate.NumNewCases); err != nil {
-		return -1, -1, err
+		return -1, -1, -1, err
 	}
 
 	// Query should get total new cases for last week from yesterday
 	last, err := ms.HelperAggregator(id, "last")
 	if err != nil {
-		return -1, -1, err
+		return -1, -1, -1, err
 	}
 	// Query should get total new cases for week before last week from yesterday
 	prevToLast, err := ms.HelperAggregator(id, "prevToLast")
 	if err != nil {
-		return -1, -1, err
+		return -1, -1, -1, err
 	}
 
-	// Compute quotient, if quotient is less than 2, the min is now 2
-	delayFactor := last / prevToLast
-	if delayFactor < 2 {
-		delayFactor = 2
+	// Compute quotient, if quotient is more than 2, the min is now 2
+	delayFactor := float64(last / prevToLast)
+	if delayFactor > 2.0 {
+		delayFactor = 2.0
 	}
 	// Return positive test rate and delay factor
-	return float64(stateCounty_Rate.PosTestRateCounty), float64(delayFactor), nil
+	return float64(stateCounty_Rate.PosTestRateCounty), delayFactor, last, nil
+}
+
+type Total struct {
+	Tot int64
 }
 
 // Function that aggregates total number of new cases
 func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 	var sel string
 	if week == "last" {
-		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(CURDATE(),8) AND SUBDATE(CURDATE(),14)")
+		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),8) AND Uploaded >= SUBDATE(CURDATE(),14)")
 	} else if week == "prevToLast" {
-		sel = string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded BETWEEN SUBDATE(CURDATE(),15) AND SUBDATE(CURDATE(),21)")
+		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),15) AND Uploaded >= SUBDATE(CURDATE(),21)")
 	}
 
-	rows, err := ms.Database.Query(sel, id)
+	row := ms.Database.QueryRow(sel, id)
 
-	if err == sql.ErrNoRows {
-		return -1, errors.New("No rows for that week.")
+	total := &Total{}
+
+	if err := row.Scan(
+		&total.Tot); err != nil {
+		return -1, err
 	}
 
-	if err != nil {
-		return -1, errors.New("Error getting rows for that week.")
-	}
-	defer rows.Close()
-
-	var total int64
-
-	for rows.Next() {
-		var stateCounty_Rate StateCounty_Rate
-		err := rows.Scan(&stateCounty_Rate.StateCountyRateID, &stateCounty_Rate.StateCountyID, 
-						 &stateCounty_Rate.Uploaded, &stateCounty_Rate.PosTestRateCounty, &stateCounty_Rate.NumNewCases)
-		
-		if err != nil {
-			return -1, errors.New("Error parsing rows for that week.")
-		}
-
-		total = total + stateCounty_Rate.NumNewCases
-	}
-	if total == 0 {
+	if total.Tot == 0 {
 		return 1, nil
 	} else {
-		return total, nil
+		return total.Tot, nil
 	}
 }

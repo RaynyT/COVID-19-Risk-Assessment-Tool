@@ -2,7 +2,6 @@ package demographics
 
 import (
 	"database/sql"
-	"time"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -70,9 +69,8 @@ func (ms *MySQLStore) GetByUser(userid int64) (*Demographic, error) {
 //Insert inserts the demographic into the database, and returns
 //the newly-inserted Demographic, complete with the DBMS-assigned DemographicID
 func (ms *MySQLStore) Insert(demographic *Demographic) (*Demographic, error) {
-	ins := string("INSERT INTO TblDemographic(UserID, StateCountyID, VaccineTypeID, UserUpdateDate) VALUES(?,?,?,?)")
-	t := time.Now().Format("01-02-2006")
-	res, err := ms.Database.Exec(ins, demographic.UserID, demographic.StateCountyID, demographic.VaccineTypeID, t)
+	ins := string("INSERT INTO TblDemographic(UserID, StateCountyID, VaccineTypeID, UserUpdateDate) VALUES(?,?,?,CURRENT_TIMESTAMP())")
+	res, err := ms.Database.Exec(ins, demographic.UserID, demographic.StateCountyID, demographic.VaccineTypeID)
 	if err != nil {
 		return nil, err
 	}
@@ -84,6 +82,18 @@ func (ms *MySQLStore) Insert(demographic *Demographic) (*Demographic, error) {
 
 	demographic.DemographicID = lid
 	return demographic, nil
+}
+
+
+//Update updates the demographic info with the associated user id
+func (ms *MySQLStore) Update(column string, id int64, userid int64) (error) {
+	ins := string("Update TblDemographic SET " + column + " = ?, UserUpdateDate = CURRENT_TIMESTAMP() WHERE UserID = ?")
+	_, err := ms.Database.Exec(ins, id, userid)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //Delete deletes the demographic with the given ID

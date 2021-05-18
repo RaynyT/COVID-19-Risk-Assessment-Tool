@@ -6,22 +6,9 @@ import (
 	"strings"
 	"encoding/json"
 	"io/ioutil"
+	//"math"
+	//"crypto/sha256"
 	//"strconv"
-
-	//"server/gateway/models/activities"
-	//"server/gateway/models/counties"
-	//"server/gateway/models/demographics"
-	//"server/gateway/models/distances"
-	//"server/gateway/models/inouts"
-	//"server/gateway/models/othersmasks"
-	//"server/gateway/models/selfmasks"
-	//"server/gateway/models/statecounties"
-	//"server/gateway/models/statecounty_rates"
-	//"server/gateway/models/states"
-	//"server/gateway/models/surveys"
-	//"server/gateway/models/users"
-	//"server/gateway/models/vaccinetypes"
-	//"server/gateway/models/volumes"
 )
 
 // FILL IN ERROR TYPES LATER
@@ -216,23 +203,21 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
 			return
 		}
-		var data req_data
+		var data req_loc
 		body, _ := ioutil.ReadAll(r.Body)
 		err := json.Unmarshal([]byte(body), &data)
 		if err != nil {
 			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request data: %v", data)
 		// Get StateID
-		state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+		state, err := ctx.StatesStore.GetByAbbr(data.StateCode)
 		if err != nil {
 			http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
 			return
 		}
 		// Get CountyID
-		county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+		county, err := ctx.CountiesStore.GetByName(data.County)
 		if err != nil {
 			http.Error(w, "405, error getting county info.", http.StatusNotFound)
 			return
@@ -245,22 +230,16 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		}
 		// Extract the StateCounty population
 		population := stateCounty.Pop
-		fmt.Fprintf(w, "extracted data: %v", population)
 		// Get the positive test rate and aggregated number of new cases
-		posTestRateRet, delayFactor, err := ctx.StateCounty_RatesStore.AggregatedStateCounty_Rates(stateCounty.StateCountyID)
+		posTestRateRet, delayFactor, reportedCasesRet, err := ctx.StateCounty_RatesStore.AggregatedStateCounty_Rates(stateCounty.StateCountyID)
 		if err != nil {
 			http.Error(w, "405, error getting aggregated stateCounty_Rate value. Err: " + err.Error(), http.StatusNotFound)
 			return
 		}
 
-		if posTestRateRet <= 0 {
-			posTestRateRet = 1
-		}
-		fmt.Fprintf(w, "pTR: %v", posTestRateRet)
 		// Last aggregation to return to web client
 		// DelayFactor / Population in millions
-		delayPopQuotientRet := delayFactor / float64(population / 1000000)
-		fmt.Fprintf(w, "quotient: %v", delayPopQuotientRet)
+		delayPopQuotientRet := delayFactor / (float64(population) / float64(1000000))
 
 		// Respond to the client with:
 		// A response Content-Type header set to application/json to indicate that the
@@ -269,16 +248,17 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		// A status code of http.StatusCreated (201) to indicate that a new resource was created.
 		w.WriteHeader(201)
 		// The new user profile in the response body, encoded as a JSON object.
-		retData := struct {
-			posTestRate      float64 
-			delayPopQuotient float64
+		ret, _ := json.Marshal(&struct {
+			PosTestRate      float64 `json:"posTestRate"`
+			DelayPopQuotient float64 `json:"delayPopQuotient"`
+			ReportedCases    int64   `json:"reportedCases"`
+
 		}{
-			posTestRate:      posTestRateRet,
-			delayPopQuotient: delayPopQuotientRet,
-		}
-		ret, _ := json.Marshal(&retData)
+			PosTestRate:      posTestRateRet,
+			DelayPopQuotient: delayPopQuotientRet,
+			ReportedCases:    reportedCasesRet,
+		})
 		w.Write([]byte(ret))
-		fmt.Fprintf(w, "returns: %v", retData)
 		
 		//fmt.Fprintf(w, "Congrats! Retrieve County Rates handler works!")
 		//return
@@ -303,9 +283,68 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		http.ServeFile(w, r, "build/index.html")
+		// Make sure received data is in JSON form
+		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
+			return
+		}
+		var data req_data
+		body, _ := ioutil.ReadAll(r.Body)
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Debugging
+		fmt.Fprintf(w, "request data: %v", data)
+		/*
+		// if check for if user is new or not
+		var userid int64
+		var demid int64
+		useridconvert := string(data.UserID)
+		userHash := sha256.Sum256([]byte(useridconvet))
+		user, err := ctx.UsersStore.GetByCookieHash(userHash)
+		if err != nil {
+			// if user is new insert into db
+			userid, _ = ctx.UsersStore.Insert(userHash)
+			// get location info
+			// Get StateID
+			state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+			if err != nil {
+				http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
+				return
+			}
+			// Get CountyID
+			county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+			if err != nil {
+				http.Error(w, "405, error getting county info.", http.StatusNotFound)
+				return
+			}
+			// get vaccine info
+			county, err := ctx.VaccineTypesStore.GetByName(data.UserLocation.County)
+			if err != nil {
+				http.Error(w, "405, error getting county info.", http.StatusNotFound)
+				return
+			}
+
+			// insert into demographic
+			dem := ctx.DemographicsStore.Insert
+		} else {
+			userid = user.UserID
+			// get demographic id
+			demid = ctx.DemographicsStore.GetByUser(userid)
+		}
+		// insert activity
+
+		// insert survey
+
+		*/
+
+
+
+
 		//fmt.Fprintf(w, "Congrats! Insert Survey handler works!")
-		return
+		//return
 	}
 }
 

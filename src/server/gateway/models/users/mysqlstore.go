@@ -65,20 +65,19 @@ func (ms *MySQLStore) GetByCookieHash(ch string) (*User, error) {
 
 //Insert inserts the user into the database, and returns
 //the newly-inserted User, complete with the DBMS-assigned UserID
-func (ms *MySQLStore) Insert(user *User) (*User, error) {
+func (ms *MySQLStore) Insert(userHash string) (int64, error) {
 	ins := string("INSERT INTO TblUser(CookieHash) VALUES(?)")
-	res, err := ms.Database.Exec(ins, user.CookieHash)
+	res, err := ms.Database.Exec(ins, userHash)
 	if err != nil {
-		return nil, err
+		return -1, err
 	}
 
 	lid, lidErr := res.LastInsertId()
 	if lidErr != nil {
-		return nil, lidErr
+		return -1, lidErr
 	}
 
-	user.UserID = lid
-	return user, nil
+	return lid, nil
 }
 
 //Delete deletes the user with the given ID

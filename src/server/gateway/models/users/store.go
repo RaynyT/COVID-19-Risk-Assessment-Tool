@@ -17,7 +17,7 @@ type Store interface {
 
 	//Insert inserts the user into the database, and returns
 	//the newly-inserted User, complete with the DBMS-assigned ID
-	Insert(user *User) (*User, error)
+	Insert(userHash string) (int64, error)
 
 	//Delete deletes the user with the given ID
 	Delete(id int64) error

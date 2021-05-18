@@ -84,3 +84,31 @@ func (ms *MySQLStore) AllVaccineTypes(rc float64) (*[]VaccineType, error) {
 
 	return &vaccineTypes, nil
 }
+
+// getByProvidedType gets a specific vaccineType given the provided type.
+// This requires the GetByType to be "unique" in the database - hence VaccineTypeID and VaccineTypeName
+func (ms *MySQLStore) GetByTypeDose(t string, dose int64) (int64, error) {
+	var sel string
+	if dose > 0 {
+		sel = string("SELECT VaccineTypeID, RiskCoefficient, VaccineTypeName FROM TblVaccineType WHERE VaccineTypeName LIKE '%" + t + "%' AND VaccineTypeName LIKE '%" + string(dose) + "%'")
+	} else {
+		return 10, nil
+	}
+	rows, err := ms.Database.Query(sel, t, dose)
+	if err != nil {
+		return -1, err
+	}
+	defer rows.Close()
+
+	vaccineType := &VaccineType{}
+
+	// Should never have more than one row, so only grab one
+	rows.Next()
+	if err := rows.Scan(
+		&vaccineType.VaccineTypeID,
+		&vaccineType.RiskCoefficient,
+		&vaccineType.VaccineTypeName); err != nil {
+		return -1, err
+	}
+	return vaccineType.VaccineTypeID, nil
+}

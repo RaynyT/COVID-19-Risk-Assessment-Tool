@@ -64,16 +64,16 @@ func (d *Demographic) ApplyUpdates(up *UpdateDemographics) error {
     if up.StateCountyID > 0 {
 		if up.StateCountyID <= 3216 {
 			d.StateCountyID = up.StateCountyID
-			d.UserUpdateDate = t
 		}
 	}
 
 	if up.VaccineTypeID > 0 {
 		if up.VaccineTypeID <= 6 {
 			d.VaccineTypeID = up.VaccineTypeID
-			d.UserUpdateDate = t
 		}
 	}
+
+    d.UserUpdateDate = t
 
 	return nil
 }
