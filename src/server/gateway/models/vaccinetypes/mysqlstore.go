@@ -90,7 +90,7 @@ func (ms *MySQLStore) AllVaccineTypes(rc float64) (*[]VaccineType, error) {
 func (ms *MySQLStore) GetByTypeDose(t string, dose int64) (int64, error) {
 	var sel string
 	if dose > 0 {
-		sel = string("SELECT VaccineTypeID, RiskCoefficient, VaccineTypeName FROM TblVaccineType WHERE VaccineTypeName LIKE '%" + t + "%' AND VaccineTypeName LIKE '%" + string(dose) + "%'")
+		sel = string("SELECT VaccineTypeID, RiskCoefficient, VaccineTypeName FROM TblVaccineType WHERE LOWER(VaccineTypeName) LIKE '%" + t + "%' AND VaccineTypeName LIKE '%" + string(dose) + "%'")
 	} else {
 		return 10, nil
 	}

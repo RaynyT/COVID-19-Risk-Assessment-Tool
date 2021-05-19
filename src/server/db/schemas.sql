@@ -1082,7 +1082,7 @@ CREATE TABLE IF NOT EXISTS TblStateCounty_Rate (
 -- Still need to figure out if this is the best way to store the hash
 CREATE TABLE IF NOT EXISTS TblUser (
     UserID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    CookieHash VARCHAR(128) NOT NULL UNIQUE
+    CookieHash VARCHAR(500) NOT NULL UNIQUE
 );
 
 -- Inserts Done
@@ -1191,6 +1191,7 @@ CREATE TABLE IF NOT EXISTS TblActivity (
     FOREIGN KEY (DistanceID) REFERENCES TblDistance(DistanceID),
     FOREIGN KEY (SelfMaskID) REFERENCES TblSelfMask(SelfMaskID),
     FOREIGN KEY (OtherMasksID) REFERENCES TblOtherMasks(OtherMasksID),
+    -- ActivityName not implemented currently
     ActivityName VARCHAR(50) NULL UNIQUE,
     NumPeople INT NOT NULL,
     NumPeopleMasks INT NOT NULL,

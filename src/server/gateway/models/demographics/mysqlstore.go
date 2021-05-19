@@ -68,20 +68,20 @@ func (ms *MySQLStore) GetByUser(userid int64) (*Demographic, error) {
 
 //Insert inserts the demographic into the database, and returns
 //the newly-inserted Demographic, complete with the DBMS-assigned DemographicID
-func (ms *MySQLStore) Insert(demographic *Demographic) (*Demographic, error) {
+func (ms *MySQLStore) Insert(demographic *Demographic) (int64, error) {
 	ins := string("INSERT INTO TblDemographic(UserID, StateCountyID, VaccineTypeID, UserUpdateDate) VALUES(?,?,?,CURRENT_TIMESTAMP())")
 	res, err := ms.Database.Exec(ins, demographic.UserID, demographic.StateCountyID, demographic.VaccineTypeID)
 	if err != nil {
-		return nil, err
+		return -1, err
 	}
 
 	lid, lidErr := res.LastInsertId()
 	if lidErr != nil {
-		return nil, lidErr
+		return -1, lidErr
 	}
 
 	demographic.DemographicID = lid
-	return demographic, nil
+	return lid, nil
 }
 
 

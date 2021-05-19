@@ -33,7 +33,7 @@ func (nd *NewDemographic) Validate() error {
         return fmt.Errorf("StateCounty relationship is invalid.")
     }
 
-    if nd.VaccineTypeID > 6 {
+    if nd.VaccineTypeID > 10 {
         return fmt.Errorf("Vaccine type is invalid.")
     }
 
@@ -68,7 +68,7 @@ func (d *Demographic) ApplyUpdates(up *UpdateDemographics) error {
 	}
 
 	if up.VaccineTypeID > 0 {
-		if up.VaccineTypeID <= 6 {
+		if up.VaccineTypeID <= 10 {
 			d.VaccineTypeID = up.VaccineTypeID
 		}
 	}

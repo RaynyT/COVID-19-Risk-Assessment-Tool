@@ -17,7 +17,7 @@ type Store interface {
 
 	//Insert inserts the demographic into the database, and returns
 	//the newly-inserted Demographic, complete with the DBMS-assigned ID
-	Insert(demographic *Demographic) (*Demographic, error)
+	Insert(demographic *Demographic) (int64, error)
 
 	//Update updates user's demographic
 	Update(column string, id int64, userid int64) (error)

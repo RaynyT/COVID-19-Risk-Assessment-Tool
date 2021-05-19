@@ -74,20 +74,20 @@ func (ms *MySQLStore) GetByName(name string) (*Activity, error) {
 
 //Insert inserts the activity into the database, and returns
 //the newly-inserted Activity, complete with the DBMS-assigned ActivityID
-func (ms *MySQLStore) Insert(activity *Activity) (*Activity, error) {
-	ins := string("INSERT INTO TblActivity( VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
+func (ms *MySQLStore) Insert(activity *Activity) (int64, error) {
+	ins := string("INSERT INTO TblActivity(VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?)")
 	res, err := ms.Database.Exec(ins, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.ActivityName, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
 	if err != nil {
-		return nil, err
+		return -1, err
 	}
 
 	lid, lidErr := res.LastInsertId()
 	if lidErr != nil {
-		return nil, lidErr
+		return -1, lidErr
 	}
 
 	activity.ActivityID = lid
-	return activity, nil
+	return lid, nil
 }
 
 //Delete deletes the activity with the given ID
@@ -108,4 +108,28 @@ func (ms *MySQLStore) Delete(id int64) error {
 	}
 
 	return nil
+}
+
+type ActID struct {
+	ID int64
+}
+
+func (ms *MySQLStore) Exists(act *Activity) (int64, error) {
+	sel := string("SELECT ActivityID WHERE VolumeID = ? AND InOutID = ? AND DistanceID = ? AND SelfMaskID = ? AND OtherMasksID = ? AND ActivityName = ? AND NumPeople = ? AND NumPeopleMasks = ? AND DurationHours  = ? AND DurationMinutes = ?")
+
+	rows, err := ms.Database.Query(sel, act.VolumeID, act.InOutID, act.DistanceID, act.SelfMaskID, act.OtherMasksID, act.ActivityName, act.NumPeople, act.NumPeopleMasks, act.DurationHours, act.DurationMinutes)
+	if err != nil {
+		return -1, err
+	}
+	defer rows.Close()
+
+	id := &ActID{}
+
+	// Should never have more than one row, so only grab one
+	rows.Next()
+	if err := rows.Scan(
+		&id.ID); err != nil {
+		return -1, err
+	}
+	return id.ID, nil
 }

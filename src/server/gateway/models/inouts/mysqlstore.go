@@ -33,7 +33,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 // getByProvidedType gets a specific activity given the provided type.
 // This requires the GetByType to be "unique" in the database - hence InOutID and InOutName
 func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*InOut, error) {
-	sel := string("SELECT InOutID, RiskCoefficient, InOutName FROM TblInOut WHERE " + t + " = ?")
+	sel := string("SELECT InOutID, RiskCoefficient, InOutName FROM TblInOut WHERE LOWER(" + t + ") = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
 	if err != nil {

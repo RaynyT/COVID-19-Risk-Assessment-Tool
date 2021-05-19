@@ -17,8 +17,11 @@ type Store interface {
 
 	//Insert inserts the activity into the database, and returns
 	//the newly-inserted Activity, complete with the DBMS-assigned ID
-	Insert(activity *Activity) (*Activity, error)
+	Insert(activity *Activity) (int64, error)
 
 	//Delete deletes the activity with the given ID
 	Delete(id int64) error
+
+	//Checks if activity already exists
+	Exists(act *Activity) (int64, error)
 }
