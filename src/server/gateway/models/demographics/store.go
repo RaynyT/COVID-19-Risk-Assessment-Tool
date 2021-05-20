@@ -20,7 +20,7 @@ type Store interface {
 	Insert(demographic *Demographic) (int64, error)
 
 	//Update updates user's demographic
-	Update(column string, id int64, userid int64) (error)
+	Update(column string, locid int64, vacid int64, userid int64) (error)
 
 	//Delete deletes the demographic with the given ID
 	Delete(id int64) error

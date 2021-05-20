@@ -21,4 +21,7 @@ type Store interface {
 
 	//AllSurveys returns all the surveys given an survey type
 	AllSurveys(id int64, column string) (*[]Survey, error)
+
+	//GetLastSurvey returns last survey id for given user
+	GetLastSurvey(demid int64) (int64, error)
 }

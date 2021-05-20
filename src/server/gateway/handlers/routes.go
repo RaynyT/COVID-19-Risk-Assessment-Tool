@@ -275,8 +275,9 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 //		IF new user --> INSERT into TblUser and INSERT into TblDemographics
 //	INSERT into TblActivity
 //  INSERT into TblSurvey
+// If Update - SELECT statement that gets last survey id for that demid
 func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/insert_survey" {
+	if r.URL.Path != "/insert_survey" && r.URL.Path != "/insert_updated_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
 	}
@@ -307,6 +308,31 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 		var demid int64
 		useridconvert := fmt.Sprintf("%f", data.UserID)
 		userHash := sha256.Sum256([]byte(useridconvert))
+		// get location info
+		// Get StateID
+		state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+		if err != nil {
+			http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Get CountyID
+		county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+		if err != nil {
+			http.Error(w, "405, error getting county info.", http.StatusNotFound)
+			return
+		}
+		// Get StateCountyID
+		stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
+		if err != nil {
+			http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
+			return
+		}
+		// Get VaccineTypeID
+		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
+		if err != nil {
+			http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
+			return
+		}
 		user, err := ctx.UsersStore.GetByCookieHash(fmt.Sprintf("%f", userHash))
 		if err != nil {
 			// if user is new insert into db
@@ -315,34 +341,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				http.Error(w, "405, error inserting new user." + err.Error(), http.StatusBadRequest)
 				return
 			}
-			// get location info
-			// Get StateID
-			state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
-			if err != nil {
-				http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
-				return
-			}
-			// Get CountyID
-			county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
-			if err != nil {
-				http.Error(w, "405, error getting county info.", http.StatusNotFound)
-				return
-			}
-			// Get StateCountyID
-			stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
-			if err != nil {
-				http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
-				return
-			}
-			// Get VaccineTypeID
-			vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
-			// Debugging
-			fmt.Fprintf(w, "request data: %v", vaccine)
-			if err != nil {
-				http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
-				return
-			}
-
 			// Insert into TblDemographic
 			newUserDemographic := &demographics.NewDemographic{
 				UserID:        userid,
@@ -369,8 +367,28 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				return
 			}
 			demid = dem.DemographicID
+			// Check if the user updated their location or vaccine information
+			// If yes, Update Demographic Table
+			if stateCounty.StateCountyID != dem.StateCountyID && vaccine != dem.VaccineTypeID {
+				err := ctx.DemographicsStore.Update("", stateCounty.StateCountyID, vaccine, userid)
+				if err != nil {
+					http.Error(w, "405, error updating location and vaccine" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			} else if stateCounty.StateCountyID != dem.StateCountyID {
+				err := ctx.DemographicsStore.Update("StateCountyID", stateCounty.StateCountyID, -1, userid)
+				if err != nil {
+					http.Error(w, "405, error updating location" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			} else if vaccine != dem.VaccineTypeID {
+				err := ctx.DemographicsStore.Update("VaccineTypeID", -1, vaccine, userid)
+				if err != nil {
+					http.Error(w, "405, error updating vaccine" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			}
 		}
-		fmt.Fprintf(w, "dem: %v", demid)
 		// Insert Activity
 		// Get VolumeID
 		var volid int64
@@ -387,13 +405,9 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting volume info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request vol: %v", volid)
 		// Get InOutID
 		inout, _ := ctx.InOutsStore.GetByName(data.ActivityBasicInfo.Setting)
 		inoutid := inout.InOutID
-		// Debugging
-		fmt.Fprintf(w, "request inout: %v", inoutid)
 		// Get DistanceID
 		var distid int64
 		if data.Distancing == "lessThanSixFeet" {
@@ -412,8 +426,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting distance info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request dist: %v", distid)
 		// Get SelfMaskID
 		var selfid int64
 		if data.OwnMask == "noMask" {
@@ -432,8 +444,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting self mask info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request self: %v", selfid)
 		// Get OthersMaskID
 		
 		var othersid int64
@@ -453,8 +463,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting others mask info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request others: %v", othersid)
 		// NumWearers
 		var numwearers int64
 		if data.OthersMask.NumWearers == "" {
@@ -467,8 +475,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			}
 			numwearers = int64(nw)
 		}
-		// Debugging
-		fmt.Fprintf(w, "request nw: %v", int64(numwearers))
 		
 		// Insertion
 		np, err := strconv.Atoi(data.ActivityBasicInfo.Attendees)
@@ -508,13 +514,24 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				return
 			}
 		}
+		// Can combine the update and regular survey handlers
+		// Check which call this is - updated or not
+		surID := int64(-1)
+		if r.URL.Path == "/insert_updated_survey" {
+			// Get last survey id for user utilizing demid
+			surID, err = ctx.SurveysStore.GetLastSurvey(demid)
+			if err != nil {
+				http.Error(w, "405, error getting last survey id for user." + err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
 		// Insert Survey
 		newSurvey := &surveys.NewSurvey{
 			DemographicID: demid,
 			ActivityID:    actid,
 			GivenName:     "",
 			OverallScore:  data.RiskScore,
-			LastSurveyID:  -1,
+			LastSurveyID:  surID,
 		}
 		sur, err := newSurvey.ToSurvey()
 		if err != nil {
@@ -537,29 +554,7 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 }
 
 // Receives: Local storage
-// Returns: Nothing
-// Functions:
-// 	SELECT statements from all tables to get ids for values
-//	SELECT statement that gets last survey id for that user id/hash
-//	INSERT into TblActivity
-//  INSERT into TblSurvey
-func (ctx *HandlerContext) InsertUpdatedSurveyHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/insert_updated_survey" {
-		http.Error(w, "405, Page Not Found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "POST" {
-		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
-		return
-	} else {
-		fmt.Fprintf(w, "Congrats! Insert Updated Survey handler works!")
-		return
-	}
-}
-
-// Receives: Local storage
-// Returns: Recommendations based on survey
+// Returns: Recommendations based on survey, returns local storage object
 func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/recommendations" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -570,6 +565,24 @@ func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
+		// Make sure received data is in JSON form
+		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
+			return
+		}
+		var data req_data
+		body, _ := ioutil.ReadAll(r.Body)
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
+			return
+		}
+		if data.SurveyCompleted != true {
+			http.Error(w, "405, user has not completed survey.", http.StatusNotFound)
+				return
+		}
+		//
+
 		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
 		return
 	}
