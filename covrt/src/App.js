@@ -70,6 +70,16 @@ function App() {
 	const [personRisk, setPersonRisk] = useLocalStorage(null);
 	const [riskScore, setRiskScore] = useLocalStorage(null);
 
+	const updateAllSelections = (userLocation, vaccination, activityBasicInfo, distancing, speakingVolume, ownMask, othersMask) => {
+		setUserLocation(userLocation);
+		setVaccination(vaccination);
+		setActivityBasicInfo(activityBasicInfo);
+		setDistancing(distancing);
+		setSpeakingVolume(speakingVolume);
+		setOwnMask(ownMask);
+		setOthersMask(othersMask);
+	}
+
 	
 	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
@@ -167,6 +177,7 @@ function App() {
 		othersMask: othersMask,
 		updateOthersMaskType: updateOthersMaskType,
 		updateOthersMaskNumWearers: updateOthersMaskNumWearers,
+		updateAllSelections: updateAllSelections,
 		personRisk: personRisk,
 		setPersonRisk: updatePersonRisk,
 		riskScore: riskScore,
