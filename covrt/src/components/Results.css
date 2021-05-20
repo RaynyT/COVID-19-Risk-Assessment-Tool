@@ -166,6 +166,18 @@
     margin-top: 2rem;
 }
 
+.red {
+    color:#FE7E95
+}
+
+.yellow {
+    color: #F9D153;
+}
+
+.green {
+    color: #90C771;
+}
+
 @media (min-width: 768px) {
 
     .results-outer {
