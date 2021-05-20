@@ -263,7 +263,7 @@ export default function Calculator(props) {
             props.updateUserID(userID);
         }
 
-        // Update app state with completed survey
+        // Update app state with completed survey and retrieved person risk
         props.updateAllSelections(
             userLocationSelection,
             vaccinationSelection,
@@ -273,6 +273,8 @@ export default function Calculator(props) {
             ownMaskSelection,
             othersMaskSelection
         );
+
+        props.updatePersonRisk(personRisk);
 
         console.log("User selections and pesronRisk", {
             userLocation: userLocationSelection,
