@@ -47,14 +47,14 @@ export default function Results(props){
         setPage(value)
     }
 
-    let screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />;
+    let screen = <ResultsScreen {...props} setPage={changePageCallback} />;
     
     if (!props.surveyCompleted) {
         screen = <ErrorScreen />
     } else if (page === "results") {
-        screen = <ResultsScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />
+        screen = <ResultsScreen {...props} setPage={changePageCallback} />
     } else {
-        screen = <ReduceRiskScreen {...props} riskScore={props.riskScore} setPage={changePageCallback} />
+        screen = <ReduceRiskScreen {...props} setPage={changePageCallback} />
     }
 
     return (
@@ -96,6 +96,26 @@ function ResultsScreen(props) {
 
     const switchToReducePage = () => {
         props.setPage("reduce");
+    }
+
+    // Set risk level text and meter image
+    // Default to moderate
+    let riskLevelText = "Moderate Risk";
+    let riskLevelClass = "risk-title yellow";
+    let riskMeterImage = mediumRiskMeter;
+
+    if (false) {
+        riskLevelText = "Low Risk";
+        riskLevelClass = "risk-title green";
+        riskMeterImage = lowRiskMeter;
+    } else if (false) {
+        riskLevelText = "Moderate Risk";
+        riskLevelClass = "risk-title yellow";
+        riskMeterImage = mediumRiskMeter;
+    } else if (false) {
+        riskLevelText = "High Risk";
+        riskLevelClass = "risk-title red";
+        riskMeterImage = highRiskMeter;
     }
 
     let summarySubheading = "";
@@ -147,7 +167,8 @@ function ResultsScreen(props) {
             <div>
                 <h1 className="risk-title">Risk Summary</h1>
                 {summarySubheading}
-                <img className="risk-level-img" alt="Risk meter" src={highRiskMeter} />
+                <h2 className={riskLevelClass}>{riskLevelText}</h2>
+                <img className="risk-level-img" alt="Risk meter" src={riskMeterImage} />
             </div>
             <div className="horizontal-center">
                 <div>

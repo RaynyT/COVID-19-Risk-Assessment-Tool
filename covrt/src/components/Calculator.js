@@ -274,6 +274,18 @@ export default function Calculator(props) {
             othersMaskSelection
         );
 
+        console.log("User selections and pesronRisk", {
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
+            activityBasicInfo: activityBasicInfoSelection,
+            distancing: distancingSelection,
+            speakingVolume: speakingVolumeSelection,
+            ownMask: ownMaskSelection,
+            othersMask: othersMaskSelection,
+            personRisk: personRisk
+        }
+        )
+
         // Calculate and update risk score with completed survey
         let riskScore = calculateRiskScore({            
             userLocation: userLocationSelection,

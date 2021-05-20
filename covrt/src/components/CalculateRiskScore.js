@@ -15,6 +15,8 @@ export default function calculateRiskScore(props) {
         "kn95Mask": .3333333333,
         "noMask": 1
     }
+
+    console.log("Calculation inputs: ", props)
     
     let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
     
