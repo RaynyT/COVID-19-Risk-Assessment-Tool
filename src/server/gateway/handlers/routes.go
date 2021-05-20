@@ -463,8 +463,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting others mask info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request others: %v", othersid)
 		// NumWearers
 		var numwearers int64
 		if data.OthersMask.NumWearers == "" {
