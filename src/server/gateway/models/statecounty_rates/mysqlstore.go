@@ -2,6 +2,7 @@ package statecounty_rates
 
 import (
 	"database/sql"
+	"errors"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
@@ -129,4 +130,45 @@ func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 	} else {
 		return total.Tot, nil
 	}
+}
+
+type PTR struct {
+	Ptr float64
+}
+
+type Compare struct {
+	Comp float64
+}
+
+// PosTestRate Suggestion Aggregation and Comparison
+func (ms *MySQLStore) PosTestRateComparison(sc_id int64) (string, float64, error) {
+	selPTR := string("SELECT PosTestRateCounty FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),1)")
+	selAverage := string("SELECT AVG(PosTestRateCounty) FROM TblStateCounty_Rate WHERE Uploaded = SUBDATE(CURDATE(),1)")
+	rowPTR := ms.Database.QueryRow(selPTR, sc_id)
+
+	ptr := &PTR{}
+
+	if err := rowPTR.Scan(
+		&ptr.Ptr); err != nil {
+		return "", -1.0, err
+	}
+
+	rowCompare := ms.Database.QueryRow(selAverage)
+
+	comp := &Compare{}
+
+	if err := rowCompare.Scan(
+		&comp.Comp); err != nil {
+		return "", -1.0, err
+	}
+	if ptr.Ptr > comp.Comp {
+		return "higher", (ptr.Ptr / comp.Comp) * 100, nil
+	} else if ptr.Ptr < comp.Comp {
+		return "lower", (ptr.Ptr / comp.Comp) * 100, nil
+	} else if ptr.Ptr == comp.Comp {
+		return "equal", (ptr.Ptr / comp.Comp) * 100, nil
+	} else {
+		return "", -1.0, errors.New("Comparison is invalid.")
+	}
+	
 }
