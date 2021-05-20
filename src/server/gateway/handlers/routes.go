@@ -276,7 +276,7 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 //	INSERT into TblActivity
 //  INSERT into TblSurvey
 func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/insert_survey" {
+	if r.URL.Path != "/insert_survey" || r.URL.Path != "/insert_updated_survey" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
 		return
 	}
@@ -528,13 +528,24 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				return
 			}
 		}
+		// Can combine the update and regular survey handlers
+		// Check which call this is - updated or not
+		surID := int64(-1)
+		if r.URL.Path == "/insert_updated_survey" {
+			// Get last survey id for user utilizing demid
+			surID, err = ctx.SurveysStore.GetLastSurvey(demid)
+			if err != nil {
+				http.Error(w, "405, error getting last survey id for user." + err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
 		// Insert Survey
 		newSurvey := &surveys.NewSurvey{
 			DemographicID: demid,
 			ActivityID:    actid,
 			GivenName:     "",
 			OverallScore:  data.RiskScore,
-			LastSurveyID:  -1,
+			LastSurveyID:  surID,
 		}
 		sur, err := newSurvey.ToSurvey()
 		if err != nil {
@@ -556,6 +567,7 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 	}
 }
 
+/*
 // Receives: Local storage
 // Returns: Nothing
 // Functions:
@@ -829,9 +841,10 @@ func (ctx *HandlerContext) InsertUpdatedSurveyHandler(w http.ResponseWriter, r *
 		//return
 	}
 }
+*/
 
 // Receives: Local storage
-// Returns: Recommendations based on survey
+// Returns: Recommendations based on survey, returns local storage object
 func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/recommendations" {
 		http.Error(w, "405, Page Not Found", http.StatusNotFound)
@@ -842,7 +855,25 @@ func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
-		return
+		// Make sure received data is in JSON form
+		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
+			return
+		}
+		var data req_data
+		body, _ := ioutil.ReadAll(r.Body)
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
+			return
+		}
+		if data.SurveyCompleted != true {
+			http.Error(w, "405, user has not completed survey.", http.StatusNotFound)
+				return
+		}
+		//
+
+		//fmt.Fprintf(w, "Congrats! Recommendations handler works!")
+		//return
 	}
 }

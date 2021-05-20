@@ -136,7 +136,7 @@ func main() {
 	// post requests
 	mux.HandleFunc("/recommendations", hc.RecommendationsHandler)
 	mux.HandleFunc("/insert_survey", hc.InsertSurveyHandler)
-	mux.HandleFunc("/insert_updated_survey", hc.InsertUpdatedSurveyHandler)
+	mux.HandleFunc("/insert_updated_survey", hc.InsertSurveyHandler)
 	mux.HandleFunc("/retrieve_county_rates", hc.RetrieveCountyRatesHandler)
 
 	wrappedMux := handlers.NewCORS(mux)
