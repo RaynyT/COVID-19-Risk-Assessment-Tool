@@ -90,7 +90,6 @@ export default function Calculator(props) {
 	const [othersMaskSelection, setOthersMaskSelection] = useState(props.othersMask);
 
 	const [personRisk, setPersonRisk] = useState(null);
-	const [riskScore, setRiskScore] = useState(null);
 
     let pageScreen = <div></div>;
     let paginationDots =  (
@@ -218,7 +217,10 @@ export default function Calculator(props) {
 			attendees: attendees,
 			hours: hours,
 			minutes: minutes
-		});        
+		});
+        // Set othersMask.numWearers equivalent to attendees so it can't be null later
+        setOthersMaskSelection({ type: othersMaskSelection.type, numWearers: attendees });
+
         handleNextClick();
     }
 
@@ -238,10 +240,13 @@ export default function Calculator(props) {
 		setOthersMaskSelection({ type: maskType, numWearers: othersMaskSelection.numWearers });
 	}
 
-    // Set othersMask selections and call completeSurvey
+    const updateOthersMaskNumWearers = (num) => {
+        setOthersMaskSelection({ type: othersMaskSelection.type, numWearers: num })
+    }
+
+    // Call completeSurvey
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
-        setOthersMaskSelection({type: othersMaskSelection.type, numWearers: event.target.portion.value})
         completeSurvey();
     }
     
@@ -249,19 +254,13 @@ export default function Calculator(props) {
     // Update app level state, post survey to backend,
     // navigate to results screen
     const completeSurvey = () => {
-        // First time user
-        if (props.userID === null) {
-            props.updateUserID();
-        }
+        let userID = props.userID;
 
-        let surveySelections = {
-            userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
-            activityBasicInfo: activityBasicInfoSelection,
-            distancing: distancingSelection,
-            speakingVolume: speakingVolumeSelection,
-            ownMask: ownMaskSelection,
-            othersMask: othersMaskSelection
+        // If first time user
+        if (userID === null) {
+            // Generate new user Id
+            userID = (Math.random() * 100000000000000);
+            props.updateUserID(userID);
         }
 
         // Update app state with completed survey
@@ -276,21 +275,32 @@ export default function Calculator(props) {
         );
 
         // Calculate and update risk score with completed survey
-        props.updateRiskScore(calculateRiskScore({...props}));
+        let riskScore = calculateRiskScore({            
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
+            activityBasicInfo: activityBasicInfoSelection,
+            distancing: distancingSelection,
+            speakingVolume: speakingVolumeSelection,
+            ownMask: ownMaskSelection,
+            othersMask: othersMaskSelection,
+            personRisk: personRisk
+        });
+
+        props.updateRiskScore(riskScore);
         
         props.updateSurveryCompleted(true);
         
         let requestData = {
-            userID: props.userID,
-            userLocation: props.userLocation,
-            vaccination: props.vaccination,
-            activityBasicInfo: props.activityBasicInfo,
-            distancing: props.distancing,
-            speakingVolume: props.speakingVolume,
-            ownMask: props.ownMask,
-            othersMask: props.othersMask,
-            riskScore: props.riskScore,
-            surveyCompleted: props.surveyCompleted,
+            userID: userID,
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
+            activityBasicInfo: activityBasicInfoSelection,
+            distancing: distancingSelection,
+            speakingVolume: speakingVolumeSelection,
+            ownMask: ownMaskSelection,
+            othersMask: othersMaskSelection,
+            riskScore: riskScore,
+            surveyCompleted: true
         }
 
         axios.post('https://covidaware.ischool.uw.edu/insert_survey', requestData)
@@ -374,7 +384,8 @@ export default function Calculator(props) {
                 selectionCallback={updateOthersMaskTypeSelection} 
                 selection={othersMaskSelection.type}
                 formSubmitCallback={handleOthersMaskPageSubmit} 
-                numWearers={othersMaskSelection.numWearers} 
+                numWearers={othersMaskSelection.numWearers}
+                numWearersCallback={updateOthersMaskNumWearers}
                 attendees={activityBasicInfoSelection.attendees}
             />;
             break;
@@ -1237,10 +1248,17 @@ function OthersMaskPage(props) {
                     <Label>
                         Number of people wearing masks:
                         <Input required type="number" name="portion" id="portion" min="0" max={parseInt(props.attendees)} className="w-auto"
-                            value={sliderValue} onChange={e => setSliderValue(e.target.value)} />
+                            value={sliderValue} 
+                            onChange={e => {
+                                setSliderValue(e.target.value)
+                                props.numWearersCallback(e.target.value)
+                            }} />
                         <RangeSlider
                             value={sliderValue}
-                            onChange={changeEvent => setSliderValue(changeEvent.target.value) }
+                            onChange={changeEvent => {
+                                setSliderValue(changeEvent.target.value)
+                                props.numWearersCallback(changeEvent.target.value)
+                            }}
                             min={0}
                             max={parseInt(props.attendees)}
                         />
