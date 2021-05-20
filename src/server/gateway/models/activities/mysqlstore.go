@@ -75,13 +75,24 @@ func (ms *MySQLStore) GetByName(name string) (*Activity, error) {
 //Insert inserts the activity into the database, and returns
 //the newly-inserted Activity, complete with the DBMS-assigned ActivityID
 func (ms *MySQLStore) Insert(activity *Activity) (int64, error) {
-	ins := string("INSERT INTO TblActivity(VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?)")
-	res, err := ms.Database.Exec(ins, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.ActivityName, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
-	if err != nil {
-		return -1, err
+	var ins string
+	var lid int64
+	var lidErr error
+	if activity.ActivityName == "" {
+		ins = string("INSERT INTO TblActivity(VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,NULL,?,?,?,?)")
+		res, err := ms.Database.Exec(ins, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
+		if err != nil {
+			return -1, err
+		}
+		lid, lidErr = res.LastInsertId()
+	} else {
+		ins = string("INSERT INTO TblActivity(VolumeID, InOutID, DistanceID, SelfMaskID, OtherMasksID, ActivityName, NumPeople, NumPeopleMasks, DurationHours, DurationMinutes) VALUES(?,?,?,?,?,?,?,?,?,?)")
+		res, err := ms.Database.Exec(ins, activity.VolumeID, activity.InOutID, activity.DistanceID, activity.SelfMaskID, activity.OtherMasksID, activity.ActivityName, activity.NumPeople, activity.NumPeopleMasks, activity.DurationHours, activity.DurationMinutes)
+		if err != nil {
+			return -1, err
+		}
+		lid, lidErr = res.LastInsertId()
 	}
-
-	lid, lidErr := res.LastInsertId()
 	if lidErr != nil {
 		return -1, lidErr
 	}

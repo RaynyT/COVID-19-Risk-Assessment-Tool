@@ -307,6 +307,33 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 		var demid int64
 		useridconvert := fmt.Sprintf("%f", data.UserID)
 		userHash := sha256.Sum256([]byte(useridconvert))
+		// get location info
+		// Get StateID
+		state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+		if err != nil {
+			http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Get CountyID
+		county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+		if err != nil {
+			http.Error(w, "405, error getting county info.", http.StatusNotFound)
+			return
+		}
+		// Get StateCountyID
+		stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
+		if err != nil {
+			http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
+			return
+		}
+		// Get VaccineTypeID
+		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
+		// Debugging
+		fmt.Fprintf(w, "request data: %v", vaccine)
+		if err != nil {
+			http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
+			return
+		}
 		user, err := ctx.UsersStore.GetByCookieHash(fmt.Sprintf("%f", userHash))
 		if err != nil {
 			// if user is new insert into db
@@ -315,34 +342,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				http.Error(w, "405, error inserting new user." + err.Error(), http.StatusBadRequest)
 				return
 			}
-			// get location info
-			// Get StateID
-			state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
-			if err != nil {
-				http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
-				return
-			}
-			// Get CountyID
-			county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
-			if err != nil {
-				http.Error(w, "405, error getting county info.", http.StatusNotFound)
-				return
-			}
-			// Get StateCountyID
-			stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
-			if err != nil {
-				http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
-				return
-			}
-			// Get VaccineTypeID
-			vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
-			// Debugging
-			fmt.Fprintf(w, "request data: %v", vaccine)
-			if err != nil {
-				http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
-				return
-			}
-
 			// Insert into TblDemographic
 			newUserDemographic := &demographics.NewDemographic{
 				UserID:        userid,
@@ -369,6 +368,27 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				return
 			}
 			demid = dem.DemographicID
+			// Check if the user updated their location or vaccine information
+			// If yes, Update Demographic Table
+			if stateCounty.StateCountyID != dem.StateCountyID && vaccine != dem.VaccineTypeID {
+				err := ctx.DemographicsStore.Update("", stateCounty.StateCountyID, vaccine, userid)
+				if err != nil {
+					http.Error(w, "405, error updating location and vaccine" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			} else if stateCounty.StateCountyID != dem.StateCountyID {
+				err := ctx.DemographicsStore.Update("StateCountyID", stateCounty.StateCountyID, -1, userid)
+				if err != nil {
+					http.Error(w, "405, error updating location" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			} else if vaccine != dem.VaccineTypeID {
+				err := ctx.DemographicsStore.Update("VaccineTypeID", -1, vaccine, userid)
+				if err != nil {
+					http.Error(w, "405, error updating vaccine" + err.Error(), http.StatusBadRequest)
+					return
+				}
+			}
 		}
 		fmt.Fprintf(w, "dem: %v", demid)
 		// Insert Activity

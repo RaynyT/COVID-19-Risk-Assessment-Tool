@@ -86,11 +86,28 @@ func (ms *MySQLStore) Insert(demographic *Demographic) (int64, error) {
 
 
 //Update updates the demographic info with the associated user id
-func (ms *MySQLStore) Update(column string, id int64, userid int64) (error) {
-	ins := string("Update TblDemographic SET " + column + " = ?, UserUpdateDate = CURRENT_TIMESTAMP() WHERE UserID = ?")
-	_, err := ms.Database.Exec(ins, id, userid)
-	if err != nil {
-		return err
+func (ms *MySQLStore) Update(column string, locid int64, vacid int64, userid int64) (error) {
+	var ins string
+	if locid != -1 && vacid != -1 {
+		ins = string("UPDATE TblDemographic SET StateCountyID = ?, VaccineTypeID = ?, UserUpdateDate = CURRENT_TIMESTAMP() WHERE UserID = ?")
+		_, err := ms.Database.Exec(ins, locid, vacid, userid)
+		if err != nil {
+			return err
+		}
+		return nil
+	} else {
+		ins = string("UPDATE TblDemographic SET " + column + " = ?, UserUpdateDate = CURRENT_TIMESTAMP() WHERE UserID = ?")
+	}
+	if locid != -1 {
+		_, err := ms.Database.Exec(ins, locid, userid)
+		if err != nil {
+			return err
+		}
+	} else if vacid != -1 {
+		_, err := ms.Database.Exec(ins, vacid, userid)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
