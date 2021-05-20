@@ -15,6 +15,7 @@ export default function calculateRiskScore(props) {
         "kn95Mask": .3333333333,
         "noMask": 1
     }
+    
     let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
     
     // Determine vaccine efficacy
@@ -37,15 +38,17 @@ export default function calculateRiskScore(props) {
         (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
         // * Own mask type risk coefficent
         numericValues[props.ownMask] * 
-        // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
-        (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
+        // * ((Others mask type risk * percent of others wearing mask) + percent of others not wearing that mask)
+        ((numericValues[props.othersMask.type] * percentOthersWearingMask) + (1 - percentOthersWearingMask)) *
         // * Distancing risk * Volume risk
         numericValues[props.distancing] * numericValues[props.speakingVolume] *
         // * Vaccine efficacy
-        vaccineEfficacy *
+        vaccineEfficacy
         // * Person Risk
-        props.personRisk
+        //props.personRisk
         );
+    
+        console.log("calculation:", score);
     
     return score;
 }
