@@ -573,8 +573,260 @@ func (ctx *HandlerContext) InsertUpdatedSurveyHandler(w http.ResponseWriter, r *
 		http.Error(w, "406, Header Method Not Supported", http.StatusNotFound)
 		return
 	} else {
-		fmt.Fprintf(w, "Congrats! Insert Updated Survey handler works!")
-		return
+		// Make sure received data is in JSON form
+		if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+			http.Error(w, "405, request body must be in JSON", http.StatusNotFound)
+			return
+		}
+		var data req_data
+		body, _ := ioutil.ReadAll(r.Body)
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			http.Error(w, "JSON error: " + err.Error(), http.StatusBadRequest)
+			return
+		}
+		if data.SurveyCompleted != true {
+			http.Error(w, "405, user has not completed survey.", http.StatusNotFound)
+				return
+		}
+		
+		// if check for if user is new or not
+		var userid int64
+		var demid int64
+		useridconvert := fmt.Sprintf("%f", data.UserID)
+		userHash := sha256.Sum256([]byte(useridconvert))
+		// get location info
+		// Get StateID
+		state, err := ctx.StatesStore.GetByAbbr(data.UserLocation.StateCode)
+		if err != nil {
+			http.Error(w, "405, error getting state info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Get CountyID
+		county, err := ctx.CountiesStore.GetByName(data.UserLocation.County)
+		if err != nil {
+			http.Error(w, "405, error getting county info.", http.StatusNotFound)
+			return
+		}
+		// Get StateCountyID
+		stateCounty, err := ctx.StateCountiesStore.StateCounty(state.StateID, county.CountyID)
+		if err != nil {
+			http.Error(w, "405, error getting stateCounty info." + err.Error(), http.StatusNotFound)
+			return
+		}
+		// Get VaccineTypeID
+		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
+		// Debugging
+		fmt.Fprintf(w, "request data: %v", vaccine)
+		if err != nil {
+			http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
+			return
+		}
+		user, err := ctx.UsersStore.GetByCookieHash(fmt.Sprintf("%f", userHash))
+		if err != nil {
+			// if user is new insert into db
+			userid, err = ctx.UsersStore.Insert(fmt.Sprintf("%f", userHash))
+			if err != nil {
+				http.Error(w, "405, error inserting new user." + err.Error(), http.StatusBadRequest)
+				return
+			}
+			// Insert into TblDemographic
+			newUserDemographic := &demographics.NewDemographic{
+				UserID:        userid,
+				StateCountyID: stateCounty.StateCountyID,
+				VaccineTypeID: vaccine,
+			}
+			dem, err := newUserDemographic.ToDemographic()
+			if err != nil {
+				http.Error(w, "405, error creating demographic." + err.Error(), http.StatusBadRequest)
+				return
+			}
+			demid, err = ctx.DemographicsStore.Insert(dem)
+			if err != nil {
+				http.Error(w, "405, error inserting new demographic." + err.Error(), http.StatusBadRequest)
+				return
+			}
+		} else {
+			// Get UserID
+			userid = user.UserID
+			// Get DemographicID
+			dem, err :=  ctx.DemographicsStore.GetByUser(userid)
+			if err != nil {
+				http.Error(w, "405, error getting demographic with user id." + err.Error(), http.StatusBadRequest)
+				return
+			}
+			demid = dem.DemographicID
+		}
+		fmt.Fprintf(w, "dem: %v", demid)
+		// Insert Activity
+		// Get VolumeID
+		var volid int64
+		if data.SpeakingVolume == "notSpeaking" {
+			vol, _ := ctx.VolumesStore.GetByName("Speaking Minimally")
+			volid = vol.VolumeID
+		} else if data.SpeakingVolume == "normalSpeaking" {
+			vol, _ := ctx.VolumesStore.GetByName("Speaking Normally")
+			volid = vol.VolumeID
+		} else if data.SpeakingVolume == "loudSpeaking" {
+			vol, _ := ctx.VolumesStore.GetByName("Speaking Loudly / Shouting")
+			volid = vol.VolumeID
+		} else {
+			http.Error(w, "405, error getting volume info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Debugging
+		fmt.Fprintf(w, "request vol: %v", volid)
+		// Get InOutID
+		inout, _ := ctx.InOutsStore.GetByName(data.ActivityBasicInfo.Setting)
+		inoutid := inout.InOutID
+		// Debugging
+		fmt.Fprintf(w, "request inout: %v", inoutid)
+		// Get DistanceID
+		var distid int64
+		if data.Distancing == "lessThanSixFeet" {
+			dist, _ := ctx.DistancesStore.GetByName("<6 Feet")
+			distid = dist.DistanceID
+		} else if data.Distancing == "sixFeet" {
+			dist, _ := ctx.DistancesStore.GetByName("6+ Feet")
+			distid = dist.DistanceID
+		} else if data.Distancing == "nineFeet" {
+			dist, _ := ctx.DistancesStore.GetByName("9+ Feet")
+			distid = dist.DistanceID
+		} else if data.Distancing == "twelveFeetOrMore" {
+			dist, _ := ctx.DistancesStore.GetByName("12+ Feet")
+			distid = dist.DistanceID
+		} else {
+			http.Error(w, "405, error getting distance info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Debugging
+		fmt.Fprintf(w, "request dist: %v", distid)
+		// Get SelfMaskID
+		var selfid int64
+		if data.OwnMask == "noMask" {
+			self, _ := ctx.SelfMasksStore.GetByName("No Mask")
+			selfid = self.SelfMaskID
+		} else if data.OwnMask == "cottonMask" {
+			self, _ := ctx.SelfMasksStore.GetByName("Cotton Mask")
+			selfid = self.SelfMaskID
+		} else if data.OwnMask == "surgicalMask" {
+			self, _ := ctx.SelfMasksStore.GetByName("Surgical Mask")
+			selfid = self.SelfMaskID
+		} else if data.OwnMask == "kn95Mask" {
+			self, _ := ctx.SelfMasksStore.GetByName("KN95 Mask")
+			selfid = self.SelfMaskID
+		} else {
+			http.Error(w, "405, error getting self mask info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Debugging
+		fmt.Fprintf(w, "request self: %v", selfid)
+		// Get OthersMaskID
+		
+		var othersid int64
+		if data.OthersMask.Type == "noMask" {
+			others, _ := ctx.OthersMasksStore.GetByName("No Mask")
+			othersid = others.OtherMasksID
+		} else if data.OthersMask.Type == "cottonMask" {
+			others, _ := ctx.OthersMasksStore.GetByName("Cotton Mask")
+			othersid = others.OtherMasksID
+		} else if data.OthersMask.Type == "surgicalMask" {
+			others, _ := ctx.OthersMasksStore.GetByName("Surgical Mask")
+			othersid = others.OtherMasksID
+		} else if data.OthersMask.Type == "kn95Mask" {
+			others, _ := ctx.OthersMasksStore.GetByName("KN95 Mask")
+			othersid = others.OtherMasksID
+		} else {
+			http.Error(w, "405, error getting others mask info." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Debugging
+		fmt.Fprintf(w, "request others: %v", othersid)
+		// NumWearers
+		var numwearers int64
+		if data.OthersMask.NumWearers == "" {
+			numwearers = 0
+		} else {
+			nw, err := strconv.Atoi(data.OthersMask.NumWearers)
+			if err != nil {
+				http.Error(w, "405, error converting numweaerers to int." + err.Error(), http.StatusBadRequest)
+				return
+			}
+			numwearers = int64(nw)
+		}
+		// Debugging
+		fmt.Fprintf(w, "request nw: %v", int64(numwearers))
+		
+		// Insertion
+		np, err := strconv.Atoi(data.ActivityBasicInfo.Attendees)
+		if err != nil {
+			http.Error(w, "405, error converting attendees to int.", http.StatusBadRequest)
+			return
+		}
+		h, err := strconv.Atoi(data.ActivityBasicInfo.Hours)
+		if err != nil {
+			http.Error(w, "405, error converting hours to int.", http.StatusBadRequest)
+			return
+		}
+		m, err := strconv.Atoi(data.ActivityBasicInfo.Minutes)
+		if err != nil {
+			http.Error(w, "405, error converting minutes to int.", http.StatusBadRequest)
+			return
+		}
+		newActivity := &activities.NewActivity{
+			VolumeID:        volid,
+			InOutID:         inoutid,
+			DistanceID:      distid,
+			SelfMaskID:      selfid,
+			OtherMasksID:    othersid,
+			ActivityName:    "",
+			NumPeople:       int64(np),
+			NumPeopleMasks:  int64(numwearers),
+			DurationHours:   int64(h),
+			DurationMinutes: int64(m),
+		}
+		// Check if activity combination already exists
+		act, _ := newActivity.ToActivity()
+		actid, _ := ctx.ActivitiesStore.Exists(act)
+		if actid == -1 {
+			actid, err = ctx.ActivitiesStore.Insert(act)
+			if err != nil {
+				http.Error(w, "405, error inserting new activity." + err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
+		// Updated survey needs last survey id
+		// Get last survey id for user utilizing demid
+		surID, err := ctx.SurveysStore.GetLastSurvey(demid)
+		if err != nil {
+			http.Error(w, "405, error getting last survey id for user." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		// Insert Survey
+		newSurvey := &surveys.NewSurvey{
+			DemographicID: demid,
+			ActivityID:    actid,
+			GivenName:     "",
+			OverallScore:  data.RiskScore,
+			LastSurveyID:  surID,
+		}
+		sur, err := newSurvey.ToSurvey()
+		if err != nil {
+			http.Error(w, "405, error creating survey." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		_, err = ctx.SurveysStore.Insert(sur)
+		if err != nil {
+			http.Error(w, "405, error inserting new survey." + err.Error(), http.StatusBadRequest)
+			return
+		}
+		
+		// Respond to the client with:
+		// A status code of http.StatusCreated (201).
+		w.WriteHeader(200)
+
+		//fmt.Fprintf(w, "Congrats! Insert Updated Survey handler works!")
+		//return
 	}
 }
 

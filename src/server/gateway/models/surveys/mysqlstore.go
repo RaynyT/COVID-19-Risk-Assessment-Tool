@@ -120,3 +120,28 @@ func (ms *MySQLStore) AllSurveys(id int64, column string) (*[]Survey, error) {
 
 	return &surveys, nil
 }
+
+type SurID struct {
+	ID int64
+}
+
+// Returns most recent survey id for given demographic id
+func (ms *MySQLStore) GetLastSurvey(demid int64) (int64, error) {
+	sel := string("SELECT SurveyID FROM TblSurvey WHERE DemographicID = ? ORDER BY CreationDate DESC LIMIT 1")
+	
+	rows, err := ms.Database.Query(sel, demid)
+	if err != nil {
+		return -1, err
+	}
+	defer rows.Close()
+
+	id := &SurID{}
+
+	// Should never have more than one row, so only grab one
+	rows.Next()
+	if err := rows.Scan(
+		&id.ID); err != nil {
+		return -1, err
+	}
+	return id.ID, nil
+}
