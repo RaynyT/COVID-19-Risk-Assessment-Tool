@@ -329,8 +329,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 		}
 		// Get VaccineTypeID
 		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
-		// Debugging
-		fmt.Fprintf(w, "request data: %v", vaccine)
 		if err != nil {
 			http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
 			return
@@ -391,7 +389,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 				}
 			}
 		}
-		fmt.Fprintf(w, "dem: %v", demid)
 		// Insert Activity
 		// Get VolumeID
 		var volid int64
@@ -408,13 +405,9 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting volume info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request vol: %v", volid)
 		// Get InOutID
 		inout, _ := ctx.InOutsStore.GetByName(data.ActivityBasicInfo.Setting)
 		inoutid := inout.InOutID
-		// Debugging
-		fmt.Fprintf(w, "request inout: %v", inoutid)
 		// Get DistanceID
 		var distid int64
 		if data.Distancing == "lessThanSixFeet" {
@@ -433,8 +426,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting distance info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request dist: %v", distid)
 		// Get SelfMaskID
 		var selfid int64
 		if data.OwnMask == "noMask" {
@@ -453,8 +444,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			http.Error(w, "405, error getting self mask info." + err.Error(), http.StatusBadRequest)
 			return
 		}
-		// Debugging
-		fmt.Fprintf(w, "request self: %v", selfid)
 		// Get OthersMaskID
 		
 		var othersid int64
@@ -488,8 +477,6 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			}
 			numwearers = int64(nw)
 		}
-		// Debugging
-		fmt.Fprintf(w, "request nw: %v", int64(numwearers))
 		
 		// Insertion
 		np, err := strconv.Atoi(data.ActivityBasicInfo.Attendees)
@@ -598,7 +585,7 @@ func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http
 		}
 		//
 
-		//fmt.Fprintf(w, "Congrats! Recommendations handler works!")
-		//return
+		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
+		return
 	}
 }
