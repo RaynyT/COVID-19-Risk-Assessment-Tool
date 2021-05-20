@@ -77,6 +77,19 @@ export default function Calculator(props) {
     const [pageNum, setPageNum] = useState(startingPageNum);
     const [usingPreset, setUsingPreset] = useState(false);
 
+    // Calculator selections are stored in the calculator state before being
+    // updated to the App state in case the user quits mid survey
+    const [userLocationSelection, setUserLocationSelection] = useState({ stateCode: "WA", county: "King County" });
+	const [vaccinationSelection, setVaccinationSelection] = useState({ type: "none", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
+	const [activityBasicInfoSelection, setActivityBasicInfoSelection] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
+	const [distancingSelection, setDistancingSelection] = useState("none-selected");
+	const [speakingVolumeSelection, setSpeakingVolumeSelection] = useState("none-selected");
+	const [ownMaskSelection, setOwnMaskSelection] = useState("none-selected");
+	const [othersMaskSelection, setOthersMaskSelection] = useState({ type: "none-selected", numWearers: 100 });
+
+	const [personRisk, setPersonRisk] = useState(null);
+	const [riskScore, setRiskScore] = useState(null);
+
     let pageScreen = <div></div>;
     let paginationDots =  (
         <div className="calc-dots-container">
