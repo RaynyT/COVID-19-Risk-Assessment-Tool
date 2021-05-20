@@ -17,17 +17,6 @@ import Update from './components/Update.js'
 
 function App() {
 
-	// Google Analytics
-
-	const location = useLocation();
-
-	// Fired on every route change
-	useEffect(() => {
-		console.log(location.pathname + location.search)
-	  	ReactGA.pageview(location.pathname + location.search);
-	}, [location]);
-
-
 	// Hook from https://usehooks.com/useLocalStorage/
 	function useLocalStorage(key, initialValue) {
 		// State to store our value
