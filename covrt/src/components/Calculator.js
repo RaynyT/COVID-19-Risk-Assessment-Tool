@@ -89,7 +89,7 @@ export default function Calculator(props) {
 	const [ownMaskSelection, setOwnMaskSelection] = useState(props.ownMask);
 	const [othersMaskSelection, setOthersMaskSelection] = useState(props.othersMask);
 
-	const [personRisk, setPersonRisk] = useState(null);
+	const [personRisk, setPersonRisk] = useState(props.personRisk);
 
     let pageScreen = <div></div>;
     let paginationDots =  (
