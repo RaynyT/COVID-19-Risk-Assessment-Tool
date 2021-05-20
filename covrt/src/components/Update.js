@@ -154,7 +154,7 @@ export default function Update(props) {
             // * Own mask type risk coefficent
             numericValues[props.ownMask] *
             // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
-            (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
+            (numericValues[props.othersMask.type] * percentOthersWearingMask + (1 - percentOthersWearingMask)) *
             // * Distancing risk * Volume risk
             numericValues[props.distancing] * numericValues[props.speakingVolume] *
             // * Vaccine efficacy
