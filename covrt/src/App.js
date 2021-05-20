@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Landing from './components/Landing.js';
 import { Route } from 'react-router-dom';
