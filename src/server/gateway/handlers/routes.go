@@ -239,6 +239,12 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 			http.Error(w, "405, error getting aggregated stateCounty_Rate value. Err: " + err.Error(), http.StatusNotFound)
 			return
 		}
+		// Get posTestRate level and ratio for StateCountyID, compare to average posTestRate and return if higher, equal or lower
+		posTestRateComparedRet, posTestRateRatioRet, err := ctx.StateCounty_RatesStore.PosTestRateComparison(stateCounty.StateCountyID)
+		if err != nil {
+			http.Error(w, "405, error comparing average positve test rate to postive test rate for that county." + err.Error(), http.StatusNotFound)
+			return
+		}
 
 		// Last aggregation to return to web client
 		// DelayFactor / Population in millions
@@ -250,15 +256,19 @@ func (ctx *HandlerContext) RetrieveCountyRatesHandler(w http.ResponseWriter, r *
 		w.Header().Set("Content-Type", "application/json")
 		// A status code of http.StatusCreated (201) to indicate that a new resource was created.
 		w.WriteHeader(201)
-		// The new user profile in the response body, encoded as a JSON object.
+		// The rates for given county in the response body, encoded as a JSON object.
 		ret, _ := json.Marshal(&struct {
-			PosTestRate      float64 `json:"posTestRate"`
-			DelayPopQuotient float64 `json:"delayPopQuotient"`
-			ReportedCases    int64   `json:"reportedCases"`
+			PosTestRate         float64 `json:"posTestRate"`
+			DelayPopQuotient    float64 `json:"delayPopQuotient"`
+			ReportedCases       int64   `json:"reportedCases"`
+			PosTestRateCompared string  `json:"posTestRateCompared"`
+			PosTestRateRatio    float64 `json:"posTestRateRatio"`
 		}{
-			PosTestRate:      posTestRateRet,
-			DelayPopQuotient: delayPopQuotientRet,
-			ReportedCases:    reportedCasesRet,
+			PosTestRate:         posTestRateRet,
+			DelayPopQuotient:    delayPopQuotientRet,
+			ReportedCases:       reportedCasesRet,
+			PosTestRateCompared: posTestRateComparedRet,
+			PosTestRateRatio:    posTestRateRatioRet,
 		})
 		w.Write([]byte(ret))
 		
@@ -581,9 +591,71 @@ func (ctx *HandlerContext) RecommendationsHandler(w http.ResponseWriter, r *http
 			http.Error(w, "405, user has not completed survey.", http.StatusNotFound)
 				return
 		}
-		//
 
-		fmt.Fprintf(w, "Congrats! Recommendations handler works!")
-		return
+		settingRet := ""
+		distancingRet := ""
+		speakingVolumeRet := ""
+		ownMaskRet := ""
+		othersMaskTypeRet := ""
+		// Get suggested setting, "" if already best
+		inout, _ := ctx.InOutsStore.GetByName(data.ActivityBasicInfo.Setting)
+		if inout.InOutName != "Outdoors"  {
+			settingRet = "outdoors"
+		}
+		// Get suggested distancing, "" if already best
+		if data.Distancing == "lessThanSixFeet" {
+			distancingRet = "sixFeet"
+		} else if data.Distancing == "sixFeet" {
+			distancingRet = "nineFeet"
+		} else if data.Distancing == "nineFeet" {
+			distancingRet = "twelveFeetOrMore"
+		}
+		// Get suggested speakingVolume, "" if already best
+		if data.SpeakingVolume == "loudSpeaking" {
+			speakingVolumeRet = "normalSpeaking"
+		} else if data.SpeakingVolume == "normalSpeaking" {
+			speakingVolumeRet = "notSpeaking"
+		}
+		// Get suggested ownMask, "" if already best
+		if data.OwnMask == "noMask" {
+			ownMaskRet = "cottonMask"
+		} else if data.OwnMask == "cottonMask" {
+			ownMaskRet = "surgicalMask"
+		} else if data.OwnMask == "surgicalMask" {
+			ownMaskRet = "kn95Mask"
+		}
+		// Get suggested othersMaskType, "" if already best
+		if data.OthersMask.Type == "noMask" {
+			othersMaskTypeRet = "cottonMask"
+		} else if data.OthersMask.Type == "cottonMask" {
+			othersMaskTypeRet = "surgicalMask"
+		} else if data.OthersMask.Type == "surgicalMask" {
+			othersMaskTypeRet = "kn95Mask"
+		}
+
+		// Respond to the client with:
+		// A response Content-Type header set to application/json to indicate that the
+		// response body is encoded as JSON.
+		w.Header().Set("Content-Type", "application/json")
+		// A status code of http.StatusCreated (201) to indicate that a new resource was created.
+		w.WriteHeader(201)
+		// The new user profile in the response body, encoded as a JSON object.
+		ret, _ := json.Marshal(&struct {
+			Setting             string  `json:"setting"`
+			Distancing          string  `json:"distancing"`
+			SpeakingVolume      string  `json:"speakingVolume"`
+			OwnMask             string  `json:"ownMask"`
+			OthersMaskType      string  `json:"othersMaskType"`
+		}{
+			Setting:             settingRet,
+			Distancing:          distancingRet,
+			SpeakingVolume:      speakingVolumeRet,
+			OwnMask:             ownMaskRet,
+			OthersMaskType:      othersMaskTypeRet,
+		})
+		w.Write([]byte(ret))
+		
+		//fmt.Fprintf(w, "Congrats! Recommendations handler works!")
+		//return
 	}
 }

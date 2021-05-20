@@ -17,4 +17,7 @@ type Store interface {
 
 	//HelperAggregator aggregates number of new cases for given week
 	HelperAggregator(id int64, week string) (int64, error)
+
+	//PosTestRateComparison Aggregation for Suggestions
+	PosTestRateComparison(sc_id int64) (string, float64, error)
 }
