@@ -187,7 +187,7 @@ export default function Calculator(props) {
             if (twoWeeks === "no") {
                 effectiveDoseNumber--;
             }
-
+            
             setVaccinationSelection({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
@@ -304,10 +304,17 @@ export default function Calculator(props) {
         
         props.updateSurveryCompleted(true);
         
+
+        // Convert dose numbers to string for backend
+        let vaxData = vaccinationSelection;
+        vaxData.doseNumber = toString(vaxData.doseNumber);
+        vaxData.effectiveDoseNumber = toString(vaxData.effectiveDoseNumber);
+        console.log(vaxData);
+
         let requestData = {
             userID: userID,
             userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
+            vaccination: vaxData,
             activityBasicInfo: activityBasicInfoSelection,
             distancing: distancingSelection,
             speakingVolume: speakingVolumeSelection,
