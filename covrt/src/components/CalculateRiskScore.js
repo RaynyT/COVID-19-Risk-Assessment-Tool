@@ -43,9 +43,9 @@ export default function calculateRiskScore(props) {
         // * Distancing risk * Volume risk
         numericValues[props.distancing] * numericValues[props.speakingVolume] *
         // * Vaccine efficacy
-        vaccineEfficacy
+        vaccineEfficacy *
         // * Person Risk
-        //props.personRisk
+        props.personRisk
         );
     
         console.log("calculation:", score);
