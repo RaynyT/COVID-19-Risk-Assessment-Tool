@@ -15,8 +15,6 @@ import Dashboard from './components/Dashboard.js';
 import About from './components/About.js';
 import Update from './components/Update.js'
 
-ReactGA.initialize("G-VRR6ZEDVZM");
-
 function App() {
 
 	// Google Analytics
