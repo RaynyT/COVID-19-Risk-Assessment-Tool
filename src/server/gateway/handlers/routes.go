@@ -155,8 +155,8 @@ type req_loc struct {
 
 type req_vac struct {
 	Type                string
-	DoseNumber          int64
-	EffectiveDoseNumber int64
+	DoseNumber          string
+	EffectiveDoseNumber string
 	TwoWeeks            string
 }
 
@@ -168,7 +168,7 @@ type req_act struct {
 }
 
 type req_om struct {
-	Type          string
+	Type       string
 	NumWearers string
 }
 
@@ -338,9 +338,9 @@ func (ctx *HandlerContext) InsertSurveyHandler(w http.ResponseWriter, r *http.Re
 			return
 		}
 		// Get VaccineTypeID
-		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, int64(data.Vaccination.EffectiveDoseNumber))
+		vaccine, err := ctx.VaccineTypesStore.GetByTypeDose(data.Vaccination.Type, data.Vaccination.EffectiveDoseNumber)
 		if err != nil {
-			http.Error(w, "405, error getting vaccination info.", http.StatusNotFound)
+			http.Error(w, "405, error getting vaccination info." + err.Error(), http.StatusNotFound)
 			return
 		}
 		user, err := ctx.UsersStore.GetByCookieHash(fmt.Sprintf("%f", userHash))

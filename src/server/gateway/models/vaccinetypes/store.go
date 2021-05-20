@@ -19,5 +19,5 @@ type Store interface {
 	AllVaccineTypes(rc float64) (*[]VaccineType, error)
 
 	//GetByTypeDose uses a vaccine type and dose to send back the vaccine primary key
-	GetByTypeDose(t string, dose int64) (int64, error)
+	GetByTypeDose(t string, dose string) (int64, error)
 }
