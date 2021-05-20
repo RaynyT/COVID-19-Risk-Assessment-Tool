@@ -179,7 +179,7 @@ function App() {
 		updateOthersMaskNumWearers: updateOthersMaskNumWearers,
 		updateAllSelections: updateAllSelections,
 		personRisk: personRisk,
-		setPersonRisk: updatePersonRisk,
+		updatePersonRisk: updatePersonRisk,
 		riskScore: riskScore,
 		updateRiskScore: updateRiskScore,
 		surveyCompleted: surveyCompleted,
