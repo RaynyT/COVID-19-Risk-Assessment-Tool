@@ -1,8 +1,6 @@
 import './App.css';
 
 import { useState, useEffect } from 'react';
-import { useLocation,} from 'react-router-dom';
-import ReactGA from 'react-ga';
 
 import Landing from './components/Landing.js';
 import { Route } from 'react-router-dom';
@@ -54,6 +52,7 @@ function App() {
 	
 	const[userID, setUserID] = useLocalStorage("userID", null);
 
+	// Distinguishes between first time users and users who have completed at least one survey
 	const[surveyCompleted, setSurveyCompleted] = useLocalStorage("surveyCompleted", false);
 
 	// Selections on the risk survey are saved as site-wide state variables as they are relevant
@@ -67,10 +66,15 @@ function App() {
 	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "none-selected");
 	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: 100 });
 
-	const [personRisk, setPersonRisk] = useLocalStorage(null);
-	const [riskScore, setRiskScore] = useLocalStorage(null);
+	const [personRisk, setPersonRisk] = useLocalStorage("personRisk", null);
+	const [riskScore, setRiskScore] = useLocalStorage("riskScore", null);
 
 	const updateAllSelections = (userLocation, vaccination, activityBasicInfo, distancing, speakingVolume, ownMask, othersMask) => {
+
+		console.log("Called");
+		
+		console.log(activityBasicInfo);
+
 		setUserLocation(userLocation);
 		setVaccination(vaccination);
 		setActivityBasicInfo(activityBasicInfo);

@@ -6,6 +6,7 @@ import { Button, FormGroup, Label, Input, Form, Card, CardBody, Collapse, Toolti
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import RangeSlider from 'react-bootstrap-range-slider';
 import LocalizedStrings from 'react-localization';
+import calculateRiskScore from './CalculateRiskScore.js';
 
 import locationImage from '../images/space-search.svg';
 import doctorsImage from '../images/doctors.svg'
@@ -64,13 +65,14 @@ export default function Calculator(props) {
     
     let startingPageNum = 1;
         
-    // If user has navigated here by coming back from the results page
-    // start them on the last screen of the calculator
     if (props.location.fromResults) {
+        // Start at last screen
         startingPageNum = 9;
     } else if (props.location.fromStartNewButton) {
+        // Skip demographic pages
         startingPageNum = 4;
     } else if (props.surveyCompleted) {
+        // Skip disclaimer
         startingPageNum = 2;
     }
 
@@ -79,13 +81,13 @@ export default function Calculator(props) {
 
     // Calculator selections are stored in the calculator state before being
     // updated to the App state in case the user quits mid survey
-    const [userLocationSelection, setUserLocationSelection] = useState({ stateCode: "WA", county: "King County" });
-	const [vaccinationSelection, setVaccinationSelection] = useState({ type: "none", doseNumber: 0, effctiveDoseNumber: 0, twoWeeks: null});
-	const [activityBasicInfoSelection, setActivityBasicInfoSelection] = useState({ setting: "none-selected", attendees: null, hours: null,  minutes: null});
-	const [distancingSelection, setDistancingSelection] = useState("none-selected");
-	const [speakingVolumeSelection, setSpeakingVolumeSelection] = useState("none-selected");
-	const [ownMaskSelection, setOwnMaskSelection] = useState("none-selected");
-	const [othersMaskSelection, setOthersMaskSelection] = useState({ type: "none-selected", numWearers: 100 });
+    const [userLocationSelection, setUserLocationSelection] = useState(props.userLocation);
+	const [vaccinationSelection, setVaccinationSelection] = useState(props.vaccination);
+	const [activityBasicInfoSelection, setActivityBasicInfoSelection] = useState(props.activityBasicInfo);
+	const [distancingSelection, setDistancingSelection] = useState(props.distancing);
+	const [speakingVolumeSelection, setSpeakingVolumeSelection] = useState(props.speakingVolume);
+	const [ownMaskSelection, setOwnMaskSelection] = useState(props.ownMask);
+	const [othersMaskSelection, setOthersMaskSelection] = useState(props.othersMask);
 
 	const [personRisk, setPersonRisk] = useState(null);
 	const [riskScore, setRiskScore] = useState(null);
@@ -105,16 +107,18 @@ export default function Calculator(props) {
         setPageNum(pageNum - 1);
     }
 
+    // State code is handled separate from whole location so the county list can re-render
     const handleStateCodeChange = (event) => {
-        props.updateStateSelection(event.target.value);
+        setUserLocationSelection({stateCode: event.target.value, county: userLocationSelection.county});
     }
 
+    // Update location selections and send request to backend for county level covid rates
     const handleLocationPageSubmit = (event) => {
         event.preventDefault();
-        props.updateLocation(
-            event.target.state.value,
-            event.target.county.value
-        );
+        setUserLocationSelection({
+            stateCode: event.target.state.value,
+            county: event.target.county.value
+        });
 
         let requestData = {
             StateCode: event.target.state.value,
@@ -138,8 +142,7 @@ export default function Calculator(props) {
 
             let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
             
-            props.setPersonRisk(personRisk);
-            console.log(personRisk);
+            setPersonRisk(personRisk);
         })
         .catch(error => console.log(error));
 
@@ -147,18 +150,28 @@ export default function Calculator(props) {
     }
 
     // The vaccine selection is handled separate from the vaccine page submission
-    // so that the state will change and re-render the form based on vaccine type
+    // so the dose number form will re-render based on the selection
     const handleVaccineTypeChange = (event) => {
-        props.updateVaccineType(event.target.value);
+        setVaccinationSelection({
+            type: event.target.value,
+            doseNumber: vaccinationSelection.doseNumber,
+            twoWeeks: vaccinationSelection.twoWeeks 
+        });
     }
 
+    // Determine how effective dose number based on twoWeeks variable, and update selection
     const handleVaccinePageSubmit = (event) => {
         event.preventDefault();
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
         if (event.target.vaccine.value === "none") {
-            props.updateVaccination({ type: "none", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
+            setVaccinationSelection({
+                type: "none",
+                doseNumber: 0,
+                effectiveDoseNumber: 0,
+                twoWeeks: null
+            });
         }else {
             let twoWeeks = event.target.weeks.value;
 
@@ -176,7 +189,7 @@ export default function Calculator(props) {
                 effectiveDoseNumber--;
             }
 
-            props.updateVaccination({ 
+            setVaccinationSelection({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
                 effectiveDoseNumber: effectiveDoseNumber,
@@ -191,82 +204,83 @@ export default function Calculator(props) {
         setUsingPreset(presetUsed);
     }
 
+    const updateSelectionsWithPreset = (preset) => {
+		setActivityBasicInfoSelection(preset.activityBasicInfo);
+		setDistancingSelection(preset.distancing);
+		setSpeakingVolumeSelection(preset.volume);
+		setOwnMaskSelection(preset.ownMask);
+		setOthersMaskSelection(preset.othersMask);
+	}
+
     const handleActivityPageSubmit = (setting, attendees, hours, minutes) => {
-        props.updateActivityBasicInfo(setting, attendees, hours, minutes);
+		setActivityBasicInfoSelection({
+			setting: setting,
+			attendees: attendees,
+			hours: hours,
+			minutes: minutes
+		});        
         handleNextClick();
     }
 
+    const updateDistancingSelection = (distance) => {
+		setDistancingSelection(distance);
+	}
+
+	const updateSpeakingVolumeSelection = (volume) => {
+		setSpeakingVolumeSelection(volume);
+	}
+
+	const updateOwnMaskSelection = (maskType) => {
+		setOwnMaskSelection(maskType);
+	}
+
+	const updateOthersMaskTypeSelection = (maskType) => {
+		setOthersMaskSelection({ type: maskType, numWearers: othersMaskSelection.numWearers });
+	}
+
+    // Set othersMask selections and call completeSurvey
     const handleOthersMaskPageSubmit = (event) => {
         event.preventDefault();
-        props.updateOthersMaskNumWearers(event.target.portion.value);
+        setOthersMaskSelection({type: othersMaskSelection.type, numWearers: event.target.portion.value})
         completeSurvey();
-    }
-
-    const calculateRiskScore = () => {
-        
-        const numericValues = {
-            "indoors": 1,
-            "outdoors": .05,
-            "lessThanSixFeet": 1,
-            "sixFeet": .5,
-            "nineFeet": .25,
-            "twelveFeetOrMore": .125,
-            "notSpeaking": .20,
-            "normalSpeaking": 1,
-            "loudSpeaking": 5,
-            "cottonMask": .6666666666,
-            "surgicalMask": .5,
-            "kn95Mask": .3333333333,
-            "noMask": 1
-        }
-        let percentOthersWearingMask = props.othersMask.numWearers / props.activityBasicInfo.attendees
-        
-        // Determine vaccine efficacy
-        let vaccineEfficacy = 1;
-        let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
-        if (doseInt === 1) {
-            vaccineEfficacy = .56;
-        } else if (doseInt === 2) {
-            if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
-                vaccineEfficacy = .1;
-            } else {
-                vaccineEfficacy = .4;
-            }
-        }
-        
-        let score = (
-            // Activity setting risk coefficient * Number of attendees
-            numericValues[props.activityBasicInfo.setting] * props.activityBasicInfo.attendees *
-            // * Duration in hours
-            (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
-            // * Own mask type risk coefficent
-            numericValues[props.ownMask] * 
-            // * (Others mask type risk * percent of others wearing mask + (100 - percent of others wearing mask))
-            (numericValues[props.othersMask.type] * percentOthersWearingMask + (100 - percentOthersWearingMask)) *
-            // * Distancing risk * Volume risk
-            numericValues[props.distancing] * numericValues[props.speakingVolume] *
-            // * Vaccine efficacy
-            vaccineEfficacy *
-            // * Person Risk
-            props.personRisk
-            );
-        
-        return score;
     }
     
     // Create userID if new user, set surveyComplete
-    // post survey, navigate to results
+    // Update app level state, post survey to backend,
+    // navigate to results screen
     const completeSurvey = () => {
         // First time user
         if (props.userID === null) {
             props.updateUserID();
         }
 
-        props.updateRiskScore(calculateRiskScore());
+        let surveySelections = {
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
+            activityBasicInfo: activityBasicInfoSelection,
+            distancing: distancingSelection,
+            speakingVolume: speakingVolumeSelection,
+            ownMask: ownMaskSelection,
+            othersMask: othersMaskSelection
+        }
 
+        // Update app state with completed survey
+        props.updateAllSelections(
+            userLocationSelection,
+            vaccinationSelection,
+            activityBasicInfoSelection,
+            distancingSelection,
+            speakingVolumeSelection,
+            ownMaskSelection,
+            othersMaskSelection
+        );
+
+        // Calculate and update risk score with completed survey
+        props.updateRiskScore(calculateRiskScore({...props}));
+        
         props.updateSurveryCompleted(true);
         
-        let surveyData = {
+        let requestData = {
             userID: props.userID,
             userLocation: props.userLocation,
             vaccination: props.vaccination,
@@ -279,7 +293,7 @@ export default function Calculator(props) {
             surveyCompleted: props.surveyCompleted,
         }
 
-        axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/insert_survey', requestData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
@@ -300,7 +314,7 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick}
                 stateSelectionCallback={handleStateCodeChange} 
                 submitCallback={handleLocationPageSubmit}
-                selection={props.userLocation} 
+                selection={userLocationSelection} 
             />;
             break;
         case 3:
@@ -308,24 +322,24 @@ export default function Calculator(props) {
                 backClickCallback={handleBackClick}
                 submitCallback={handleVaccinePageSubmit}
                 vaccineTypeCallback={handleVaccineTypeChange}
-                selection={props.vaccination}
+                selection={vaccinationSelection}
             />;
             break;
         case 4:
             pageScreen = <PresetPage 
                 nextClickCallback={handleNextClick} 
                 backClickCallback={handleBackClick}
-                fillWithPresetCallback={props.updateWithPreset}
+                fillWithPresetCallback={updateSelectionsWithPreset}
                 updatePresetUsedCallback={handlePresetActivityState}
             />;
             break;
         case 5:
             pageScreen = <ActivityPage
                 backClickCallback={handleBackClick}
-                setting={props.activityBasicInfo.setting}
-                attendees={props.activityBasicInfo.attendees}
-                hours={props.activityBasicInfo.hours}
-                minutes={props.activityBasicInfo.minutes}
+                setting={activityBasicInfoSelection.setting}
+                attendees={activityBasicInfoSelection.attendees}
+                hours={activityBasicInfoSelection.hours}
+                minutes={activityBasicInfoSelection.minutes}
                 usingPreset={usingPreset}
                 submitCallback={handleActivityPageSubmit}
             />;
@@ -334,34 +348,34 @@ export default function Calculator(props) {
             pageScreen = <SocialDistancePage 
                 backClickCallback={handleBackClick}
                 nextClickCallback={handleNextClick}
-                selectionCallback={props.updateDistancing} 
-                selection={props.distancing} 
+                selectionCallback={updateDistancingSelection} 
+                selection={distancingSelection} 
             />;
             break;
         case 7:
             pageScreen = <TalkingPage 
                 backClickCallback={handleBackClick}
                 nextClickCallback={handleNextClick}
-                selectionCallback={props.updateSpeakingVolume} 
-                selection={props.speakingVolume} 
+                selectionCallback={updateSpeakingVolumeSelection} 
+                selection={speakingVolumeSelection} 
             />;
             break;
         case 8:
             pageScreen = <OwnMaskPage 
                 nextClickCallback={handleNextClick} 
                 backClickCallback={handleBackClick}
-                selectionCallback={props.updateOwnMask} 
-                selection={props.ownMask} 
+                selectionCallback={updateOwnMaskSelection} 
+                selection={ownMaskSelection} 
             />;
             break;
         case 9:
             pageScreen = <OthersMaskPage 
                 backClickCallback={handleBackClick}
-                selectionCallback={props.updateOthersMaskType} 
-                selection={props.othersMask.type}
+                selectionCallback={updateOthersMaskTypeSelection} 
+                selection={othersMaskSelection.type}
                 formSubmitCallback={handleOthersMaskPageSubmit} 
-                numWearers={props.othersMask.numWearers} 
-                attendees={props.activityBasicInfo.attendees}
+                numWearers={othersMaskSelection.numWearers} 
+                attendees={activityBasicInfoSelection.attendees}
             />;
             break;
         default:
