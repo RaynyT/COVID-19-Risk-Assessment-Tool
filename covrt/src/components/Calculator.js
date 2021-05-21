@@ -450,10 +450,7 @@ function DisclaimerPage(props) {
                         If you would like more information regarding this, please visit our <Link to="/about">FAQ</Link>
                     </p>
                     <p className="disclaimer-body">
-                        The COVID-19 related data utilized in this app is updated weekly:
-                    </p>
-                    <p className="disclaimer-body last-update-date">
-                        Last updated: <span className="blue">Mar 11, 2021</span>
+                        The county COVID-19 rates utilized in this app are updated daily
                     </p>
                 </div>
             </div>
