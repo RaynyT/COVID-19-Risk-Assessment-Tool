@@ -47,8 +47,6 @@ export default function calculateRiskScore(props) {
         // * Person Risk
         props.personRisk
         );
-    
-        console.log("calculation:", score);
-    
+        
     return score;
 }

@@ -184,8 +184,6 @@ export default function Calculator(props) {
                 effectiveDoseNumber = event.target.doses.value;
             }
 
-            console.log("Set doseNumber to:", doseNumber)
-
             // If it hasn't been two weeks since the last dose, don't count it
             if (twoWeeks === "no") {
                 effectiveDoseNumber--;
@@ -266,8 +264,6 @@ export default function Calculator(props) {
             props.updateUserID(userID);
         }
 
-        console.log("VaccinationSelection to app state is:", vaccinationSelection)
-
         // Update app state with completed survey and retrieved person risk
         props.updateAllSelections(
             userLocationSelection,
@@ -280,18 +276,6 @@ export default function Calculator(props) {
         );
 
         props.updatePersonRisk(personRisk);
-
-        console.log("User selections and pesronRisk", {
-            userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
-            activityBasicInfo: activityBasicInfoSelection,
-            distancing: distancingSelection,
-            speakingVolume: speakingVolumeSelection,
-            ownMask: ownMaskSelection,
-            othersMask: othersMaskSelection,
-            personRisk: personRisk
-        }
-        )
 
         // Calculate and update risk score with completed survey
         let riskScore = calculateRiskScore({            
