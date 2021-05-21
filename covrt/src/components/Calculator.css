@@ -165,6 +165,7 @@
 
 .img-btn-selected {
     border-color: #4A7CE2;
+    border-width: thick;
 }
 
 .img-btn-content {
