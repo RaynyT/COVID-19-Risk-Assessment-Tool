@@ -88,14 +88,16 @@ export default function Update(props) {
             twoWeeks: vaccinationSelection.twoWeeks 
         });
     }
-    // Determine how effective dose number based on twoWeeks variable, and complete survey
+    // Determine the effective dose number based on twoWeeks variable
+    // Instead of updating the selection state, pass the values to
+    // completeSurvey since this is the last stage of the update page
     const handleVaccinePageSubmit = (event) => {
         event.preventDefault();
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
         if (event.target.vaccine.value === "none") {
-            setVaccinationSelection({
+            completeSurvey({
                 type: "none",
                 doseNumber: 0,
                 effectiveDoseNumber: 0,
@@ -103,6 +105,8 @@ export default function Update(props) {
             });
         }else {
             let twoWeeks = event.target.weeks.value;
+
+            console.log("Update two weeks", twoWeeks);
 
             let doseNumber = 0;
             let effectiveDoseNumber = 1;
@@ -118,23 +122,21 @@ export default function Update(props) {
                 effectiveDoseNumber--;
             }
             
-            setVaccinationSelection({ 
+            completeSurvey({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
                 effectiveDoseNumber: effectiveDoseNumber,
                 twoWeeks: twoWeeks
-            });
-
+            })
         }
-        completeSurvey();
     }
 
-    const completeSurvey = () => {
+    const completeSurvey = (vaccineFinalSelection) => {
 
         // Calculate and update risk score with new updates and old selections
         let riskScore = calculateRiskScore({            
             userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
+            vaccination: vaccineFinalSelection,
             activityBasicInfo: props.activityBasicInfo,
             distancing: props.distancing,
             speakingVolume: props.speakingVolume,
@@ -142,17 +144,17 @@ export default function Update(props) {
             othersMask: props.othersMask,
             personRisk: personRisk
         });
-        console.log("updated risk score: ", riskScore);
         props.updateRiskScore(riskScore);
 
         // Update App state with new selections
-        props.updateVaccination(vaccinationSelection);
+        console.log("Updated vaccine selection: ", vaccineFinalSelection);
+        props.updateVaccination(vaccineFinalSelection);
         props.updateLocation(userLocationSelection.stateCode, userLocationSelection.county);
 
         let requestData = {
             userID: props.userID,
             userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
+            vaccination: vaccineFinalSelection,
             activityBasicInfo: props.activityBasicInfo,
             distancing: props.distancing,
             speakingVolume: props.speakingVolume,
