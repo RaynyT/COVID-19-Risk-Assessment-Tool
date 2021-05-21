@@ -23,6 +23,10 @@ export default function Update(props) {
 
     const [pageNum, setPageNum] = useState(startingPageNum);
 
+    const [userLocationSelection, setUserLocationSelection] = useState(props.userLocation);
+    const [personRisk, setPersonRisk] = useState(props.personRisk);
+	const [vaccinationSelection, setVaccinationSelection] = useState(props.vaccination);
+
     let pageScreen = <div></div>;
 
     const handleNextClick = () => {
@@ -33,16 +37,18 @@ export default function Update(props) {
         setPageNum(pageNum - 1);
     }
 
+    // State code is handled separate from whole location so the county list can re-render
     const handleStateCodeChange = (event) => {
-        props.updateStateSelection(event.target.value);
+        setUserLocationSelection({stateCode: event.target.value, county: userLocationSelection.county});
     }
 
+    // Update location selections and send request to backend for county level covid rates
     const handleLocationPageSubmit = (event) => {
         event.preventDefault();
-        props.updateLocation(
-            event.target.state.value,
-            event.target.county.value
-        );
+        setUserLocationSelection({
+            stateCode: event.target.state.value,
+            county: event.target.county.value
+        });
 
         let requestData = {
             StateCode: event.target.state.value,
@@ -66,7 +72,7 @@ export default function Update(props) {
 
             let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
             
-            props.updatePersonRisk(personRisk);
+            setPersonRisk(personRisk);
         })
         .catch(error => console.log(error));
 
@@ -74,19 +80,27 @@ export default function Update(props) {
     }
 
     // The vaccine selection is handled separate from the vaccine page submission
-    // so that the state will change and re-render the form based on vaccine type
+    // so the dose number form will re-render based on the selection
     const handleVaccineTypeChange = (event) => {
-        props.updateVaccineType(event.target.value);
+        setVaccinationSelection({
+            type: event.target.value,
+            doseNumber: vaccinationSelection.doseNumber,
+            twoWeeks: vaccinationSelection.twoWeeks 
+        });
     }
-
-    // Submit vaccine page and return to dashboard
+    // Determine how effective dose number based on twoWeeks variable, and complete survey
     const handleVaccinePageSubmit = (event) => {
         event.preventDefault();
 
         // If no vaccine was selected, the form will not have rendered all components, so this check
         // prevents refrencing a null variable
         if (event.target.vaccine.value === "none") {
-            props.updateVaccination({ type: "none", doseNumber: 0, effectiveDoseNumber: 0, twoWeeks: null});
+            setVaccinationSelection({
+                type: "none",
+                doseNumber: 0,
+                effectiveDoseNumber: 0,
+                twoWeeks: null
+            });
         }else {
             let twoWeeks = event.target.weeks.value;
 
@@ -103,8 +117,8 @@ export default function Update(props) {
             if (twoWeeks === "no") {
                 effectiveDoseNumber--;
             }
-
-            props.updateVaccination({ 
+            
+            setVaccinationSelection({ 
                 type: event.target.vaccine.value,
                 doseNumber: doseNumber,
                 effectiveDoseNumber: effectiveDoseNumber,
@@ -112,20 +126,33 @@ export default function Update(props) {
             });
 
         }
-
         completeSurvey();
     }
 
     const completeSurvey = () => {
 
-        let riskScore = calculateRiskScore({...props});
-        console.log(riskScore);
+        // Calculate and update risk score with new updates and old selections
+        let riskScore = calculateRiskScore({            
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
+            activityBasicInfo: props.activityBasicInfo,
+            distancing: props.distancing,
+            speakingVolume: props.speakingVolume,
+            ownMask: props.ownMask,
+            othersMask: props.othersMask,
+            personRisk: personRisk
+        });
+        console.log("updated risk score: ", riskScore);
         props.updateRiskScore(riskScore);
 
-        let surveyData = {
+        // Update App state with new selections
+        props.updateVaccination(vaccinationSelection);
+        props.updateLocation(userLocationSelection.stateCode, userLocationSelection.county);
+
+        let requestData = {
             userID: props.userID,
-            userLocation: props.userLocation,
-            vaccination: props.vaccination,
+            userLocation: userLocationSelection,
+            vaccination: vaccinationSelection,
             activityBasicInfo: props.activityBasicInfo,
             distancing: props.distancing,
             speakingVolume: props.speakingVolume,
@@ -135,7 +162,7 @@ export default function Update(props) {
             surveyCompleted: props.surveyCompleted,
         }
 
-        axios.post('https://covidaware.ischool.uw.edu/insert_survey', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/insert_survey', requestData)
             .then(response => console.log(response))
             .catch(error => console.log(error));
 
