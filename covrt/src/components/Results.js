@@ -14,6 +14,7 @@ import "./Results.css"
 import { Link } from 'react-router-dom';
 import { InfoIcon } from '@primer/octicons-react';
 import { useState, useEffect } from 'react'
+import { Form } from 'reactstrap'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import LocalizedStrings from 'react-localization';
 import axios from 'axios'
@@ -245,12 +246,40 @@ function ReduceRiskScreen(props) {
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
 
-    let tipsListCallbacks = {
-        updateActivitySetting: props.updateActivitySetting,
-		updateDistancing: props.updateDistancing,
-		updateSpeakingVolume: props.updateSpeakingVolume,
-		updateOwnMask: props.updateOwnMask,
-		updateOthersMaskType: props.updateOthersMaskType,
+    let submitCallback = (event) => {
+        event.preventDefault();
+
+        // Check if each input exists
+        // Check if it is checked
+        // Update app state with it's value
+
+        if ( event.target.setting){
+            if (event.target.setting.checked) {
+                props.updateActivitySetting(event.target.setting.value);
+            }
+        }
+        if (event.target.distancing){
+            if (event.target.distancing.checked) {
+                props.updateDistancing(event.target.distancing.value);
+            }       
+        }
+        if (event.target.speakingVolume){
+            if (event.target.speakingVolume.checked) {
+                props.updateSpeakingVolume(event.target.speakingVolume.value);
+            }           
+        }
+        if (event.target.ownMask){
+            if(event.target.ownMask.checked) {
+                props.updateOwnMask(event.target.ownMask.value);
+            }
+        }
+        if(event.target.othersMaskType){
+            if(event.target.othersMaskType.checked){
+                props.updateOthersMaskType(event.target.othersMaskType.value);
+            }
+        }
+
+        switchToResultsPage();
     }
 
     return (
@@ -270,10 +299,12 @@ function ReduceRiskScreen(props) {
             <h1 className="risk-title">Tips to Lower Risk</h1>
             <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
-                <TipList {...tipsListCallbacks} />
+                <Form id="tips-form" onSubmit={submitCallback}>
+                    <TipList />
+                </Form>
             </div>
             <div className="horizontal-center">
-                <button className="btn btn-primary lower-risk-btn" onClick={switchToResultsPage}>Lower my risk!</button>
+                <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
             </div>
         </div>
     )
@@ -289,33 +320,28 @@ function TipList (props) {
         othersMaskType: "surgicalMask"
     }
 
-    // Maps each type of sugggestion to it's callback and text rendering functions
+    // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
         setting: {
-            callback: props.updateActivitySetting,
             renderText: function() { return ("Move the activity outdoors") }
         },
         distancing: {
-            callback: props.updateDistancing,
             renderText: function(distance) { return ("Keep " + strings[distance] + " of space between people") }
         },
         speakingVolume: {
-            callback: props.updateSpeakingVolume,
             renderText: function(volume) { return ("Lower speaking volume to " + (strings[volume]).toLowerCase()) }
         },
         ownMask: { 
-            callback: props.updateOwnMask,
             renderText: function(mask) { return ("Wear a " + (strings[mask].toLowerCase())) }
         },
         othersMaskType: {
-            callback: props.updateOthersMaskType,
             renderText: function(mask) { return ("Ask others to wear a " + (strings[mask]).toLowerCase()) }
         }
     }
 
     let keysArray = Object.keys(testResponse);
 
-    let list = keysArray.map((key, index) => {
+    let list = keysArray.map((key) => {
 
         let value = testResponse[key];
         let displayText = suggestionsMap[key]["renderText"](value);
