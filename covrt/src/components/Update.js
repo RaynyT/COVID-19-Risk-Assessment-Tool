@@ -66,7 +66,7 @@ export default function Update(props) {
 
             let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
             
-            props.setPersonRisk(personRisk);
+            props.updatePersonRisk(personRisk);
         })
         .catch(error => console.log(error));
 
