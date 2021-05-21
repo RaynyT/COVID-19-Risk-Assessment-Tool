@@ -245,6 +245,14 @@ function ReduceRiskScreen(props) {
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
 
+    let tipsListCallbacks = {
+        updateActivitySetting: props.updateActivitySetting,
+		updateDistancing: props.updateDistancing,
+		updateSpeakingVolume: props.updateSpeakingVolume,
+		updateOwnMask: props.updateOwnMask,
+		updateOthersMaskType: props.updateOthersMaskType,
+    }
+
     return (
         <div>
             <div className="results-nav">
@@ -262,7 +270,7 @@ function ReduceRiskScreen(props) {
             <h1 className="risk-title">Tips to Lower Risk</h1>
             <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
-                <TipList />
+                <TipList {...tipsListCallbacks} />
             </div>
             <div className="horizontal-center">
                 <button className="btn btn-primary lower-risk-btn" onClick={switchToResultsPage}>Lower my risk!</button>
@@ -272,39 +280,52 @@ function ReduceRiskScreen(props) {
 }
 
 function TipList (props) {
-    let testArray = [
-        {suggestion: "Suggestion One"},
-        {suggestion: "Suggestion Two"},
-        {suggestion: "Suggestion Three"},
-        {suggestion: "Suggestion Four"},
-        {suggestion: "Suggestion Five"},
-        {suggestion: "Suggestion Six"}
-    ];
 
     let testResponse = {
-        setting: "outdoor",
+        setting: "outdoors",
         distancing: "sixFeet",
         speakingVolume: "normalSpeaking",
         ownMask: "surgicalMask",
         othersMaskType: "surgicalMask"
     }
 
-    let functionMap = {
-        setting: props.updateActivitySetting,
-        distancing: props.updateDistancing
+    // Maps each type of sugggestion to it's callback and text rendering functions
+    let suggestionsMap = {
+        setting: {
+            callback: props.updateActivitySetting,
+            renderText: function() { return ("Move the activity outdoors") }
+        },
+        distancing: {
+            callback: props.updateDistancing,
+            renderText: function(distance) { return ("Keep " + strings[distance] + " of space between people") }
+        },
+        speakingVolume: {
+            callback: props.updateSpeakingVolume,
+            renderText: function(volume) { return ("Lower speaking volume to " + (strings[volume]).toLowerCase()) }
+        },
+        ownMask: { 
+            callback: props.updateOwnMask,
+            renderText: function(mask) { return ("Wear a " + (strings[mask].toLowerCase())) }
+        },
+        othersMaskType: {
+            callback: props.updateOthersMaskType,
+            renderText: function(mask) { return ("Ask others to wear a " + (strings[mask]).toLowerCase()) }
+        }
     }
 
-    // Map functions to these strings (e.g setting --> props.updateSetting())
-    // loop over response retrieving the function for that key and then using it with the value
-    // If that doesn't work, switch statements ¯\_(ツ)_/¯
+    let keysArray = Object.keys(testResponse);
 
-    let list = testArray.map((item) => {
+    let list = keysArray.map((key, index) => {
+
+        let value = testResponse[key];
+        let displayText = suggestionsMap[key]["renderText"](value);
+
         return(
-            <li key={item.suggestion} className="tips-list-item">
+            <li key={key} className="tips-list-item">
                 <div className="form-check ">
-                    <input className="form-check-input " type="checkbox" value={item.suggestion} id="flexCheckDefault" />
-                    <label className="form-check-label" htmlFor="flexCheckDefault">
-                        {item.suggestion}
+                    <input className="form-check-input " type="checkbox" value={testResponse[key]} id={key} />
+                    <label className="form-check-label" htmlFor={key}>
+                        {displayText}
                     </label>
                 </div>
             </li>
