@@ -175,7 +175,7 @@ export default function Update(props) {
                 nextClickCallback={handleNextClick}
                 stateSelectionCallback={handleStateCodeChange}
                 submitCallback={handleLocationPageSubmit}
-                selection={props.userLocation}
+                selection={userLocationSelection}
             />;
             break;
         case 2:
@@ -183,7 +183,7 @@ export default function Update(props) {
                 backClickCallback={handleBackClick}
                 submitCallback={handleVaccinePageSubmit}
                 vaccineTypeCallback={handleVaccineTypeChange}
-                selection={props.vaccination}
+                selection={vaccinationSelection}
             />;
             break;
         default:
@@ -191,7 +191,7 @@ export default function Update(props) {
                 nextClickCallback={handleNextClick}
                 stateSelectionCallback={handleStateCodeChange}
                 submitCallback={handleLocationPageSubmit}
-                selection={props.userLocation}
+                selection={userLocationSelection}
             />;
     }
 
