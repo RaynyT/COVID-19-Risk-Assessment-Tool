@@ -114,6 +114,15 @@ function App() {
 		});
 	}
 
+	const updateActivitySetting = (setting) => {
+		setActivityBasicInfo({
+			setting: setting,
+			attendees: activityBasicInfo.attendees,
+			hours: activityBasicInfo.hours,
+			minutes: activityBasicInfo.minutes
+		});
+	}
+
 	const updateDistancing = (distance) => {
 		setDistancing(distance);
 	}
@@ -168,6 +177,7 @@ function App() {
 		updateWithPreset: updateWithPreset,
 		activityBasicInfo: activityBasicInfo,
 		updateActivityBasicInfo: updateActivityBasicInfo,
+		updateActivitySetting: updateActivitySetting,
 		distancing: distancing,
 		updateDistancing: updateDistancing,
 		speakingVolume: speakingVolume,

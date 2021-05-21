@@ -222,7 +222,6 @@ function ReduceRiskScreen(props) {
     const switchToResultsPage = () => {
         props.setPage("results")
     }
-
     
     let surveyData = {
         userID: props.userID,
@@ -239,7 +238,7 @@ function ReduceRiskScreen(props) {
 
     useEffect(() => {
         // POST request using axios inside useEffect React hook
-        axios.post('https://covidaware.ischool.uw.edu/reccomendations', surveyData)
+        axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
         .then(response => console.log(response))
         .catch(error => console.log(error));
     
@@ -282,11 +281,28 @@ function TipList (props) {
         {suggestion: "Suggestion Six"}
     ];
 
+    let testResponse = {
+        setting: "outdoor",
+        distancing: "sixFeet",
+        speakingVolume: "normalSpeaking",
+        ownMask: "surgicalMask",
+        othersMaskType: "surgicalMask"
+    }
+
+    let functionMap = {
+        setting: props.updateActivitySetting,
+        distancing: props.updateDistancing
+    }
+
+    // Map functions to these strings (e.g setting --> props.updateSetting())
+    // loop over response retrieving the function for that key and then using it with the value
+    // If that doesn't work, switch statements ¯\_(ツ)_/¯
+
     let list = testArray.map((item) => {
         return(
             <li key={item.suggestion} className="tips-list-item">
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value={item.suggestion} id="flexCheckDefault" />
+                <div className="form-check ">
+                    <input className="form-check-input " type="checkbox" value={item.suggestion} id="flexCheckDefault" />
                     <label className="form-check-label" htmlFor="flexCheckDefault">
                         {item.suggestion}
                     </label>
