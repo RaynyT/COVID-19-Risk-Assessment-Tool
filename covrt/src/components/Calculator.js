@@ -310,16 +310,20 @@ export default function Calculator(props) {
         props.updateSurveryCompleted(true);
         
 
-        // Convert dose numbers to string for backend
-        // let vaxData = vaccinationSelection;
-        // vaxData.doseNumber = toString(vaxData.doseNumber);
-        // vaxData.effectiveDoseNumber = toString(vaxData.effectiveDoseNumber);
-        // console.log(vaxData);
+        // Copy vaccinationSelection into new object with any ints converted to strings
+        let vaxData = { 
+            type: vaccinationSelection.type,
+            doseNumber: vaccinationSelection.doseNumber.toString(),
+            effctiveDoseNumber: vaccinationSelection.effctiveDoseNumber.toString(),
+            twoWeeks: vaccinationSelection.twoWeeks
+        };
+
+        console.log(vaxData);
 
         let requestData = {
             userID: userID,
             userLocation: userLocationSelection,
-            vaccination: vaccinationSelection,
+            vaccination: vaxData,
             activityBasicInfo: activityBasicInfoSelection,
             distancing: distancingSelection,
             speakingVolume: speakingVolumeSelection,
