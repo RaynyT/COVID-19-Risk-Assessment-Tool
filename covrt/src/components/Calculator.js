@@ -311,10 +311,14 @@ export default function Calculator(props) {
         
 
         // Copy vaccinationSelection into new object with any ints converted to strings
+        let doseString = vaccinationSelection.doseNumber.toString();
+
+        let effDoseString = vaccinationSelection.effectiveDoseNumber.toString();
+
         let vaxData = { 
             type: vaccinationSelection.type,
-            doseNumber: vaccinationSelection.doseNumber.toString(),
-            effctiveDoseNumber: vaccinationSelection.effctiveDoseNumber.toString(),
+            doseNumber: doseString,
+            effctiveDoseNumber: effDoseString,
             twoWeeks: vaccinationSelection.twoWeeks
         };
 
@@ -580,8 +584,6 @@ function LocationPage(props) {
 }
 
 function VaccinePage(props) {
-
-    console.log("Vaccine page recieved:", props.selection);
 
     let yesChecked = false;
     let noChecked = false;
