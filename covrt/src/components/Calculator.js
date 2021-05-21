@@ -154,6 +154,7 @@ export default function Calculator(props) {
         setVaccinationSelection({
             type: event.target.value,
             doseNumber: vaccinationSelection.doseNumber,
+            effectiveDoseNumber: vaccinationSelection.effectiveDoseNumber,
             twoWeeks: vaccinationSelection.twoWeeks 
         });
     }
@@ -167,8 +168,8 @@ export default function Calculator(props) {
         if (event.target.vaccine.value === "none") {
             setVaccinationSelection({
                 type: "none",
-                doseNumber: 0,
-                effectiveDoseNumber: 0,
+                doseNumber: "0",
+                effectiveDoseNumber: "0",
                 twoWeeks: null
             });
         }else {
@@ -182,6 +183,8 @@ export default function Calculator(props) {
                 doseNumber = event.target.doses.value;
                 effectiveDoseNumber = event.target.doses.value;
             }
+
+            console.log("Set doseNumber to:", doseNumber)
 
             // If it hasn't been two weeks since the last dose, don't count it
             if (twoWeeks === "no") {
@@ -263,6 +266,8 @@ export default function Calculator(props) {
             props.updateUserID(userID);
         }
 
+        console.log("VaccinationSelection to app state is:", vaccinationSelection)
+
         // Update app state with completed survey and retrieved person risk
         props.updateAllSelections(
             userLocationSelection,
@@ -306,15 +311,15 @@ export default function Calculator(props) {
         
 
         // Convert dose numbers to string for backend
-        let vaxData = vaccinationSelection;
-        vaxData.doseNumber = toString(vaxData.doseNumber);
-        vaxData.effectiveDoseNumber = toString(vaxData.effectiveDoseNumber);
-        console.log(vaxData);
+        // let vaxData = vaccinationSelection;
+        // vaxData.doseNumber = toString(vaxData.doseNumber);
+        // vaxData.effectiveDoseNumber = toString(vaxData.effectiveDoseNumber);
+        // console.log(vaxData);
 
         let requestData = {
             userID: userID,
             userLocation: userLocationSelection,
-            vaccination: vaxData,
+            vaccination: vaccinationSelection,
             activityBasicInfo: activityBasicInfoSelection,
             distancing: distancingSelection,
             speakingVolume: speakingVolumeSelection,
@@ -572,6 +577,8 @@ function LocationPage(props) {
 
 function VaccinePage(props) {
 
+    console.log("Vaccine page recieved:", props.selection);
+
     let yesChecked = false;
     let noChecked = false;
 
@@ -588,6 +595,7 @@ function VaccinePage(props) {
         // Don't render doseNumberInput if user selected J&J (1 dose vaccine)
         let doseNumberInput = <div></div>;
         if (props.selection.type !== "johnsonAndJohnson"){
+
             doseNumberInput = (
                 <FormGroup tag="fieldset">
                     <Label>How many doses have you received? </Label>
