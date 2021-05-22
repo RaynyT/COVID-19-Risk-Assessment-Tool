@@ -374,7 +374,7 @@ function ReduceRiskScreen(props) {
 
                 </div>
             </div>
-            <SuggestionForm suggestions={suggestionObject} submitCallback={submitCallback} />
+            <SuggestionForm suggestions={suggestionObject} submitCallback={submitCallback} hasVaccine={props.vaccination.type !== "none"} />
         </div>
     )
 }
@@ -392,7 +392,7 @@ function SuggestionForm (props) {
             <div>
                 <h1 className="risk-title">Tips to Lower Risk</h1>
                 <h2 className="risk-subheading">Fetching suggestions, this should only take a few seconds</h2>
-                <div className="loader-screen-content">
+                <div className="suggestion-screen-content">
                     <Loader
                         type="TailSpin"
                         color="#4A7CE2"
@@ -425,8 +425,39 @@ function SuggestionForm (props) {
         )
     }
 
+    // Errors have been handled: Everything below here is a functional screen
+
+    let vaccineSuggestion = "";
+    if (!props.hasVaccine) {
+        vaccineSuggestion = (
+            <p>You indicated that you have not been vaccinated yet. Vaccines have a significant impact on risk and vaccinated individuals can participate in more types of activities.<a href="https://www.cdc.gov/coronavirus/2019-ncov/vaccines/index.html">Learn more about vaccines here</a></p>
+        )
+    }
 
     let suggestions = props.suggestions;
+    
+    let keysArray = Object.keys(suggestions);
+
+    // If there are no more suggestions render a 'congrats' screen
+    // with more info on safety
+    if (keysArray.length === 0) {
+        return (
+            <div>
+                <h1 className="risk-title">Great Job!</h1>
+                <h2 className="risk-subheading">Your activity selections are already the <span className="green">safest choices</span></h2>
+                <div className="congrats-screen-content">
+                    <img className="celebration-img" src={celebrationImage} alt="people celebrating" />
+                    <p>
+                        If you want to further reduce your risk, be sure to wash your hands regularly, avoid touching your face, and disinfect surfaces
+                    </p>
+                    {vaccineSuggestion}
+                    <p>
+                        For more information on safe practices visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">CDC's prevention guide</a>
+                    </p>
+                </div>
+            </div>
+        )
+    } 
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
@@ -447,27 +478,6 @@ function SuggestionForm (props) {
         }
     }
 
-    let keysArray = Object.keys(suggestions);
-
-    // If there are no more suggestions render a 'congrats' screen
-    // with more info on safety
-    if (keysArray.length === 0) {
-        return (
-            <div>
-                <h1 className="risk-title">Great Job!</h1>
-                <h2 className="risk-subheading">Your activity selections are already the <span className="green">safest choices</span></h2>
-                <div className="congrats-screen-content">
-                    <img className="celebration-img" src={celebrationImage} alt="people celebrating" />
-                    <p className="">
-                        If you want to further reduce your risk, be sure to wash your hands regularly, avoid touching your face, and disinfect surfaces
-                    </p>
-                    <p className="">
-                        For more information on safe practices visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">CDC's prevention guide</a>
-                    </p>
-                </div>
-            </div>
-        )
-    } 
 
     let list = keysArray.map((key) => {
 
@@ -503,6 +513,9 @@ function SuggestionForm (props) {
             </div>
             <div className="horizontal-center">
                 <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
+            </div>
+            <div className="suggestion-screen-content">
+                {vaccineSuggestion}
             </div>
         </div>
     );
