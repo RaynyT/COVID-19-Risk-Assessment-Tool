@@ -1035,7 +1035,7 @@ function TalkingPage(props) {
             <div className="container">
                 <div className="row img-btn-row">
                     <div className="col-6 d-flex justify-content-center">
-                        <ImageButton image={notSpeakingImage} value="notSpeaking" desc="Not speaking" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
+                        <ImageButton image={notSpeakingImage} value="notSpeaking" desc="Speaking minimally" alt="Two people outdoors speaking" large selected={notSpeakingSelected} clickCallback={props.selectionCallback}/>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <ImageButton image={speakingNormalImage} value="normalSpeaking" desc="Speaking normally" alt="Two people outdoors speaking" large selected={normalSpeakingSelected} clickCallback={props.selectionCallback}/>

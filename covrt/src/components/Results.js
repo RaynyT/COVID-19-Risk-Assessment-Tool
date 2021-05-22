@@ -31,7 +31,7 @@ let strings = new LocalizedStrings({
         sixFeet: "6 feet",
         nineFeet: "9 feet",
         twelveFeetOrMore: "12 feet or more",
-        notSpeaking: "Not speaking",
+        notSpeaking: "Speaking minimally",
         normalSpeaking: "Speaking normally",
         loudSpeaking: "Speaking loudly",
         cottonMask: "Cotton mask",
