@@ -20,6 +20,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import LocalizedStrings from 'react-localization';
 import axios from 'axios';
 import calculateRiskScore from './CalculateRiskScore.js';
+import Loader from "react-loader-spinner";
 
 
 let strings = new LocalizedStrings({
@@ -228,7 +229,7 @@ function ResultsScreen(props) {
 function ReduceRiskScreen(props) {
 
     // Holds the current suggestions from the backend
-    const [suggestionObject, setSuggestionsObject] = useState({});
+    const [suggestionObject, setSuggestionsObject] = useState(null);
 
     const switchToResultsPage = () => {
         props.setPage("results")
@@ -343,7 +344,27 @@ function ReduceRiskScreen(props) {
 // If the suggestions object is empty, it renders the 'congrats' screen
 function SuggestionForm (props) {
 
+
+    // If suggestions is null, post request is still fetching
+    if (props.suggestions === null || props.suggestions === undefined) {
+        return (
+            <div>
+                <h1 className="risk-title">Tips to Lower Risk</h1>
+                <h2 className="risk-subheading">Fetching suggestions, this should only take a few seconds</h2>
+                <div className="loader-screen-content">
+                    <Loader
+                        type="TailSpin"
+                        color="#4A7CE2"
+                        height={100}
+                        width={100}
+                    />
+                </div>
+            </div>
+        )
+    }
+
     let suggestions = props.suggestions;
+
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
@@ -381,7 +402,6 @@ function SuggestionForm (props) {
                     <p className="">
                         For more information on safe practices visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">CDC's prevention guide</a>
                     </p>
-
                 </div>
             </div>
         )
@@ -420,7 +440,7 @@ function SuggestionForm (props) {
                 </Form>
             </div>
             <div className="horizontal-center">
-                    <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
+                <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
             </div>
         </div>
     );
