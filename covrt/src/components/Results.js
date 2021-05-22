@@ -259,15 +259,18 @@ function ReduceRiskScreen(props) {
 
     // POST request using axios inside useEffect React hook
     useEffect(() => {
-        // If user doesn't have optimal selections yet, send request for suggestions 
-        if (
-        !(
-            props.setting === "outdoors" &&
-            props.distancing === "twelveFeetMore" &&
+        // If user has optimal selections, set suggestions to empty object
+        // else, request the server for suggestions
+        if ((
+            props.activityBasicInfo.setting === "outdoors" &&
+            props.distancing === "twelveFeetOrMore" &&
             props.speakingVolume === "notSpeaking" &&
             props.ownMask === "kn95Mask" &&
             props.othersMask.type === "kn95Mask"
         )){
+            setSuggestionsObject({});
+        }
+        else {
             axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
             .then(response => {
                 console.log(response.data);
@@ -370,6 +373,9 @@ function TipList (props) {
 
     // If the user already has all the safest options
     if (keysArray.length === 0) {
+
+        console.log("Made it here")
+
         return (
             <h1>TEST</h1>
         )
