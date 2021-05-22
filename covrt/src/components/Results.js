@@ -2,13 +2,14 @@ import highRiskMeter from '../images/high-risk-meter.svg';
 import mediumRiskMeter from '../images/medium-risk-meter.svg';
 import lowRiskMeter from '../images/low-risk-meter.svg';
 
-
 import houseIcon from '../images/house-vector.svg'
 import sunIcon from '../images/sun-vector.svg'
 import clockIcon from '../images/clock-vector.svg'
 import peopleIcon from '../images/people-icon-vector.svg'
 import rulerIcon from '../images/ruler-vector.svg'
 import volumeIcon from '../images/volume-vector.svg'
+
+import celebrationImage from '../images/celebration.svg'
 
 import "./Results.css";
 import { Link } from 'react-router-dom';
@@ -333,7 +334,6 @@ function ReduceRiskScreen(props) {
 
                 </div>
             </div>
-            <h1 className="risk-title">Tips to Lower Risk</h1>
             <SuggestionForm suggestions={suggestionObject} submitCallback={submitCallback} />
         </div>
     )
@@ -366,11 +366,23 @@ function SuggestionForm (props) {
 
     let keysArray = Object.keys(suggestions);
 
-    // If there was some sort of error 
+    // If there are no more suggestions render a 'congrats' screen
+    // with more info on safety
     if (keysArray.length === 0) {
         return (
             <div>
-                TEST
+                <h1 className="risk-title">Great Job!</h1>
+                <h2 className="risk-subheading">Your activity selections are already the <span className="green">safest choices</span></h2>
+                <div className="congrats-screen-content">
+                    <img className="celebration-img" src={celebrationImage} alt="people celebrating" />
+                    <p className="">
+                        If you want to further reduce your risk, be sure to wash your hands regularly, avoid touching your face, and disinfect surfaces
+                    </p>
+                    <p className="">
+                        For more information on safe practices visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">CDC's prevention guide</a>
+                    </p>
+
+                </div>
             </div>
         )
     } 
@@ -398,6 +410,7 @@ function SuggestionForm (props) {
 
     return (
         <div>
+            <h1 className="risk-title">Tips to Lower Risk</h1>
             <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
                 <Form id="tips-form" onSubmit={props.submitCallback}>

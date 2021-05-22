@@ -166,6 +166,17 @@
     margin-top: 2rem;
 }
 
+.celebration-img {
+    height: 15rem;
+    margin: 2rem;
+}
+
+.congrats-screen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .red {
     color:#FE7E95
 }
