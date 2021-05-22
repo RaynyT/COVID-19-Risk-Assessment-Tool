@@ -445,7 +445,7 @@ function DisclaimerPage(props) {
                     <p className="disclaimer-body">
                         Be aware that the information provided by this tool
                         <span className="red"> IS NOT a replacement for medical advice and cannot be used to diagnose or treat medical conditions. </span>
-                        If you would like more information regarding this, please visit our <Link to="/about">FAQ</Link>
+                        If you would like more information regarding this, please visit our <Link to="/faq">FAQ</Link>
                     </p>
                     <p className="disclaimer-body">
                         The county COVID-19 rates utilized in this app are updated daily
