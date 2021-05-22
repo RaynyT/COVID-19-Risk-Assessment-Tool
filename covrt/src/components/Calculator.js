@@ -128,7 +128,6 @@ export default function Calculator(props) {
         axios.post('https://covidaware.ischool.uw.edu/retrieve_county_rates', requestData)
         .then(response => {
             console.log(response.data)
-            // TODO: MULTIPLY BY REPORTED CASES ONCE WE FIND OUT WHICH NUMBER TO USE
             
             const startDate = moment("02-12-2020", "MM-DD-YYYY");
             const today = moment();

@@ -29,7 +29,11 @@ export default function calculateRiskScore(props) {
     let vaccineEfficacy = 1;
     let doseInt = parseInt(props.vaccination.effectiveDoseNumber);
     if (doseInt === 1) {
-        vaccineEfficacy = .56;
+        if (props.vaccination.type === "johnsonAndJohnson") {
+            vaccineEfficacy = .33;
+        } else {
+            vaccineEfficacy = .56;
+        }
     } else if (doseInt === 2) {
         if (props.vaccination.type === "pfizer" || props.vaccination.type === "moderna") {
             vaccineEfficacy = .1;
@@ -45,7 +49,7 @@ export default function calculateRiskScore(props) {
         (props.activityBasicInfo.hours + (props.activityBasicInfo.minutes / 60)) *
         // * Own mask type risk coefficent
         numericValues[props.ownMask] * 
-        // * ((Others mask type risk * percent of others wearing mask) + percent of others not wearing that mask)
+        // * ((Others mask type risk * percent of others wearing mask) + (percent of others not wearing that mask)
         ((othersMaskNumericValues[props.othersMask.type] * percentOthersWearingMask) + (1 - percentOthersWearingMask)) *
         // * Distancing risk * Volume risk
         numericValues[props.distancing] * numericValues[props.speakingVolume] *
