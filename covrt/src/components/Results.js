@@ -1,6 +1,8 @@
-import highRiskMeter from '../images/high-risk-meter.svg';
-import mediumRiskMeter from '../images/medium-risk-meter.svg';
 import lowRiskMeter from '../images/low-risk-meter.svg';
+import moderatelyLowRiskMeter from '../images/moderately-low-risk-meter.svg'
+import moderateRiskMeter from '../images/moderate-risk-meter.svg';
+import moderatelyHighRiskMeter from '../images/moderately-high-risk-meter.svg'
+import highRiskMeter from '../images/high-risk-meter.svg';
 
 import houseIcon from '../images/house-vector.svg'
 import sunIcon from '../images/sun-vector.svg'
@@ -124,7 +126,7 @@ function ResultsScreen(props) {
     // Default to moderate
     let riskLevelText = "Moderate Risk";
     let riskLevelClass = "risk-title yellow";
-    let riskMeterImage = mediumRiskMeter;
+    let riskMeterImage = moderateRiskMeter;
 
     if (riskScore < 25) {
         riskLevelText = "Low Risk";
@@ -133,17 +135,17 @@ function ResultsScreen(props) {
     } else if (riskScore < 350) {
         riskLevelText = "Moderately Low Risk";
         riskLevelClass = "risk-title green";
-        riskMeterImage = lowRiskMeter;
+        riskMeterImage = moderatelyLowRiskMeter;
     } else if (riskScore < 1000) {
         riskLevelText = "Moderate Risk";
         riskLevelClass = "risk-title yellow";
-        riskMeterImage = mediumRiskMeter;
+        riskMeterImage = moderateRiskMeter;
     } else if (riskScore < 10000) {
         riskLevelText = "Moderately High Risk";
         riskLevelClass = "risk-title red";
-        riskMeterImage = highRiskMeter;
+        riskMeterImage = moderatelyHighRiskMeter;
     } else {
-        riskLevelText = "Very High Risk";
+        riskLevelText = "High Risk";
         riskLevelClass = "risk-title red";
         riskMeterImage = highRiskMeter;
     }
