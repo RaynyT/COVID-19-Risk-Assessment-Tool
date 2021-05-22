@@ -362,6 +362,10 @@ function TipList (props) {
     let list = keysArray.map((key) => {
 
         let value = suggestions[key];
+        if (value === "") {
+            return "";
+        }
+
         let displayText = suggestionsMap[key]["renderText"](value);
 
         return(
