@@ -329,7 +329,14 @@ function ReduceRiskScreen(props) {
             })
             .catch(error => {
                 console.log(error)
-                setSuggestionsObject("error");
+
+                // If client made connection to server
+                // error is most likely our fault
+                if (error.response) {
+                    setSuggestionsObject("our-error")
+                } else {
+                    setSuggestionsObject("user-error");
+                }
             });
         }
     
@@ -380,14 +387,29 @@ function SuggestionForm (props) {
         )
     }
 
-    if (props.suggestions === "error") {
+    // If our error, suggest refreshing and apologize
+    if (props.suggestions === "our-error") {
         return (
-            <h1>ERROR</h1>
+            <div className="alert alert-warning">
+                <p className="error-text">Something went wrong while fetching suggestions</p>
+                <p className="error-text">Try refreshing the page and seeing if the error is fixed</p>
+                <p className="error-text">We apologize for the inconvenience</p>
+            </div>        
         )
     }
 
-    let suggestions = props.suggestions;
+    // If their error, suggest checking connection
+    if (props.suggestions === "user-error") {
+        return (
+            <div className="alert alert-warning">
+                <p className="error-text">Something went wrong while fetching suggestions</p>
+                <p className="error-text">Try checking your internet connection then refreshing the page</p>
+            </div>        
+        )
+    }
 
+
+    let suggestions = props.suggestions;
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
