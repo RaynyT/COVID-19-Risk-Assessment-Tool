@@ -23,7 +23,7 @@ export default function Dashboard() {
                             alt="Illustration of a piece of paper with graphs and charts" colorClass="blue-link" />
                         </div>
                         <div className="col-6 d-flex justify-content-center">
-                            <ExternalImageLink link="https://www.doh.wa.gov/Emergencies/COVID19/vaccine" image={vaccineIcon} desc="Vaccine Information" 
+                            <ExternalImageLink link="https://www.vaccines.gov/" image={vaccineIcon} desc="Find a Vaccine" 
                             alt="Illustration of a medical vial and syringe" colorClass="green-link" />
                         </div>
                     </div>
