@@ -209,7 +209,7 @@ function ResultsScreen(props) {
                 </div>
             </div>
             <div className="horizontal-center link-container">
-                <Link to="/FAQ"><InfoIcon /> How is my risk calculated?</Link>
+                <Link to="/faq"><InfoIcon /> How is my risk calculated?</Link>
             </div>
             <div className="horizontal-center">
                 <button className="btn btn-primary" onClick={switchToReducePage}>Lower my risk!</button>
