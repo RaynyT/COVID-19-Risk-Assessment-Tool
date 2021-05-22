@@ -67,7 +67,7 @@ function App() {
 	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: null });
 
 	const [personRisk, setPersonRisk] = useLocalStorage("personRisk", null);
-	const [countyComparison, setCountyComparison] = useLocalStorage({direction: null, rate: null});
+	const [countyComparison, setCountyComparison] = useLocalStorage("countyComparison", {direction: null, rate: null});
 	const [riskScore, setRiskScore] = useLocalStorage("riskScore", null);
 
 	const updateAllSelections = (userLocation, vaccination, activityBasicInfo, distancing, speakingVolume, ownMask, othersMask) => {
