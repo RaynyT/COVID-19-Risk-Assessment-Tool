@@ -68,7 +68,7 @@ func (ms *MySQLStore) GetByID(id int64) (*StateCounty_Rate, error) {
 // float64 = (num new cases last week / num new cases prev to last week) * posTestRate
 func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, int64, error) {
 	// Query should get positive test rate for yesterday
-	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),1)")
+	sel := string("SELECT StateCountyRateID, StateCountyID, Uploaded, PosTestRateCounty, NumNewCases FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),2)")
 
 	row := ms.Database.QueryRow(sel, id)
 
@@ -111,9 +111,9 @@ type Total struct {
 func (ms *MySQLStore) HelperAggregator(id int64, week string) (int64, error) {
 	var sel string
 	if week == "last" {
-		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),8) AND Uploaded >= SUBDATE(CURDATE(),14)")
+		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),9) AND Uploaded >= SUBDATE(CURDATE(),15)")
 	} else if week == "prevToLast" {
-		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),15) AND Uploaded >= SUBDATE(CURDATE(),21)")
+		sel = string("SELECT SUM(NumNewCases) AS Total FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded <= SUBDATE(CURDATE(),16) AND Uploaded >= SUBDATE(CURDATE(),22)")
 	}
 
 	row := ms.Database.QueryRow(sel, id)
@@ -142,8 +142,8 @@ type Compare struct {
 
 // PosTestRate Suggestion Aggregation and Comparison
 func (ms *MySQLStore) PosTestRateComparison(sc_id int64) (string, float64, error) {
-	selPTR := string("SELECT PosTestRateCounty FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),1)")
-	selAverage := string("SELECT AVG(PosTestRateCounty) FROM TblStateCounty_Rate WHERE Uploaded = SUBDATE(CURDATE(),1)")
+	selPTR := string("SELECT PosTestRateCounty FROM TblStateCounty_Rate WHERE StateCountyID = ? AND Uploaded = SUBDATE(CURDATE(),2)")
+	selAverage := string("SELECT AVG(PosTestRateCounty) FROM TblStateCounty_Rate WHERE Uploaded = SUBDATE(CURDATE(),2)")
 	rowPTR := ms.Database.QueryRow(selPTR, sc_id)
 
 	ptr := &PTR{}
@@ -170,5 +170,4 @@ func (ms *MySQLStore) PosTestRateComparison(sc_id int64) (string, float64, error
 	} else {
 		return "", -1.0, errors.New("Comparison is invalid.")
 	}
-	
 }

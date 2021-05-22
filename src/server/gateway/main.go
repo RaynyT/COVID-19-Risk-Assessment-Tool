@@ -126,6 +126,7 @@ func main() {
 	// get requests
 	mux.HandleFunc("/about", handlers.AboutHandler)
 	mux.HandleFunc("/faq", handlers.FAQHandler)
+	mux.HandleFunc("/FAQ", handlers.FAQHandler)
 	mux.HandleFunc("/contact-us", handlers.ContactHandler)
 	mux.HandleFunc("/get-started", handlers.TutorialHandler)
 	mux.HandleFunc("/dashboard", handlers.DashboardHandler)
