@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 
