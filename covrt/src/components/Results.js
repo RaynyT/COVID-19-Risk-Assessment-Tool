@@ -103,6 +103,8 @@ function ResultsScreen(props) {
         maskAmountText = "100000000+";
     }
 
+    let countyComparisonText = "";
+
     const switchToReducePage = () => {
         props.setPage("reduce");
     }
@@ -117,7 +119,7 @@ function ResultsScreen(props) {
         riskLevelText = "Low Risk";
         riskLevelClass = "risk-title green";
         riskMeterImage = lowRiskMeter;
-    } else if (riskScore < 250) {
+    } else if (riskScore < 350) {
         riskLevelText = "Moderately Low Risk";
         riskLevelClass = "risk-title green";
         riskMeterImage = lowRiskMeter;
@@ -125,7 +127,7 @@ function ResultsScreen(props) {
         riskLevelText = "Moderate Risk";
         riskLevelClass = "risk-title yellow";
         riskMeterImage = mediumRiskMeter;
-    } else if (riskScore < 2000) {
+    } else if (riskScore < 10000) {
         riskLevelText = "Moderately High Risk";
         riskLevelClass = "risk-title red";
         riskMeterImage = highRiskMeter;
@@ -223,8 +225,12 @@ function ResultsScreen(props) {
                     <h3 className="list-title">Demographic</h3>
                     <ul className="selection-list">
                         <li className="selection-list-item">{props.userLocation.stateCode} state</li>
-                        <li className="selection-list-item">{props.userLocation.county}</li>
-                        <li className="selection-list-item">Your county rate is {props.countyComparison.direction} than average</li>
+                        <li className="selection-list-item">
+                            {props.userLocation.county}: {props.countyComparison.direction} than national average covid rate
+                            </li>
+                        <li className="selection-list-item">
+                            Put the Vaccine info here please
+                        </li>
                     </ul>
                 </div>
             </div>
