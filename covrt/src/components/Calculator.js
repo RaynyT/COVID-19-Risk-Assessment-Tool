@@ -1188,7 +1188,7 @@ function OwnMaskPage(props) {
 
 function OthersMaskPage(props) {
 
-    const [sliderValue, setSliderValue ] = useState(parseInt(props.attendees)); 
+    const [sliderValue, setSliderValue ] = useState(parseInt(props.numWearers)); 
 
     const [tooltipOpen, setTooltipOpen] = useState(false);
 
