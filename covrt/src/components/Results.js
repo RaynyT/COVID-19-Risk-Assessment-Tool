@@ -315,7 +315,10 @@ function ReduceRiskScreen(props) {
                 console.log(response.data);
                 setSuggestionsObject(response.data);
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error)
+                setSuggestionsObject("error");
+            });
         }
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -342,6 +345,8 @@ function ReduceRiskScreen(props) {
 
 // Suggestions form renders a list of checkboxes, one for each suggestion
 // If the suggestions object is empty, it renders the 'congrats' screen
+// If the suggestions object is null, it renders the fetching screen
+// IF the suggestions object is "error" it renders error screen
 function SuggestionForm (props) {
 
 
@@ -360,6 +365,12 @@ function SuggestionForm (props) {
                     />
                 </div>
             </div>
+        )
+    }
+
+    if (props.suggestions === "error") {
+        return (
+            <h1>ERROR</h1>
         )
     }
 
