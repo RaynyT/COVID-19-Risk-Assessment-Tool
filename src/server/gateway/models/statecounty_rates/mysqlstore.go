@@ -161,12 +161,10 @@ func (ms *MySQLStore) PosTestRateComparison(sc_id int64) (string, float64, error
 		&comp.Comp); err != nil {
 		return "", -1.0, err
 	}
-	if ptr.Ptr > comp.Comp {
+	if ptr.Ptr >= comp.Comp {
 		return "higher", (ptr.Ptr / comp.Comp) * 100, nil
 	} else if ptr.Ptr < comp.Comp {
 		return "lower", (ptr.Ptr / comp.Comp) * 100, nil
-	} else if ptr.Ptr == comp.Comp {
-		return "equal", (ptr.Ptr / comp.Comp) * 100, nil
 	} else {
 		return "", -1.0, errors.New("Comparison is invalid.")
 	}

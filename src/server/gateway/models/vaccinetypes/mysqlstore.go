@@ -89,8 +89,10 @@ func (ms *MySQLStore) AllVaccineTypes(rc float64) (*[]VaccineType, error) {
 // This requires the GetByType to be "unique" in the database - hence VaccineTypeID and VaccineTypeName
 func (ms *MySQLStore) GetByTypeDose(t string, dose string) (int64, error) {
 	var sel string
-	if dose == "1" || dose == "2" {
+	if (dose == "1" || dose == "2") && t != "johnsonAndJohnson" {
 		sel = string("SELECT VaccineTypeID, RiskCoefficient, VaccineTypeName FROM TblVaccineType WHERE LOWER(VaccineTypeName) LIKE '" + t + "%' AND VaccineTypeName LIKE '%" + dose + "'")
+	} else if t == "johnsonAndJohnson" {
+		return 7,  nil
 	} else {
 		return 10, nil
 	}
