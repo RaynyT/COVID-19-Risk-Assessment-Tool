@@ -104,6 +104,11 @@ function ResultsScreen(props) {
     }
 
     let countyComparisonText = "";
+    if (props.countyComparison.direction === "higher") {
+        countyComparisonText = <span> has <span className="red">higher</span> than national average COVID rates</span>
+    } else if (props.countyComparison.direction === "lower") {
+        countyComparisonText = <span> has <span className="green">lower</span> than national average COVID rates</span>
+    }
 
     const switchToReducePage = () => {
         props.setPage("reduce");
@@ -226,7 +231,7 @@ function ResultsScreen(props) {
                     <ul className="selection-list">
                         <li className="selection-list-item">{props.userLocation.stateCode} state</li>
                         <li className="selection-list-item">
-                            {props.userLocation.county}: {props.countyComparison.direction} than national average covid rate
+                            {props.userLocation.county}{countyComparisonText}
                             </li>
                         <li className="selection-list-item">
                             Put the Vaccine info here please
