@@ -226,6 +226,7 @@ function ResultsScreen(props) {
 
 function ReduceRiskScreen(props) {
 
+    // Holds the current suggestions from the backend
     const [suggestionObject, setSuggestionsObject] = useState({});
 
     const switchToResultsPage = () => {
@@ -234,9 +235,7 @@ function ReduceRiskScreen(props) {
 
     // Copy vaccinationSelection into new object with any ints converted to strings
     let doseString = props.vaccination.doseNumber.toString();
-
     let effDoseString = props.vaccination.effectiveDoseNumber.toString();
-
     let vaxData = { 
         type: props.vaccination.type,
         doseNumber: doseString,
@@ -244,6 +243,7 @@ function ReduceRiskScreen(props) {
         twoWeeks: props.vaccination.twoWeeks
     };
     
+    // SurveyData to send in backend request
     let surveyData = {
         userID: props.userID,
         userLocation: props.userLocation,
@@ -256,32 +256,8 @@ function ReduceRiskScreen(props) {
         riskScore: props.riskScore,
         surveyCompleted: props.surveyCompleted,
     }
-
-    // POST request using axios inside useEffect React hook
-    useEffect(() => {
-        // If user has optimal selections, set suggestions to empty object
-        // else, request the server for suggestions
-        if ((
-            props.activityBasicInfo.setting === "outdoors" &&
-            props.distancing === "twelveFeetOrMore" &&
-            props.speakingVolume === "notSpeaking" &&
-            props.ownMask === "kn95Mask" &&
-            props.othersMask.type === "kn95Mask"
-        )){
-            setSuggestionsObject({});
-        }
-        else {
-            axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
-            .then(response => {
-                console.log(response.data);
-                setSuggestionsObject(response.data);
-            })
-            .catch(error => console.log(error));
-        }
     
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
-    }, []);
-
+    // Callback for submitting suggestions form
     let submitCallback = (event) => {
         event.preventDefault();
 
@@ -318,6 +294,31 @@ function ReduceRiskScreen(props) {
         switchToResultsPage();
     }
 
+    // POST request using axios inside useEffect React hook
+    useEffect(() => {
+        // If user has optimal selections, set suggestions to empty object
+        // else, request the server for suggestions
+        if ((
+            props.activityBasicInfo.setting === "outdoors" &&
+            props.distancing === "twelveFeetOrMore" &&
+            props.speakingVolume === "notSpeaking" &&
+            props.ownMask === "kn95Mask" &&
+            props.othersMask.type === "kn95Mask"
+        )){
+            setSuggestionsObject({});
+        }
+        else {
+            axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
+            .then(response => {
+                console.log(response.data);
+                setSuggestionsObject(response.data);
+            })
+            .catch(error => console.log(error));
+        }
+    
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
+
     return (
         <div>
             <div className="results-nav">
@@ -329,24 +330,18 @@ function ReduceRiskScreen(props) {
                         <p className="to-dashboard-text">To Risk Dashboard</p>
                         <ChevronRightIcon size={48} fill="#4A7CE2" />
                     </Link>
+
                 </div>
             </div>
-            <h1>WORK IN PROGRESS</h1>
             <h1 className="risk-title">Tips to Lower Risk</h1>
-            <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
-            <div className="tips-container">
-                <Form id="tips-form" onSubmit={submitCallback}>
-                    <TipList suggestions={suggestionObject}/>
-                </Form>
-            </div>
-            <div className="horizontal-center">
-                <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
-            </div>
+            <SuggestionForm suggestions={suggestionObject} submitCallback={submitCallback} />
         </div>
     )
 }
 
-function TipList (props) {
+// Suggestions form renders a list of checkboxes, one for each suggestion
+// If the suggestions object is empty, it renders the 'congrats' screen
+function SuggestionForm (props) {
 
     let suggestions = props.suggestions;
 
@@ -371,13 +366,12 @@ function TipList (props) {
 
     let keysArray = Object.keys(suggestions);
 
-    // If the user already has all the safest options
+    // If there was some sort of error 
     if (keysArray.length === 0) {
-
-        console.log("Made it here")
-
         return (
-            <h1>TEST</h1>
+            <div>
+                TEST
+            </div>
         )
     } 
 
@@ -403,9 +397,19 @@ function TipList (props) {
     })
 
     return (
-        <ul className="tips-list">
-            {list}
-        </ul>
+        <div>
+            <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
+            <div className="tips-container">
+                <Form id="tips-form" onSubmit={props.submitCallback}>
+                    <ul className="tips-list">
+                        {list}
+                    </ul>
+                </Form>
+            </div>
+            <div className="horizontal-center">
+                    <button type="submit" form="tips-form" className="btn btn-primary lower-risk-btn">Lower my risk!</button>
+            </div>
+        </div>
     );
 }
 
