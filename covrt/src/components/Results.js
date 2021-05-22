@@ -240,7 +240,7 @@ function ResultsScreen(props) {
                             {props.userLocation.county}{countyComparisonText}
                             </li>
                         <li className="selection-list-item">
-                            Put the Vaccine info here please
+                            Vaccine: {strings[props.vaccination.type]} - {props.vaccination.doseNumber} doses
                         </li>
                     </ul>
                 </div>
