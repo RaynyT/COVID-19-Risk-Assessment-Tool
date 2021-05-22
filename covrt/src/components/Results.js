@@ -113,12 +113,24 @@ function ResultsScreen(props) {
     let riskLevelClass = "risk-title yellow";
     let riskMeterImage = mediumRiskMeter;
 
-    if (riskScore < 30) {
+    if (riskScore < 25) {
+        riskLevelText = "Very Low Risk";
+        riskLevelClass = "risk-title green";
+        riskMeterImage = lowRiskMeter;
+    } else if (riskScore < 250) {
         riskLevelText = "Low Risk";
         riskLevelClass = "risk-title green";
         riskMeterImage = lowRiskMeter;
-    } else if (riskScore > 500) {
+    } else if (riskScore < 1000) {
+        riskLevelText = "Moderate Risk";
+        riskLevelClass = "risk-title yellow";
+        riskMeterImage = mediumRiskMeter;
+    } else if (riskScore < 2000) {
         riskLevelText = "High Risk";
+        riskLevelClass = "risk-title red";
+        riskMeterImage = highRiskMeter;
+    } else {
+        riskLevelText = "Very High Risk";
         riskLevelClass = "risk-title red";
         riskMeterImage = highRiskMeter;
     }
