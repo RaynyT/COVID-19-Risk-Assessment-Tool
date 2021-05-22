@@ -306,8 +306,6 @@ export default function Calculator(props) {
             twoWeeks: vaccinationSelection.twoWeeks
         };
 
-        console.log(vaxData);
-
         let requestData = {
             userID: userID,
             userLocation: userLocationSelection,
