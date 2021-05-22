@@ -254,7 +254,10 @@ function ReduceRiskScreen(props) {
     useEffect(() => {
         // POST request using axios inside useEffect React hook
         axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
-        .then(response => console.log(response.data))
+        .then(response => {
+            console.log(response.data);
+            setSuggestionsObject(response.data);
+        })
         .catch(error => console.log(error));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -314,7 +317,7 @@ function ReduceRiskScreen(props) {
             <h2 className="risk-subheading">Check the suggestions you would like to implement:</h2>
             <div className="tips-container">
                 <Form id="tips-form" onSubmit={submitCallback}>
-                    <TipList />
+                    <TipList suggestions={suggestionObject}/>
                 </Form>
             </div>
             <div className="horizontal-center">
@@ -326,7 +329,7 @@ function ReduceRiskScreen(props) {
 
 function TipList (props) {
 
-    let testResponse={}
+    let suggestions = props.suggestions;
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
@@ -347,7 +350,7 @@ function TipList (props) {
         }
     }
 
-    let keysArray = Object.keys(testResponse);
+    let keysArray = Object.keys(suggestions);
 
     // If the user already has all the safest options
     if (keysArray.length === 0) {
@@ -358,13 +361,13 @@ function TipList (props) {
 
     let list = keysArray.map((key) => {
 
-        let value = testResponse[key];
+        let value = suggestions[key];
         let displayText = suggestionsMap[key]["renderText"](value);
 
         return(
             <li key={key} className="tips-list-item">
                 <div className="form-check ">
-                    <input className="form-check-input " type="checkbox" value={testResponse[key]} id={key} />
+                    <input className="form-check-input " type="checkbox" value={suggestions[key]} id={key} />
                     <label className="form-check-label" htmlFor={key}>
                         {displayText}
                     </label>
