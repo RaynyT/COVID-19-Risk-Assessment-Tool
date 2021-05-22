@@ -215,7 +215,9 @@ function App() {
 			<Route path="/contact-us" render={(routerProps) => (
 				<ContactUs {...routerProps} surveyCompleted={surveyCompleted} />
 			)} />
-			<Route path="/dashboard" component={Dashboard} />
+			<Route path="/dashboard" render={(routerProps) => (
+				<Dashboard {...routerProps} surveyCompleted={surveyCompleted} />
+			)} />
 			<Route path="/about" render={(routerProps) => (
 				<About {...routerProps} surveyCompleted={surveyCompleted} />
 			)} />

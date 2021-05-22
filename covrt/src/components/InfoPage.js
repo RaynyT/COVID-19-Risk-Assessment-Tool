@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import NavBar from './NavBar.js'
 
 
-export default function InfoPage() {
+export default function InfoPage(props) {
 
     return (
         <div className="info-outer">
             <div className="info-main-container">
-                <NavBar />
+                <NavBar surveyCompleted={props.surveyCompleted}/>
                 <div className="info-content">
                     <h1 className="info-title">Frequently Asked Questions</h1>
                     <div>

@@ -7,12 +7,12 @@ import NavBar from './NavBar.js'
 import contactImage from '../images/contact-us.svg'
 
 
-export default function ContactUs() {
+export default function ContactUs(props) {
 
     return (
         <div className="contact-outer">
             <div className="contact-main-container">
-                <NavBar />
+                <NavBar surveyCompleted={props.surveyCompleted}/>
                 <div className="contact-links-container">
                     <h1 className="contact-heading">Contact Us</h1>
                     <h2 className="contact-email">

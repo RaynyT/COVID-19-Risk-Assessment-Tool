@@ -15,12 +15,12 @@ import informaticsLogo from '../images/informatics-logo.svg';
 import seattleLogo from '../images/seattle-logo.svg'
 
 
-export default function About() {
+export default function About(props) {
 
     return (
         <div className="about-outer">
             <div className="about-main-container">
-                <NavBar />
+                <NavBar surveyCompleted={props.surveyCompleted} />
                 <div className="info-container">
                 <Dropdown 
                     title="About CovidAware" 

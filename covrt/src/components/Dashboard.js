@@ -9,12 +9,12 @@ import vaccineIcon from '../images/vaccine-icon.svg'
 import startNewIcon from '../images/start-new-icon.svg'
 
 
-export default function Dashboard() {
+export default function Dashboard(props) {
 
     return (
         <div className="dashboard-outer">
             <div className="dashboard-main-container">
-                <NavBar />
+                <NavBar surveyCompleted={props.surveyCompleted} />
                 <h1 className="dashboard-title">Risk Dashboard</h1>
                 <div className="container dashboard-btn-container">
                     <div className="row img-link-row">
