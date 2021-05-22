@@ -43,7 +43,7 @@ export default function InfoPage() {
                                         All information that is entered into the risk calculator is kept anonymous and no identifying information is stored.
                                     </p> 
                                     <p>
-                                        High level summaries of the data gained from the project will be shared with our partners at the University of Washington and the City of Seattle Innovation & Perfomance team, but individual calculator submissions will not be shared.
+                                        High level summaries of the data gained from the project will be shared with our partners at the University of Washington and the City of Seattle Innovation & Performance team, but individual calculator submissions will not be shared.
                                     </p>
                                 </div>
                             }
@@ -56,7 +56,7 @@ export default function InfoPage() {
                                         No. CovidAware does not track your location.
                                     </p> 
                                     <p>
-                                        The only information about your location that is gathered comes from the State and County input in the risk calculator. This location information is kept anonymous and not attached to any identifying information.
+                                        The only information about your location that is gathered, comes from the State and County input in the risk calculator. This location information is kept anonymous and not attached to any identifying information.
                                     </p>
                                 </div>
                             }
@@ -69,7 +69,7 @@ export default function InfoPage() {
                                         The total risk of a given activity is determined by three major factors: activity risk, person risk, and vaccination status. 
                                     </p>
                                     <p>
-                                        "Activity risk" is the chance of COVID infection through the activity, if any of the other paricipants were to have COVID. It is calculated based on several factors about the activity such as duration or mask usage. "Person risk" is the likelihood that other participants have COVID based on county data. Vaccination status changes COVID risk because vaccinated people are less likely to catch and transmit COVID.
+                                        "Activity risk" is the chance of COVID infection through the activity, if any of the other participants were to have COVID. It is calculated based on several factors about the activity such as duration or mask usage. "Person risk" is the likelihood that other participants have COVID based on county data. Vaccination status changes COVID risk because vaccinated people are less likely to catch and transmit COVID.
                                     </p>
                                     <p>
                                         For a more in-depth description, check out our full write-up <a href="https://github.com/RaynyT/COVID-19-Risk-Assessment-Tool/blob/main/data/Algorithm.md">here</a>
