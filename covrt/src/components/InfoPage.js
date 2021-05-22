@@ -85,7 +85,7 @@ export default function InfoPage() {
                                         CovidAware focuses on the risk factors in our survey to keep the tool more intuitive and simple without having to ask for personal health information.
                                     </p> 
                                     <p>
-                                        If you have concerns about how your health affects your covid risk, please consult a healthcare professional.
+                                        If you have concerns about how your health affects your COVID risk, please consult a healthcare professional.
                                     </p>
                                 </div>
                             }
