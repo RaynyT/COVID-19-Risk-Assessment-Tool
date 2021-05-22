@@ -72,6 +72,7 @@ export default function Update(props) {
 
             let personRisk = response.data.reportedCases * underReportingFactor * response.data.delayPopQuotient;
             
+            props.updateCountyComparison({direction: response.data.posTestRateCompared, rate: response.data.posTestRateRatio});
             setPersonRisk(personRisk);
         })
         .catch(error => console.log(error));

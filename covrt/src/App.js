@@ -67,6 +67,7 @@ function App() {
 	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: null });
 
 	const [personRisk, setPersonRisk] = useLocalStorage("personRisk", null);
+	const [countyComparison, setCountyComparison] = useLocalStorage({direction: null, rate: null});
 	const [riskScore, setRiskScore] = useLocalStorage("riskScore", null);
 
 	const updateAllSelections = (userLocation, vaccination, activityBasicInfo, distancing, speakingVolume, ownMask, othersMask) => {
@@ -78,9 +79,7 @@ function App() {
 		setSpeakingVolume(speakingVolume);
 		setOwnMask(ownMask);
 		setOthersMask(othersMask);
-	}
-
-	
+	}	
 	
 	// This may be a cluttered way of handling this, but as of now I think having handler functions
 	// for state variables is the reccomended method so that app state isn't exposed to child components
@@ -157,6 +156,10 @@ function App() {
 		setVaccination(vaccination);
 	}
 
+	const updateCountyComparison = (countyComparison) => {
+		setCountyComparison(countyComparison);
+	}
+
 	const updatePersonRisk = (personRisk) => {
 		setPersonRisk(personRisk);
 	}
@@ -188,6 +191,8 @@ function App() {
 		updateOthersMaskType: updateOthersMaskType,
 		updateOthersMaskNumWearers: updateOthersMaskNumWearers,
 		updateAllSelections: updateAllSelections,
+		countyComparison: countyComparison,
+		updateCountyComparison: updateCountyComparison,
 		personRisk: personRisk,
 		updatePersonRisk: updatePersonRisk,
 		riskScore: riskScore,

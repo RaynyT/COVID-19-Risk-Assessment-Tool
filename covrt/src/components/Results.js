@@ -123,7 +123,6 @@ function ResultsScreen(props) {
 
     let summarySubheading = "";
     if (props.location.fromDashboard) {
-        // Think of better phrasing for this
         summarySubheading = <h2 className="risk-subheading">of your most recent activity</h2>;
     }
 
@@ -211,6 +210,7 @@ function ResultsScreen(props) {
                     <ul className="selection-list">
                         <li className="selection-list-item">{props.userLocation.stateCode} state</li>
                         <li className="selection-list-item">{props.userLocation.county}</li>
+                        <li className="selection-list-item">Your county rate is {props.countyComparison.direction} than average</li>
                     </ul>
                 </div>
             </div>
