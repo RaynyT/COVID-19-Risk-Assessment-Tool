@@ -38,8 +38,14 @@ let strings = new LocalizedStrings({
         surgicalMask: "Surgical mask",
         kn95Mask: "KN95 Mask",
         noMask: "No mask",
+        none: "None",
+        pfizer: "Pfizer",
+        moderna: "Moderna",
+        johnsonAndJohnson: "Johnson & Johnson",
+        astrazeneca: "Astrazeneca",
+        other: "Other",
     }
-});
+})
 
 export default function Results(props){
 
