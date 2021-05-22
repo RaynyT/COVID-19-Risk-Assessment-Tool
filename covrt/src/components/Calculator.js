@@ -1197,15 +1197,39 @@ function OthersMaskPage(props) {
     let toolTip = <div></div>
     let nextButtonDisabled = false
 
-
     let noMaskSelected = false;
     let cottonMaskSelected = false;
     let surgicalMaskSelected = false;
     let kn95MaskSelected = false;
 
+    let numWearersForm = (
+        <FormGroup>
+            <Label>
+                Number of people wearing masks:
+            <Input required type="number" name="portion" id="portion" min="0" max={parseInt(props.attendees)} className="w-auto"
+                    value={sliderValue}
+                    onChange={e => {
+                        setSliderValue(e.target.value)
+                        props.numWearersCallback(e.target.value)
+                    }} />
+                <RangeSlider
+                    value={sliderValue}
+                    onChange={changeEvent => {
+                        setSliderValue(changeEvent.target.value)
+                        props.numWearersCallback(changeEvent.target.value)
+                    }}
+                    min={0}
+                    max={parseInt(props.attendees)}
+                />
+            </Label>
+        </FormGroup>
+    );
+
+
     switch(props.selection) {
         case "noMask":
             noMaskSelected = true;
+            numWearersForm = "";
             break;
         case "cottonMask":
             cottonMaskSelected = true;
@@ -1258,26 +1282,7 @@ function OthersMaskPage(props) {
             </div>
 
             <Form className="others-mask-form" id="others-mask-form" onSubmit={props.formSubmitCallback}>            
-                <FormGroup>
-                    <Label>
-                        Number of people wearing masks:
-                        <Input required type="number" name="portion" id="portion" min="0" max={parseInt(props.attendees)} className="w-auto"
-                            value={sliderValue} 
-                            onChange={e => {
-                                setSliderValue(e.target.value)
-                                props.numWearersCallback(e.target.value)
-                            }} />
-                        <RangeSlider
-                            value={sliderValue}
-                            onChange={changeEvent => {
-                                setSliderValue(changeEvent.target.value)
-                                props.numWearersCallback(changeEvent.target.value)
-                            }}
-                            min={0}
-                            max={parseInt(props.attendees)}
-                        />
-                    </Label>
-                </FormGroup>
+                {numWearersForm}
             </Form>
             
             <div className="calc-nav-controls">
