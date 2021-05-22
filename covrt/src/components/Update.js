@@ -70,7 +70,7 @@ export default function Update(props) {
 
             let underReportingFactor = 1000 / (daysSince + 10) * (positiveTestRate ** 0.5) + 2;
 
-            let personRisk = /* REPORTED CASES times */ underReportingFactor * response.data.delayPopQuotient;
+            let personRisk = response.data.reportedCases * underReportingFactor * response.data.delayPopQuotient;
             
             setPersonRisk(personRisk);
         })
