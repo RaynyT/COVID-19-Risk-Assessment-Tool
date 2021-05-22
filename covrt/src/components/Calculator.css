@@ -68,7 +68,7 @@
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
     font-size: .85rem;
-    color: #ACADA8;
+    color: #707070;
 }
 
 .calc-step-question {
@@ -81,7 +81,7 @@
 .preset-text {
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
-    color:#F2A958;
+    color:#E0750B;
     font-size: 1rem;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .img-btn-selected {
-    border-color: #4A7CE2;
+    border-color: #3A71DF;
     border-width: thick;
 }
 
@@ -272,12 +272,12 @@
     margin: .5rem;
     text-indent: -999px;
     background-color: rgba(0,0,0,0);
-    border: 1px solid #F2A958;
+    border: 1px solid #E0750B;
     border-radius: 10px;
 }
 
 .calc-pagination-dots .active {
-    background-color: #F2A958
+    background-color: #E0750B
     ;
     padding: 0;
 }

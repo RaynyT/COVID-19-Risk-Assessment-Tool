@@ -11,7 +11,7 @@
     font-weight: bolder;
     font-size: 1rem;
     text-align: center;
-    color: #ACADA8;
+    color: #707070;
 }
 
 .risk-level-text {
@@ -128,7 +128,7 @@
 .to-dashboard-text {
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
-    color: #4A7CE2;
+    color: #3A71DF;
     margin-bottom: 0;
 }
 

@@ -25,7 +25,7 @@
 .step-title {
     font-family: 'Open Sans', sans-serif;
     font-weight: bolder;
-    color: #4A7CE2;
+    color: #3A71DF;
     text-align: center;
     font-size: 1.5rem;
     margin-left: .2rem;
@@ -116,12 +116,12 @@
     text-indent: -999px;
     cursor: pointer;
     background-color: rgba(0,0,0,0);
-    border: 1px solid #4A7CE2;
+    border: 1px solid #3A71DF;
     border-radius: 10px;
 }
 
 .pagination-dots .active {
-    background-color: #4A7CE2;
+    background-color: #3A71DF;
     padding: 0;
 }
 
