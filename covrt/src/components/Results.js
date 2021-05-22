@@ -326,6 +326,7 @@ function ReduceRiskScreen(props) {
 
 function TipList (props) {
 
+    let testResponse={}
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
