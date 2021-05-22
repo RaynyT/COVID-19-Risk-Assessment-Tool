@@ -209,10 +209,16 @@ function App() {
 				<Landing {...routerProps} surveyCompleted={surveyCompleted} /> 
 			)} />
 			<Route path="/get-started" component={Tutorial} />
-			<Route path="/faq" component={InfoPage} />
-			<Route path="/contact-us" component={ContactUs} />
+			<Route path="/faq" render={(routerProps) => (
+				<InfoPage {...routerProps} surveyCompleted={surveyCompleted} />
+			)} />
+			<Route path="/contact-us" render={(routerProps) => (
+				<ContactUs {...routerProps} surveyCompleted={surveyCompleted} />
+			)} />
 			<Route path="/dashboard" component={Dashboard} />
-			<Route path="/about" component={About}/>
+			<Route path="/about" render={(routerProps) => (
+				<About {...routerProps} surveyCompleted={surveyCompleted} />
+			)} />
 			<Route path="/calculator" render={(routerProps) => (
 				<Calculator {...routerProps} {...stateAndCallbacks} />
 			)} />
