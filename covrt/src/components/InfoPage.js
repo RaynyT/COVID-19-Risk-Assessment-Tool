@@ -97,11 +97,8 @@ export default function InfoPage() {
                             {
                                 <div>
                                     <p>
-                                        Everyone is encouraged to use CovidAware.
+                                        CovidAware incorporates COVID-19 case counts for counties the United States, so it is only accurate if you are using it in the US. Other than that, everyone is encouraged to use CovidAware!
                                     </p> 
-                                    <p>
-                                        We are piloting with Washington state right now. In the future, we plan to expand nationally with accurate data for all states in the United States
-                                    </p>
                                 </div>
                             }
                         />
