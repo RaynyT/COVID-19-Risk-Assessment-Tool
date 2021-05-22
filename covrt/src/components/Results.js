@@ -10,14 +10,16 @@ import peopleIcon from '../images/people-icon-vector.svg'
 import rulerIcon from '../images/ruler-vector.svg'
 import volumeIcon from '../images/volume-vector.svg'
 
-import "./Results.css"
+import "./Results.css";
 import { Link } from 'react-router-dom';
 import { InfoIcon } from '@primer/octicons-react';
-import { useState, useEffect } from 'react'
-import { Form } from 'reactstrap'
+import { useState, useEffect } from 'react';
+import { Form } from 'reactstrap';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import LocalizedStrings from 'react-localization';
-import axios from 'axios'
+import axios from 'axios';
+import calculateRiskScore from './CalculateRiskScore.js';
+
 
 let strings = new LocalizedStrings({
     en:{
@@ -79,6 +81,10 @@ function ErrorScreen() {
 
 function ResultsScreen(props) {
 
+    // Recalculate risk score just in case
+    let riskScore = calculateRiskScore({...props});
+    props.updateRiskScore(riskScore);
+
     // Set outdoors/indoors icon
     let activitySettingIcon = houseIcon;
     if (props.activityBasicInfo.setting === "outdoors") {
@@ -105,11 +111,11 @@ function ResultsScreen(props) {
     let riskLevelClass = "risk-title yellow";
     let riskMeterImage = mediumRiskMeter;
 
-    if (props.riskScore < 30) {
+    if (riskScore < 30) {
         riskLevelText = "Low Risk";
         riskLevelClass = "risk-title green";
         riskMeterImage = lowRiskMeter;
-    } else if (props.riskScore > 500) {
+    } else if (riskScore > 500) {
         riskLevelText = "High Risk";
         riskLevelClass = "risk-title red";
         riskMeterImage = highRiskMeter;
