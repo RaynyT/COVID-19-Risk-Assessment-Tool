@@ -220,14 +220,28 @@ function ResultsScreen(props) {
 
 function ReduceRiskScreen(props) {
 
+    const [suggestionObject, setSuggestionsObject] = useState({});
+
     const switchToResultsPage = () => {
         props.setPage("results")
     }
+
+    // Copy vaccinationSelection into new object with any ints converted to strings
+    let doseString = props.vaccination.doseNumber.toString();
+
+    let effDoseString = props.vaccination.effectiveDoseNumber.toString();
+
+    let vaxData = { 
+        type: props.vaccination.type,
+        doseNumber: doseString,
+        effctiveDoseNumber: effDoseString,
+        twoWeeks: props.vaccination.twoWeeks
+    };
     
     let surveyData = {
         userID: props.userID,
         userLocation: props.userLocation,
-        vaccination: props.vaccination,
+        vaccination: vaxData,
         activityBasicInfo: props.activityBasicInfo,
         distancing: props.distancing,
         speakingVolume: props.speakingVolume,
@@ -240,7 +254,7 @@ function ReduceRiskScreen(props) {
     useEffect(() => {
         // POST request using axios inside useEffect React hook
         axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
-        .then(response => console.log(response))
+        .then(response => console.log(response.data))
         .catch(error => console.log(error));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -312,13 +326,6 @@ function ReduceRiskScreen(props) {
 
 function TipList (props) {
 
-    let testResponse = {
-        setting: "outdoors",
-        distancing: "sixFeet",
-        speakingVolume: "normalSpeaking",
-        ownMask: "surgicalMask",
-        othersMaskType: "surgicalMask"
-    }
 
     // Maps each type of sugggestion to it's text rendering functions
     let suggestionsMap = {
@@ -340,6 +347,13 @@ function TipList (props) {
     }
 
     let keysArray = Object.keys(testResponse);
+
+    // If the user already has all the safest options
+    if (keysArray.length === 0) {
+        return (
+            <h1>TEST</h1>
+        )
+    } 
 
     let list = keysArray.map((key) => {
 
