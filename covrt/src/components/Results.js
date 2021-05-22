@@ -257,14 +257,24 @@ function ReduceRiskScreen(props) {
         surveyCompleted: props.surveyCompleted,
     }
 
+    // POST request using axios inside useEffect React hook
     useEffect(() => {
-        // POST request using axios inside useEffect React hook
-        axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
-        .then(response => {
-            console.log(response.data);
-            setSuggestionsObject(response.data);
-        })
-        .catch(error => console.log(error));
+        // If user doesn't have optimal selections yet, send request for suggestions 
+        if (
+        !(
+            props.setting === "outdoors" &&
+            props.distancing === "twelveFeetMore" &&
+            props.speakingVolume === "notSpeaking" &&
+            props.ownMask === "kn95Mask" &&
+            props.othersMask.type === "kn95Mask"
+        )){
+            axios.post('https://covidaware.ischool.uw.edu/recommendations', surveyData)
+            .then(response => {
+                console.log(response.data);
+                setSuggestionsObject(response.data);
+            })
+            .catch(error => console.log(error));
+        }
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
