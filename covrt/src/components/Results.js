@@ -430,7 +430,7 @@ function SuggestionForm (props) {
     let vaccineSuggestion = "";
     if (!props.hasVaccine) {
         vaccineSuggestion = (
-            <p>You indicated that you have not been vaccinated yet. Vaccines have a significant impact on risk and vaccinated individuals can participate in more types of activities.<a href="https://www.cdc.gov/coronavirus/2019-ncov/vaccines/index.html">Learn more about vaccines here</a></p>
+            <p>You indicated that you have not been vaccinated yet. Vaccines have a significant impact on risk and vaccinated individuals can safely participate in more types of activities. <a href="https://www.cdc.gov/coronavirus/2019-ncov/vaccines/index.html">Learn more about vaccines here</a></p>
         )
     }
 
@@ -450,10 +450,10 @@ function SuggestionForm (props) {
                     <p>
                         If you want to further reduce your risk, be sure to wash your hands regularly, avoid touching your face, and disinfect surfaces
                     </p>
-                    {vaccineSuggestion}
                     <p>
                         For more information on safe practices visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">CDC's prevention guide</a>
                     </p>
+                    {vaccineSuggestion}
                 </div>
             </div>
         )
