@@ -41,7 +41,7 @@ export default function About(props) {
                     {
                         <div>
                             <p>
-                                Our mission is to help users make informed decisions when planning social activities and hopefully reduce the spread of COVID by providing our users with safer alternatives and adjustments to those activites.
+                                Our mission is to help users make informed decisions when planning social activities and hopefully reduce the spread of COVID by providing our users with safer alternatives and adjustments to those activities.
                             </p>
                         </div>
                     }
