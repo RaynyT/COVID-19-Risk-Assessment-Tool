@@ -90,7 +90,7 @@ export default function InfoPage(props) {
                                 </div>
                             }
                         />
-                        <Dropdown title="How do I interpret my risk score?" body="TBD"/>
+                        <Dropdown title="How do I interpret my risk score?" body="There are 5 risk levels in total consisting of low, moderately low, moderate, moderately high, and high. It is determined by the algorithm described above in “How does the algorithm work?” and the guidelines provided by the CDC. In consideration of each county’s COVID-19 positive testing rate, the activity created by the user, and the vaccine status of the user, the level is displayed. The risk can be lower by taking more prevention measures, staying in a county with fewer covid cases, or users being fully vaccinated. The risk level is provided for the users as reference."/>
                         <Dropdown 
                             title="Who should use CovidAware?" 
                             body=
