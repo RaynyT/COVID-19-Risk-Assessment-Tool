@@ -94,8 +94,18 @@ func (ms *MySQLStore) AggregatedStateCounty_Rates(id int64) (float64, float64, i
 		return -1, -1, -1, err
 	}
 
+	if last == 0 {
+		last = 1
+	}
+	if prevToLast == 0 {
+		prevToLast = 1
+	}
+
 	// Compute quotient, if quotient is more than 2, the min is now 2
-	delayFactor := float64(last / prevToLast)
+	delayFactor := float64(last) / float64(prevToLast)
+	if delayFactor == 0.0 {
+		delayFactor = 1.0
+	}
 	if delayFactor > 2.0 {
 		delayFactor = 2.0
 	}
