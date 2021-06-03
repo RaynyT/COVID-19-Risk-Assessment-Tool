@@ -1306,6 +1306,14 @@ function OthersMaskPage(props) {
 
 }
 
+// Props:
+// large: Boolean that determines small or large size
+// selected: Boolean that determines border color
+// clickCallback: Function to call when button is clicked, passes the button's value
+// value: String value associated with the button such as "cottonMask" or "goingToStore"
+// desc: String description used for display purposes
+// image: Image to render in the button
+// alt: Alt text for the buttons image
 function ImageButton(props) {
 
     let btnClass = "img-btn";

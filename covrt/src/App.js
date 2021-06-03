@@ -50,6 +50,7 @@ function App() {
 		return [storedValue, setValue];
 	}
 	
+	// Randomly generated and used to identify returning users on the backend
 	const[userID, setUserID] = useLocalStorage("userID", null);
 
 	// Distinguishes between first time users and users who have completed at least one survey
@@ -66,12 +67,15 @@ function App() {
 	const [ownMask, setOwnMask] = useLocalStorage("ownMask", "none-selected");
 	const [othersMask, setOthersMask] = useLocalStorage("othersMask", { type: "none-selected", numWearers: null });
 
+	// Risk factor dependent on county covid levels
 	const [personRisk, setPersonRisk] = useLocalStorage("personRisk", null);
+	// County covid rates compared to national avg. Direction is a string of "higher" or "lower" for display purposes
 	const [countyComparison, setCountyComparison] = useLocalStorage("countyComparison", {direction: null, rate: null});
 	const [riskScore, setRiskScore] = useLocalStorage("riskScore", null);
 
+
+	// Updates with all selections from a completed survey
 	const updateAllSelections = (userLocation, vaccination, activityBasicInfo, distancing, speakingVolume, ownMask, othersMask) => {
-		
 		setUserLocation(userLocation);
 		setVaccination(vaccination);
 		setActivityBasicInfo(activityBasicInfo);
