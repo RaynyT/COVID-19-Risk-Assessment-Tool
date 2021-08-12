@@ -48,7 +48,8 @@ The frequency and time at which both of these are run can be viewed:
 These essentially mean: Run at 1am and Run at 2am.
 * **backup.sql**
   * This is the file that can be used to restore the database if the python script fails.
-  * DO NOT REMOVE the **build** folder or **bin** on the server - they are a part of the update.sh script functionality and are key in deployment.
+
+DO NOT REMOVE the **build** folder or **bin** on the server - they are a part of the update.sh script functionality and are key in deployment.
     
 ## 5. Accessing the Database for Modification on the Server
 
