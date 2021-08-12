@@ -18,6 +18,8 @@ GitHub Repository:
 
 Go Source Folder (/usr/lib/go-1.13):
 
+![](./CovidAware-DocPics/GitHubRepo.png)
+
 ~/.profile (Where your environment paths are.)
 
 ## 3. Set Up - SSH Into Server
