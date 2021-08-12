@@ -16,11 +16,15 @@ The GOPATH is extremely difficult to articulate in words how to set up, but if y
 
 GitHub Repository:
 
-Go Source Folder (/usr/lib/go-1.13):
-
 ![](./CovidAware-DocPics/GitHubRepo.png)
 
+Go Source Folder (/usr/lib/go-1.13):
+
+![](./CovidAware-DocPics/GoSourceFolder.png)
+
 ~/.profile (Where your environment paths are.)
+
+![](./CovidAware-DocPics/ProfileEnvPaths.png)
 
 ## 3. Set Up - SSH Into Server
 
