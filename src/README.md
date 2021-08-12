@@ -24,32 +24,31 @@ Go Source Folder (/usr/lib/go-1.13):
 
 In order to access the server you must run the command:
 
-  ssh netid@riskaware.ischool.uw.edu 
+* ssh netid@riskaware.ischool.uw.edu 
 
 When running this, be sure that you have access to the server (you may need to reach out to the iSchool IT department to obtain access). After ensuring you have access, replace the netid with your netid and leverage your uw password to sign in to the server. Note: some files on GitHub need to be manually changed so that your netid is used instead of mine; most likely these files will be named **deploy.sh**. (The server is called riskaware due to that being its original name; the IT department added a CNAME to the DNS so that users could google covidaware.ischool.uw.edu and still be directed to our web application.)
 
 **REMINDER!**
 
-When sshing into the server you need to download UWs Husky OnNet Client (Big-IP Edge Client).
-Source: https://www.lib.washington.edu/help/connect/husky-onnet 
-This **must** be connected in order to access the server.
+When sshing into the server you need to download UWs Husky OnNet Client (Big-IP Edge Client).   
+Source: https://www.lib.washington.edu/help/connect/husky-onnet    
+This **must** be connected in order to access the server.    
 
 ## 4. On the Server
 
 Some key things I want to point out that are on the server:
-   * **county_rates.py**
-     * This is the script that extracts daily data from the CovidActNow API (The key can be located on the accounts documentation file).
-   * **backup.sh**
-     * This is the script that creates a backup of the database on a daily basis - this ensures that if something goes wrong with the county_rates.py script, you have the previous day's database saved so that it isn’t corrupted.
-The frequency and time at which both of these are run can be viewed 
-  **sudo crontab -e** (for the backup)
-
-  **crontab -e** (for the python script)
+* **county_rates.py**
+ * This is the script that extracts daily data from the CovidActNow API (The key can be located on the accounts documentation file).
+* **backup.sh**
+ * This is the script that creates a backup of the database on a daily basis - this ensures that if something goes wrong with the county_rates.py script, you have the previous day's database saved so that it isn’t corrupted.
+The frequency and time at which both of these are run can be viewed:   
+* **sudo crontab -e** (for the backup)
+* **crontab -e** (for the python script)
 
 These essentially mean: Run at 1am and Run at 2am.
-  * **backup.sql**
-    * This is the file that can be used to restore the database if the python script fails.
-    * DO NOT REMOVE the **build** folder or **bin** on the server - they are a part of the update.sh script functionality and are key in deployment.
+* **backup.sql**
+  * This is the file that can be used to restore the database if the python script fails.
+  * DO NOT REMOVE the **build** folder or **bin** on the server - they are a part of the update.sh script functionality and are key in deployment.
     
 ## 5. Accessing the Database for Modification on the Server
 
