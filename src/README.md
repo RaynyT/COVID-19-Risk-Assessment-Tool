@@ -1,4 +1,4 @@
-# CovidAware Server & Back End Documentation - Rayna Tilley
+# CovidAware Server & Back End Documentation
 
 ## 1. Introduction
 
