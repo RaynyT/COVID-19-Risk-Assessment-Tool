@@ -81,22 +81,22 @@ The relevant files that you will most likely be modifying are within “server�
 There are two folders under “server”: “db” and “gateway”.   
 
 **DB**   
-    “db” contains all of the files relevant to the deployment of the database.    
-    You may end up modifying the schemas.sql file as mentioned above.   
-    Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.   
+    * “db” contains all of the files relevant to the deployment of the database.    
+    * You may end up modifying the schemas.sql file as mentioned above.   
+    * Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.   
     
 **GATEWAY**   
-    “gateway” contains all of the files relevant to the deployment of the actual web application.    
-    Within the “gateway” folder are two folders: “handlers” and “models” along with the files that will deploy the web application. Again, the only files modified at this level should be with the netid and MySQL password changes mentioned previously.    
-    There are two binary files (“gateway” and “main” but you should **ignore** these.)   
+    * “gateway” contains all of the files relevant to the deployment of the actual web application.    
+    * Within the “gateway” folder are two folders: “handlers” and “models” along with the files that will deploy the web application. Again, the only files modified at this level should be with the netid and MySQL password changes mentioned previously.    
+    * There are two binary files (“gateway” and “main” but you should **ignore** these.)   
     
-    **HANDLERS**    
+   **HANDLERS**    
         cors.go - **Should not have to be modified**, this handles the headers and information that is attached to the http html headers.   
         context.go - Contains all of the models as an interface to be utilized in main.go. It creates a HandlerContext object. **This should only be modified if a table and model are added or deleted**.   
         routes.go - This handles all of the interactions with the database for when a url extension is called. If new functionality is required on the front end like returning new data or inserting a new value, a new handler function must be created and added to routes.go.    
     (Note: The error codes are not currently entirely accurate, if you feel inclined, you can go through and change them.)   
     
-    **MODELS**   
+   **MODELS**   
         Each folder within models represents a table in the database.   
         Each folder has three files:   
         * “table_name”.go
