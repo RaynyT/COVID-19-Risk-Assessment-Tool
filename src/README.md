@@ -49,7 +49,9 @@ Some key things I want to point out that are on the server:
   * This is the script that creates a backup of the database on a daily basis - this ensures that if something goes wrong with the county_rates.py script, you have the previous day's database saved so that it isn’t corrupted.
 The frequency and time at which both of these are run can be viewed:   
 * **sudo crontab -e** (for the backup)
+ * ![](./CovidAware-DocPics/SudoCrontab.png)
 * **crontab -e** (for the python script)
+ * ![](./CovidAware-DocPics/Crontab.png)
 
 These essentially mean: Run at 1am and Run at 2am.
 * **backup.sql**
@@ -72,7 +74,11 @@ USE radb;
     to exit.
     Here is an example:
     
+    ![](./CovidAware-DocPics/ExitMySQL.png)
+    
 ## 6. Current Database Structure
+
+![](./CovidAware-DocPics/DBStructure.png)
 
 This structure can be viewed in the sql file that creates the database. This is located in:   
 * /src/server/db/schemas.sql
@@ -120,6 +126,8 @@ There are two folders under “server”: “db” and “gateway”.
   * Number of Reported Cases (Last Week)
   * Delay Factor / Population in Millions
     * Delay Factor = min(2, # of cases reported last week / # of cases reported the week before last week)
+
+![](./CovidAware-DocPics/Algorithm.png)
 
 ## 8. Deployment
 
