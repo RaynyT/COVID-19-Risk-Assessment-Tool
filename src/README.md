@@ -81,34 +81,34 @@ The relevant files that you will most likely be modifying are within “server�
 There are two folders under “server”: “db” and “gateway”.   
 
 **DB**   
-    * “db” contains all of the files relevant to the deployment of the database.    
-    * You may end up modifying the schemas.sql file as mentioned above.   
-    * Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.   
+    * “db” contains all of the files relevant to the deployment of the database.
+    * You may end up modifying the schemas.sql file as mentioned above.
+    * Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.
     
 **GATEWAY**   
-    * “gateway” contains all of the files relevant to the deployment of the actual web application.    
-    * Within the “gateway” folder are two folders: “handlers” and “models” along with the files that will deploy the web application. Again, the only files modified at this level should be with the netid and MySQL password changes mentioned previously.    
-    * There are two binary files (“gateway” and “main” but you should **ignore** these.)   
+    * “gateway” contains all of the files relevant to the deployment of the actual web application.
+    * Within the “gateway” folder are two folders: “handlers” and “models” along with the files that will deploy the web application. Again, the only files modified at this level should be with the netid and MySQL password changes mentioned previously.
+    * There are two binary files (“gateway” and “main” but you should **ignore** these.)
     
    **HANDLERS**    
-        cors.go - **Should not have to be modified**, this handles the headers and information that is attached to the http html headers.   
-        context.go - Contains all of the models as an interface to be utilized in main.go. It creates a HandlerContext object. **This should only be modified if a table and model are added or deleted**.   
-        routes.go - This handles all of the interactions with the database for when a url extension is called. If new functionality is required on the front end like returning new data or inserting a new value, a new handler function must be created and added to routes.go.    
+        * cors.go - **Should not have to be modified**, this handles the headers and information that is attached to the http html headers.
+        * context.go - Contains all of the models as an interface to be utilized in main.go. It creates a HandlerContext object. **This should only be modified if a table and model are added or deleted**.
+        * routes.go - This handles all of the interactions with the database for when a url extension is called. If new functionality is required on the front end like returning new data or inserting a new value, a new handler function must be created and added to routes.go.
     (Note: The error codes are not currently entirely accurate, if you feel inclined, you can go through and change them.)   
     
    **MODELS**   
-        Each folder within models represents a table in the database.   
-        Each folder has three files:   
-        * “table_name”.go
-          * This defines the structure and requirements for the table.
-        * mysqlstore.go
-          * This defines what you can do with that table. For instance, look up tables only allow for queries while transactional tables allow insertions.
-            * Look Up Table Example:
-              * Vaccines
-            * Transactional Table Example:
-              * Users
-        * store.go
-          * This defines the interface for the functions that can be utilized with the table.
+        * Each folder within models represents a table in the database.   
+        * Each folder has three files:   
+          * “table_name”.go
+            * This defines the structure and requirements for the table.
+          * mysqlstore.go
+            * This defines what you can do with that table. For instance, look up tables only allow for queries while transactional tables allow insertions.
+              * Look Up Table Example:
+                * Vaccines
+              * Transactional Table Example:
+                * Users
+          * store.go
+            * This defines the interface for the functions that can be utilized with the table.
 **NOTE**: Within the “statecounty_rates” folder, the mysql store file contains a portion of the **algorithm’s computation**. The parts that it contains are the part in **teal** writing (this is in the Algorithm_Documentation file):    
   * Number of Reported Cases (Last Week)
   * Delay Factor / Population in Millions
