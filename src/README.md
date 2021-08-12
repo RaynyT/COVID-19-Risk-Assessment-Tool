@@ -38,9 +38,9 @@ This **must** be connected in order to access the server.
 
 Some key things I want to point out that are on the server:
 * **county_rates.py**
- * This is the script that extracts daily data from the CovidActNow API (The key can be located on the accounts documentation file).
+  * This is the script that extracts daily data from the CovidActNow API (The key can be located on the accounts documentation file).
 * **backup.sh**
- * This is the script that creates a backup of the database on a daily basis - this ensures that if something goes wrong with the county_rates.py script, you have the previous day's database saved so that it isn’t corrupted.
+  * This is the script that creates a backup of the database on a daily basis - this ensures that if something goes wrong with the county_rates.py script, you have the previous day's database saved so that it isn’t corrupted.
 The frequency and time at which both of these are run can be viewed:   
 * **sudo crontab -e** (for the backup)
 * **crontab -e** (for the python script)
