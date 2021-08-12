@@ -74,7 +74,7 @@ USE radb;
     to exit.
     Here is an example:
     
-    ![](./CovidAware-DocPics/ExitMySQL.png)
+![](./CovidAware-DocPics/ExitMySQL.png)
     
 ## 6. Current Database Structure
 
