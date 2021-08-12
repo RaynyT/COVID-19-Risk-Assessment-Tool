@@ -81,9 +81,9 @@ The relevant files that you will most likely be modifying are within “server�
 There are two folders under “server”: “db” and “gateway”.   
 
 **DB**   
-    * “db” contains all of the files relevant to the deployment of the database.
-    * You may end up modifying the schemas.sql file as mentioned above.
-    * Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.
+* “db” contains all of the files relevant to the deployment of the database.
+* You may end up modifying the schemas.sql file as mentioned above.
+* Otherwise, the dockerfile and others should not need to be modified besides the netid and MySQL password changes mentioned previously.
     
 **GATEWAY**   
     * “gateway” contains all of the files relevant to the deployment of the actual web application.
