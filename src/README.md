@@ -68,10 +68,10 @@ USE radb;
     
 ## 6. Current Database Structure
 
-This structure can be viewed in the sql file that creates the database. This is located in:
-    /src/server/db/schemas.sql
-It is this file that can be altered to include more tables if needed when continuing development.
-**IMPORTANT NOTE**: Redeploying the database will result in the **deletion of all data** that has been obtained from users thus far, so make sure redeploying the database is something you **want/need** to do.
+This structure can be viewed in the sql file that creates the database. This is located in:   
+    /src/server/db/schemas.sql   
+It is this file that can be altered to include more tables if needed when continuing development.   
+**IMPORTANT NOTE**: Redeploying the database will result in the **deletion of all data** that has been obtained from users thus far, so make sure redeploying the database is something you **want/need** to do.   
     If you want to modify it, but not at the risk of deleting all data, I would sign into the MySQL database and utilize MySQL commands to insert a new table, data or some other function you would like to complete.
     
 ## 7. Files/Folders
